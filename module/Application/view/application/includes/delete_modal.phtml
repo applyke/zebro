@@ -1,0 +1,26 @@
+<dialog class="mdl-dialog" id="modal1">
+    <h5 class="dialogTitle">Do you really want to delete this entry?</h5>
+    <div class="mdl-dialog__content">
+        <p>
+            After performing, this actions can't be reverted.
+        </p>
+    </div>
+    <div class="mdl-dialog__actions">
+
+        <a href="#" type="button" class="mdl-button mdl-js-button mdl-button--raised modal-action">Agree</a>
+        <button type="button" class="mdl-button buttonClose">Disagree</button>
+    </div>
+</dialog>
+<script>
+    $(function () {
+        var dialog = document.querySelector('dialog');
+        $('.show-dialog').click(function () {
+            var deleteUrl = $(this).data().url;
+            dialog.showModal();
+            $('#modal1 .modal-action').attr('href', deleteUrl);
+        });
+        $('.buttonClose').click(function () {
+            dialog.close();
+        });
+    });
+</script>

@@ -1,0 +1,10 @@
+<div class="mdl-grid" id="columns">
+
+    <?php foreach ($boardColumns as $column): ?>
+
+    <div class="mdl-cell mdl-cell--2-col column" draggable="true">
+        <?php echo $column->getName() ?>
+        <div  class="boardColumn"></div>
+    </div>
+    <?php endforeach; ?>
+</div>

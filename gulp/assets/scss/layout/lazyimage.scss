@@ -1,0 +1,32 @@
+/* LAZY IMAGES */
+
+img.lazy-load {
+  text-align: center;
+  vertical-align: middle;
+  margin: auto auto;
+  width: 100%;
+  opacity: 1;
+  transition: opacity .7s linear, filter 0.3s ease-in-out, -webkit-filter 0.3s ease-in-out;
+}
+
+img.lazy-load.progress {
+  opacity: 0.2;
+}
+
+img.lazy-load:not(.loaded) {
+  display: none;
+}
+
+span.lazy-load {
+  width: 100%;
+  display: block;
+}
+
+span.lazy-load noscript {
+  width: 100%;
+  display: block;
+}
+
+span.lazy-load noscript img {
+  width: 100%;
+}

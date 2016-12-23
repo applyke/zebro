@@ -1,0 +1,36 @@
+<?php echo $this->partial('application/includes/flash_message.phtml'); ?>
+<?php echo $this->partial('application/includes/delete_modal.phtml'); ?>
+
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--2-col">Choose Project</div>
+
+    <div class="mdl-cell mdl-cell--6-col">
+
+        <?php foreach ($projects as $project): ?>
+            <ul class="demo-list-three mdl-list">
+                <li class="mdl-list__item mdl-list__item--three-line">
+                    <span class="mdl-list__item-primary-content">
+                        <i class="material-icons mdl-list__item-avatar">person</i>
+                          <a  href="/projects/details/<?php echo $project->getId() ?>"><span><?php echo $project->getName() ?></span>   </a>
+                        <span class="mdl-list__item-text-body">Project key:<?php echo $project->getProjectKey() ?>
+                        </span>
+                    </span>
+
+                    <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"
+                       href="/projects/create/<?php echo $project->getId() ?>"> <i class="material-icons">mode_edit</i>
+                    </a>
+
+                    <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab show-dialog " 
+                    data-url="/projects/delete/<?php echo $project->getId() ?>"><i
+                            class="material-icons">delete</i> </a>
+                </li>
+            </ul>
+
+        <?php endforeach; ?>
+        <div class="mdl-cell mdl-cell--2-col addButton">
+            <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored " href="/projects/create/">
+                <i class="material-icons">add</i>
+            </a>
+            <?php //echo $paginator; ?>
+        </div>
+    </div>

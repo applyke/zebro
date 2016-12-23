@@ -1,0 +1,68 @@
+<?php
+$displayed = '<p>Displayed ' . $this->firstItemNumber . ' - ' . $this->lastItemNumber . ' of ' . $this->totalItemCount . '</p>';
+if ($this->totalItemCount <= $this->itemCountPerPage) {
+    if (!$this->totalItemCount) {
+        echo '<p>No data</p>';
+    } else {
+        echo $displayed;
+    }
+    return;
+}
+/** @var \Zend\Mvc\Application $application */
+$application = $this->getHelperPluginManager()->getServiceLocator()->get('Application');
+/** @var \Zend\Mvc\Router\Http\RouteMatch $routeMatch */
+$routeMatch = $application->getMvcEvent()->getRouteMatch();
+$controller = $routeMatch->getParam('__CONTROLLER__');
+$action = $routeMatch->getParam('action');
+$id = $routeMatch->getParam('id');
+$currentRouteName = $routeMatch->getMatchedRouteName();
+$url = $this->url($currentRouteName, array(
+    'controller' => $controller,
+    'action' => $action,
+    'id' => $id,
+));
+$_GET['p'] = '_page_';
+$url .= '?' . http_build_query($_GET);
+if ($this->pageCount && isset($url)): ?>
+    <?php //<nav class="text-center"> ?>
+    <nav>
+        <ul class="pagination">
+            <?php if (isset($this->previous)): ?>
+                <?php if ($this->previous >= 1): ?>
+                    <li>
+                        <a href="<?php echo str_replace(array('%page%', '_page_'), $this->previous, $url); ?>">&laquo;</a>
+                    </li>
+                <?php else: ?>
+                    <li>
+                        <a href="<?php echo rtrim(str_replace(array('%page%', '_page_'), '', $url), '/'); ?>">&laquo;</a>
+                    </li>
+                <?php endif; ?>
+            <?php else: ?>
+                <li class="disabled"><a href="javascript: void(0)">&laquo;</a></li>
+            <?php endif; ?>
+
+            <?php foreach ($this->pagesInRange as $page): ?>
+                <?php if ($page != $this->current): ?>
+                    <?php if ($page >= 1): ?>
+                        <li>
+                            <a href="<?php echo str_replace(array('%page%', '_page_'), $page, $url); ?>"><?php echo $page; ?></a>
+                        </li>
+                    <?php else: ?>
+                        <li>
+                            <a href="<?php echo rtrim(str_replace(array('%page%', '_page_'), '', $url), '/'); ?>"><?php echo $page; ?></a>
+                        </li>
+                    <?php endif; ?>
+                <?php else: ?>
+                    <li class="active"><a href="javascript: void(0)"><?php echo $page; ?></a></li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+
+            <?php if (isset($this->next)): ?>
+                <li><a href="<?php echo str_replace(array('%page%', '_page_'), $this->next, $url); ?>">&raquo;</a></li>
+            <?php else: ?>
+                <li class="disabled"><a href="javascript: void(0)">&raquo;</a></li>
+            <?php endif; ?>
+        </ul>
+        <?php echo $displayed; ?>
+    </nav>
+<?php endif; ?>

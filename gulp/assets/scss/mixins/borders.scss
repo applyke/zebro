@@ -1,0 +1,16 @@
+@mixin border-with-shadow {
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  box-shadow: 0 0 30px 4px rgba(0, 0, 0, .1);
+}
+
+@mixin border-with-shadow-accent {
+  border: 1px solid $color-link-default;
+  border-radius: 2px;
+  box-shadow: 0 0 4px 2px rgba(51, 46, 74, 0.3);
+}
+
+@mixin disable-border-with-shadow {
+  border: none;
+  box-shadow: none;
+}

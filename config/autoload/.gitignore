@@ -1,0 +1,4 @@
+local.php
+*.local.php
+doctrine.development.php
+doctrine.production.php

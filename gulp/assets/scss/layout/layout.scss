@@ -1,0 +1,257 @@
+/*@import url(https://fonts.googleapis.com/css?family=Philosopher:400,700,400italic,700italic&subset=latin,cyrillic);*/
+//@font-face {
+//  font-family: 'Philosopher';
+//  font-style: normal;
+//  font-weight: 400;
+//  src: local('Philosopher'), url(https://fonts.gstatic.com/s/philosopher/v7/OttjxgcoEsufOGSINYBGLTUj_cnvWIuuBMVgbX098Mw.woff2) format('woff2');
+//  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+//}
+//
+//@font-face {
+//  font-family: 'Philosopher';
+//  font-style: normal;
+//  font-weight: 700;
+//  src: local('Philosopher Bold'), local('Philosopher-Bold'), url(https://fonts.gstatic.com/s/philosopher/v7/napvkewXG9Gqby5vwGHICC_vZmeiCMnoWNN9rHBYaTc.woff2) format('woff2');
+//  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+//}
+//
+//@font-face {
+//  font-family: 'Philosopher';
+//  font-style: italic;
+//  font-weight: 400;
+//  src: local('Philosopher Italic'), local('Philosopher-Italic'), url(https://fonts.gstatic.com/s/philosopher/v7/_9Hnc_gz9k7Qq6uKaeHKmefhZE2STYI3KzBGzrJG_ik.woff2) format('woff2');
+//  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+//}
+
+@font-face {
+  font-family: 'OldStandardTT-Regular';
+  src: url('../fonts/OldStandardTT-Regular.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/OldStandardTT-Regular.woff') format('woff'),
+  url('../fonts/OldStandardTT-Regular.ttf') format('truetype'),
+  url('../fonts/OldStandardTT-Regular.svg#OldStandardTT-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto-Regular';
+  src: url('../fonts/Roboto-Regular.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Roboto-Regular.woff') format('woff'),
+  url('../fonts/Roboto-Regular.ttf') format('truetype'),
+  url('../fonts/Roboto-Regular.svg#Roboto-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto-Medium';
+  src: url('../fonts/Roboto-Medium.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Roboto-Medium.woff') format('woff'),
+  url('../fonts/Roboto-Medium.ttf') format('truetype'),
+  url('../fonts/Roboto-Medium.svg#Roboto-Medium') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OldStandardTT-Bold';
+  src: url('../fonts/OldStandardTT-Bold.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/OldStandardTT-Bold.woff') format('woff'),
+  url('../fonts/OldStandardTT-Bold.ttf') format('truetype'),
+  url('../fonts/OldStandardTT-Bold.svg#OldStandardTT-Bold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto-Light';
+  src: url('../fonts/Roboto-Light.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Roboto-Light.woff') format('woff'),
+  url('../fontsRoboto-Light.ttf') format('truetype'),
+  url('../fonts/Roboto-Light.svg#Roboto-Light') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto-Bold';
+  src: url('../fonts/Roboto-Bold.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Roboto-Bold.woff') format('woff'),
+  url('../fonts/Roboto-Bold.ttf') format('truetype'),
+  url('../fonts/Roboto-Bold.svg#Roboto-Bold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+  background: $color-background-body;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  min-height: 100%;
+  width: 100%;
+  letter-spacing: normal;
+  font: 14px/1.5 Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  color: $color-text;
+  //@media (max-width: $width-small) {
+  //  font-size: 14px;
+  //}
+  //@media (max-width: $width-mobile) {
+  //  font-size: 15px;
+  //}
+}
+
+a {
+  color: $color-link-default;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+  &:hover:not(.js-anchor-disabled) {
+    color: $color-link;
+  }
+  &.js-anchor-disabled:hover {
+    cursor: default;
+  }
+}
+
+.active a,
+.active-link {
+  color: $color-link;
+}
+
+h1 {
+  font-size: 2.2em;
+  padding: 0;
+  margin: 0;
+}
+
+h2 {
+  font-size: 2em;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+}
+
+.clear {
+  clear: both;
+}
+
+.hidden {
+  display: none;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  @media (max-width: $width-mobile-large) {
+    margin: 30px auto 0;
+  }
+  .index-page {
+    margin: 0 15px;
+    padding: 25px 10px;
+  }
+
+  #top_articles {
+    display: block;
+    @media (max-width: $width-tablet-large) {
+      padding: 0 15px;
+    }
+    @media (max-width: $width-mobile-large) {
+      padding: 0;
+    }
+    padding: 0 42px;
+    background: $color-category;
+  }
+  .category-section {
+    padding: 0 42px;
+    background: $color-category;
+    @media (max-width: $width-transition-table) {
+      padding: 0;
+    }
+  }
+}
+
+.category-description {
+  padding: 30px 0 30px 17px;
+  margin: 0 0 53px;
+  border-left: 15px solid #ff6b82;
+  @media (max-width: $width-transition-table-large) {
+    margin: 0 0 45px;
+  }
+  @media (max-width: $width-tablet-smile) {
+    padding: 20px 0 20px 17px;
+    margin: 0 0 70px;
+  }
+  @media (max-width: $width-mobile-large) {
+    margin: 0 0 30px;
+  }
+  a {
+    font-family: $old-standart-bold;
+    font-size: 36px;
+    line-height: 36px;
+    color: #0c0806;
+    &:hover:not(.js-anchor-disabled) {
+      color: #b21358;
+    }
+    @media (max-width: $width-transition-table-large) {
+      font-size: 30px;
+      line-height: 30px;
+    }
+    @media(max-width: $width-mobile-large) {
+      font-size: 18px;
+      line-height: 20px;
+    }
+
+  }
+}
+
+.image-preview img {
+  max-width: 100%;
+}
+
+.js-link {
+  cursor: pointer;
+}
+
+/** SCROLL LINK **/
+#scroll-top {
+  position: fixed;
+  left: 15px;
+  bottom: 10%;
+  //background: #000000;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: opacity .3s ease-in-out;
+  opacity: 0;
+  z-index: 2;
+  visibility: hidden;
+  &.visible {
+    visibility: visible;
+    opacity: .65;
+  }
+  &:hover {
+    opacity: 1;
+  }
+  .scroll-top-link {
+    color: #FFFFFF;
+    font-family: Verdana, Arial, sans-serif;
+    &:hover {
+      color: #FFFFFF;
+    }
+  }
+}

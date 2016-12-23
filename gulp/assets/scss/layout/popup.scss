@@ -1,0 +1,246 @@
+.bg-popup{
+  display: none;
+  position: absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom: 0;
+  z-index: 999999;
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.popup-subscription{
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  .inner-popup{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    .content-popup {
+      height: 70%;
+      min-height: 200px;
+      min-width: 300px;
+      width: 100%;
+      position: relative;
+    }
+    p{
+      padding-top: 4px;
+      color: #fff;
+      font-size: 16px;
+      line-height: normal;
+    }
+    .logo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      text-align: center;
+      width: 100%;
+      .a {
+        display: block;
+        svg {
+          height: 45px;
+          font-size: 80px;
+        }
+      }
+    }
+  }
+  .msg {
+    position: absolute;
+    top: 42%;
+    left: 0;
+    text-align: center;
+    width: 100%;
+    .title {
+      color: #fff;
+      font-size: 21px;
+      line-height: normal;
+      text-transform: uppercase;
+      display: block;
+      letter-spacing: 2px;
+    }
+    .social-line {
+      ul {
+        margin-top: 15px;
+        li {
+          list-style-type: none;
+          margin-right: 13px;
+          display: inline-block;
+          &:last-child {
+            margin-right: 0;
+          }
+          a {
+            &:hover {
+              color: #cc5668;
+              border-color: #cc5668;
+            }
+            display: inline-block;
+            color: #f2f2f2;
+            width: 35px;
+            height: 35px;
+            text-align: center;
+            border: 1px solid #f2f2f2;
+            border-radius: 50%;
+            i {
+              font-size: 17px;
+              line-height: 33px;
+            }
+          }
+        }
+        @include clearfix;
+      }
+    }
+  }
+  .close-popup-subscription {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    width: 100%;
+    margin: 0;
+    display: block;
+    color: #fff;
+    font-size: 15px;
+    text-decoration: underline;
+    font-weight: 200;
+    font-family: Helvetica, Arial, sans-serif;
+    letter-spacing: 0.3px;
+    &:hover{
+      text-decoration: none;
+    }
+  }
+}
+
+#popup-background {
+  width: 100%;
+  background: #808080;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.5;
+  z-index: 2;
+}
+
+#popup {
+  z-index: 3;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: transparent;
+  #popup-content-wrapper {
+    max-width: 80%;
+    margin: 30px auto;
+    background: #FFFFFF;
+    position: relative;
+    padding: 30px;
+    #popup-content {
+      position: relative;
+      p, li {
+        padding: 15px 0 5px 0;
+        margin: 0;
+        font-size: 1em;
+      }
+      p.title {
+        text-align: left;
+        font-size: 1.4em;
+        padding: 20px 0 10px 0;
+      }
+      ul {
+        list-style: disc;
+        margin: 0;
+        padding: 0 0 0 30px;
+      }
+      .image-zoom-popup {
+        text-align: center;
+        margin: 0 auto;
+        img {
+          max-width: 100%;
+        }
+        .img-headline {
+          font-style: italic;
+        }
+      }
+    }
+
+    .close-icon {
+      display: inline-block;
+      transition: transform 0.3s ease-in-out;
+      width: 24px;
+      height: 24px;
+      background: url("/img/close.png") no-repeat;
+      background-size: 100%;
+      cursor: pointer;
+      &:hover {
+        transform: rotate(180deg);
+      }
+    }
+
+    #popup-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+    }
+
+    #popup-close-bottom {
+      text-align: center;
+      margin-top: 30px;
+    }
+  }
+}
+
+.bottom-popup-bg {
+  display: none;
+
+  .bottom-popup {
+    z-index: 3;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    color: #FFFFFF;
+    background: #000000;
+    opacity: 0.8;
+    margin: 0 auto;
+    padding: 20px 30px;
+    font-size: 14px;
+    line-height: 22px;
+    text-align: center;
+
+    .strong {
+      font-weight: bold;
+    }
+
+    .bottom-popup-close {
+      display: block;
+      position: absolute;
+      text-align: center;
+      bottom: 0;
+      top: 5px;
+      right: 5px;
+      width: 20px;
+      height: 20px;
+      color: #FFFFFF;
+      background: #000000;
+      cursor: pointer;
+    }
+
+    .leave-comment {
+      padding: 5px;
+    }
+  }
+}
+
+

@@ -1,0 +1,18 @@
+<?php
+echo $this->flashMessenger()
+    ->setMessageOpenFormat('<div%s><p>')
+    ->setMessageSeparatorString('</p><p>')
+    ->setMessageCloseString('</p></div>')
+    ->render('error', array('alert', 'alert-danger'));
+
+echo $this->flashMessenger()
+    ->setMessageOpenFormat('<div%s><p>')
+    ->setMessageSeparatorString('</p><p>')
+    ->setMessageCloseString('</p></div>')
+    ->render('success', array('alert', 'alert-success'));
+
+echo $this->flashMessenger()
+    ->setMessageOpenFormat('<div%s><p>')
+    ->setMessageSeparatorString('</p><p>')
+    ->setMessageCloseString('</p></div>')
+    ->render('info', array('alert', 'alert-info'));

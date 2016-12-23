@@ -1,0 +1,63 @@
+<?php
+/** @var \Zend\Mvc\Application $application */
+$application = $this->getHelperPluginManager()->getServiceLocator()->get('Application');
+$routeMatch = $application->getMvcEvent()->getRouteMatch();
+$controller = $routeMatch->getParam('controller');
+$action = $routeMatch->getParam('action');
+$basePath = '';
+?>
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <title>Applyke Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?php echo $this->headMeta()
+        ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+    ?>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+        ->prependStylesheet($this->basePath('css/style.css')) ?>
+
+    <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+        ->prependStylesheet($this->basePath('css/all.min.css')) ?>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+    <script type="text/javascript" async src="<?php echo $this->serverUrl('/js/all.min.js?v2') ?>"></script>
+
+</head>
+<body>
+<!-- No header, and the drawer stays open on larger screens (fixed drawer). -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <!-- Title -->
+            <span class="mdl-layout-title">Applyke Tracker</span>
+            <!-- Add spacer, to align navigation to the right -->
+            <div class="mdl-layout-spacer"></div>
+            <!-- Navigation. We hide it in small screens. -->
+            <nav class="mdl-navigation mdl-layout--large-screen-only">
+                <a class="mdl-navigation__link" href="">Kanban Board</a>
+                <a class="mdl-navigation__link" href="">Settings</a>
+                <a class="mdl-navigation__link" href="">Log In</a>
+            </nav>
+        </div>
+    </header>
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Applyke Tracker</span>
+        <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="/projects">Projects</a>
+            <a class="mdl-navigation__link" href="/issues">Issues</a>
+            <a class="mdl-navigation__link" href="/boards">Boards</a>
+            <a class="mdl-navigation__link" href="">Releases</a>
+            <a class="mdl-navigation__link" href="">Reports</a>
+        </nav>
+    </div>
+    <main class="mdl-layout__content">
+        <div class="page-content">  <?php echo $this->content; ?></div>
+    </main>
+</div>
+</body>
+</html>

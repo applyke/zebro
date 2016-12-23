@@ -1,0 +1,68 @@
+<?php echo $this->partial('application/includes/flash_message.phtml'); ?>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <hr>
+        <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--2-col">
+                <img src="<?php echo $project->getAvatar() ?>" alt="">
+                Project Details</div>
+
+            <div class="mdl-cell mdl-cell--6-col">
+
+                <ul class="demo-list-three">
+                    <li class="mdl-list__item">Name: <?php echo $project->getName() ?></li>
+                    <li class="mdl-list__item">Project key: <?php echo $project->getProjectKey() ?></li>
+                    <li class="mdl-list__item">Description: <?php echo $project->getDescription() ?></li>
+                    <li class="mdl-list__item">Avatar: <?php echo $project->getAvatar() ?></li>
+                    <li class="mdl-list__item">Url: <?php echo $project->getUrl() ?></li>
+                    <li class="mdl-list__item">Project type: <?php if ($project->getType()):  echo $project->getType()->getTitle();endif;  ?></li>
+                    <li class="mdl-list__item">Project category: <?php if ($project->getCategory()): echo $project->getCategory()->getName(); endif; ?></li>
+                    <li class="mdl-list__item">Project
+                        lead: <?php if ($project->getProjectLead()): echo $project->getProjectLead()->getFirstName();
+                        else: echo 'NONE'; endif; ?></li>
+                    <hr>
+                    <?php if (!empty($projectsIssues)): ?>
+                        <li class="mdl-list__item">Issue list </li>
+                            <table class="mdl-data-table mdl-js-data-table ">
+                                <tbody>
+                                <tr>
+                                    <th>Summary</th>
+                                    <th>Description</th>
+                                    <th>Project name</th>
+                                    <th>Type</th>
+                                    <th>User To Assignee</th>
+                                    <th></th>
+                                </tr>
+                                <?php foreach ($projectsIssues as $issue): ?>
+                                    <tr>
+                                        <td><?php echo $issue->getSummary() ?></td>
+                                        <td><?php echo $issue->getDescription() ?></td>
+                                        <td><?php echo $issue->getProject()->getName() ?></td>
+                                        <td><?php if ($issue->getType()):
+                                                echo $issue->getType()->getTitle(); endif; ?></td>
+                                        <td><?php echo $issue->getAssignee()->getFirstName() ?></td>
+                                        <td>
+                                            <div class="mdl-cell mdl-cell--2-col">
+                                                <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"
+                                                   href="/issues/create/<?php echo $issue->getId() ?>"> <i
+                                                        class="material-icons">mode_edit</i> </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+                    <?php endif; ?>
+                </ul>
+                <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                   href="/issues/create/">Create new issue</a>
+                <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                   href="/projects/create/<?php echo $project->getId() ?>">Edit  project</a>
+                <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" href="/projects">Back</a>
+
+            </div>
+        </div>
+    </div>
+</div>

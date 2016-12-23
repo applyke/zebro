@@ -1,0 +1,41 @@
+.kin-box{
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+.kin-box li {
+    list-style-type: none;
+}
+select{
+    width: 100%;
+    display: block;
+}
+.addButton {
+    bottom: 10%;
+    right: 10%;
+    position: fixed;
+}
+.mdl-textfield{
+    width: 100%;
+}
+.inputBlock{
+    width: 100%;
+}
+.mdl-data-table td, .mdl-data-table th {
+    text-align: left;
+}
+.boardColumn{
+    background-color: #e0e0e0;
+    height: 300px;
+}
+[draggable] {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    /* Required to make elements draggable in old WebKit */
+    -khtml-user-drag: element;
+    -webkit-user-drag: element;
+}
+.column.over {
+    border: 2px dashed #000;
+}

@@ -1,0 +1,9 @@
+{
+    "name": "zendframework/skeleton-application",
+    "minimum-stability": "stable",
+    "require": {
+       "php": ">=5.5",
+        "zendframework/zendframework": "2.5.*",
+        "doctrine/doctrine-orm-module": "~0.7"
+    }
+}

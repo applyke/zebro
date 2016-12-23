@@ -1,0 +1,34 @@
+/** detect pixel ratio on client side **/
+.pixel-ratio {
+  display: none;
+}
+
+@media only screen and (min-resolution: 1dppx) {
+  #pixel-ratio-1 {
+    display: block;
+  }
+}
+
+@media only screen and (min-resolution: 1.25dppx) {
+  #pixel-ratio-1_25 {
+    display: block;
+  }
+}
+
+@media only screen and (min-resolution: 1.3dppx) {
+  #pixel-ratio-3 {
+    display: block;
+  }
+}
+
+@media only screen and (min-resolution: 1.5dppx) {
+  #pixel-ratio-1_5 {
+    display: block;
+  }
+}
+
+@media only screen and (min-resolution: 2dppx) {
+  #pixel-ratio-2 {
+    display: block;
+  }
+}

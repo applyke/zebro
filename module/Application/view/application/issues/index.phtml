@@ -1,0 +1,37 @@
+<?php echo $this->partial('application/includes/flash_message.phtml'); ?>
+<?php echo $this->partial('application/includes/delete_modal.phtml'); ?>
+
+<div class="mdl-grid">
+<!--    <div class="mdl-cell mdl-cell--2-col">All Issues</div>-->
+    <div class="mdl-cell mdl-cell--6-col">
+        <ol class="demo-list-item ">
+        <?php foreach ($issues as $issue): ?>
+                <li class="mdl-list__item-text-body">
+
+                     <div class="mdl-list__item-primary-content">
+                        <div class="mdl-list__item-secondary-action">
+                            <a  href="/issues/details/<?php echo $issue->getId() ?>"><span><?php echo  $issue->getSummary() ?></span>   </a></div>
+                        <div class="mdl-list__item-text-body">Project name:<?php echo $issue->getProject()->getName() ?></div>
+                        <div class="mdl-list__item-text-body">Type:<?php if ($issue->getType()):echo $issue->getType()->getTitle(); endif; ?>
+                        </div>
+                            <div class="mdl-list__item-text-body">User To Assignee:<?php if ($issue->getAssignee()): echo $issue->getAssignee()->getFirstName(); endif; ?>
+                        </div>
+
+                    <!--                    <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"-->
+                    <!--                       href="/issues/create/-->
+                    <?php //echo $issue->getId() ?><!--"> <i class="material-icons">mode_edit</i>-->
+                    <!--                    </a>-->
+                    <!---->
+                    <!--                    <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab show-dialog "-->
+                    <!--                       data-url="/issues/delete/--><?php //echo $issue->getId() ?><!--"><i-->
+                    <!--                            class="material-icons">delete</i> </a>-->
+                </li>
+        <?php endforeach; ?>
+        </ol>
+        <div class="mdl-cell mdl-cell--2-col addButton">
+            <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored " href="/issues/create/">
+                <i class="material-icons">add</i>
+            </a>
+            <?php //echo $paginator; ?>
+        </div>
+    </div>

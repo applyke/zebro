@@ -1,0 +1,175 @@
+<?php
+
+/* @var $form \Zend\Form\Form */
+
+$form->prepare();
+$fullWidth = isset($fullWidth) ? (bool) $fullWidth : false;
+$fullWidth = true;
+echo '<div class="mdl-grid">';
+echo '<div class="mdl-cell mdl-cell--2-col"></div>';
+//echo '<div class="mdl-cell mdl-cell--6-col">';
+echo $this->form()->openTag($form);
+
+if (isset($alertInfo)) {
+    echo '<div class="form-group">';
+    echo '<div class="alert alert-info" role="alert">';
+    echo $alertInfo;
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+}
+
+
+$labelClass = 'mdl-textfield__label ';
+
+foreach ($form->getElements() as $element) {
+    /* @var $element \Zend\Form\ElementInterface */
+    $elementId = $form->getName() . '_' . $element->getName();
+    if ($element instanceof \Zend\Form\Element\Csrf) {
+        echo $this->formRow($element);
+        continue;
+    }
+
+    $errorCls = '';
+    $errorHtml = '';
+    if ($element->getMessages()) {
+        $errorCls = 'has-error';
+        $errorHtml = '<span class="help-block">';
+        foreach ($element->getMessages() as $message) {
+            $errorHtml .= $message . '<br>';
+        }
+        $errorHtml .= '</span>';
+    }
+
+    $inputGroupClass = 'mdl-textfield mdl-js-textfield mdl-textfield--floating-label';
+    $fieldIconClass = 'mdl-textfield__error';
+    if ($element->getOption('attributes')) {
+        $attributes = $element->getOption('attributes');
+        if (isset($attributes['field_icon_class'])) {
+            $fieldIconClass = $attributes['field_icon_class'];
+        }
+        if (isset($attributes['input_group_class'])) {
+            $inputGroupClass = $attributes['input_group_class'];
+        }
+    }
+
+    echo '<div class="inputBlock' . $errorCls . '">';
+    if (get_class($element) === 'Zend\Form\Element\Text'
+        || get_class($element) === 'Zend\Form\Element\Password'
+    ) {
+        $type = 'text';
+        if (get_class($element) === 'Zend\Form\Element\Password') {
+            $type = 'password';
+        }
+        echo '<div class="' . $inputGroupClass . '">';
+        echo '<label class="' . $labelClass . '" for="' . $elementId . '">' . $element->getLabel() . '</label>';
+
+        echo '<input class="mdl-textfield__input" value="' . $element->getValue() . '" type="' . $type . '" multiple  id="' . $elementId . '"  name="' . $element->getName() . '">';
+        echo '<span ><span class="' . $fieldIconClass . '"></span></span>';
+        echo '</div>';
+    } else if (get_class($element) === 'Zend\Form\Element\Select') {
+
+        echo '<div class="mdl-selectfield mdl-js-selectfield ' . $inputGroupClass . '">
+        <select id="gender"  class="mdl-selectfield__select" name="' . $element->getName() . '" >';
+
+        $optGroup = $element->getOption('optgroup');
+        if (strpos($element->getOption('class'), 'select2-init') === false) {
+            echo '<option value=""></option>';
+        } else {
+            echo '<option value=""></option>';
+        }
+        if (is_array($optGroup)) {
+            foreach ($optGroup as $group => $options) {
+                echo '<optgroup label="' . $group . '">';
+                foreach ($options as $key => $option) {
+                    $selected = '';
+                    if ($key == $element->getValue()) {
+                        $selected = 'selected="selected"';
+                    }
+                    echo '<option ' . $selected . ' value="' . $key . '">' . $option . '</option>';
+                }
+                echo '</optgroup>';
+            }
+        } else {
+            foreach ($element->getOption('value_options') as $key => $option) {
+                $selected = '';
+                if ($key == $element->getValue()) {
+                    $selected = 'selected="selected"';
+                }
+                echo '<option ' . $selected . ' value="' . $key . '">' . $option . '</option>';
+            }
+        }
+        echo '</select>';
+        echo '<div class="mdl-selectfield__icon"><i class="material-icons">arrow_drop_down</i></div>';
+
+        echo '<label class="mdl-selectfield__label ' . $labelClass . '" for="' . $elementId . '">' . $element->getLabel() . '</label>';
+        echo '</div>';
+    } else if (get_class($element) === 'Zend\Form\Element\Textarea') {
+
+        echo '<div class="' . $inputGroupClass . '">';
+        echo '<textarea style="resize: vertical;" class="mdl-textfield__input' . $element->getOption('class') . '" id="' . $elementId . '"  name="' . $element->getName() . '">' . $element->getValue() . '</textarea>';
+        echo '<label class="' . $labelClass . '" for="' . $elementId . '">' . $element->getLabel() . '</label>';
+        echo '<span ><span class="' . $fieldIconClass . '"></span></span>';
+        echo '</div>';
+    } else if (get_class($element) === 'Zend\Form\Element\Submit') {
+        echo '<div class="col-sm-offset-4 col-sm-10">';
+        if ($form->showBackBtn) {
+            $backUrl = 'window.history.back()';
+            if ($form->getBackBtnUrl()) {
+                $backUrl = '\'' . $form->getBackBtnUrl() . '\'';
+            }
+            echo '<button type="button" style="margin-right: 15px;" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"" onclick="javascript: location.href = ' . $backUrl . '; return false;">Back</button>';
+        }
+        echo '<input type="submit" class="' . $element->getAttribute('class') . '" name="' . $element->getName() . '" value="' . $element->getValue() . '">';
+
+        echo '</div>';
+
+    } else if (get_class($element) === 'Zend\Form\Element\Radio') {
+        /* @var $element \Zend\Form\Element\Radio */
+        echo '<label class="' . $labelClass . '">' . $element->getLabel() . '</label>';
+        echo '<div class="radio col-sm-offset-4">';
+        foreach ($element->getValueOptions() as $vkey => $voption) {
+//            $id = $element->getValue();
+            echo '<label><input ' . ($element->getValue() == $vkey ? 'checked="checked"' : '') . ' type="radio" name="' . $element->getName() . '" value="' . $vkey . '"> ' . $voption . '</label> <br>';
+        }
+        echo '</div>';
+    } else if (get_class($element) === 'Zend\Form\Element\Checkbox') {
+        /* @var $element \Zend\Form\Element\Checkbox */
+        $checked = '';
+        if ($element->getValue() === $element->getCheckedValue()) {
+            $checked = 'checked="checked"';
+        }
+        echo '<label class="' . $labelClass . '" for="' . $elementId . '">' . $element->getLabel() . '</label>';
+        echo '<div class="' . $inputGroupClass . '">';
+        echo '<input value="' . $element->getUncheckedValue() . '" type="hidden" name="' . $element->getName() . '">';
+        echo '<input id="' . $elementId . '"  ' . $checked . ' value="' . $element->getCheckedValue() . '" type="checkbox" name="' . $element->getName() . '">';
+        echo '</div>';
+    } else if (get_class($element) === 'Zend\Form\Element\MultiCheckbox') {
+        /* @var $element \Zend\Form\Element\MultiCheckbox */
+        echo '<label class="' . $labelClass . '">' . $element->getLabel() . '</label>';
+        echo '<div class="radio col-sm-offset-4">';
+        $values = $element->getValue();
+        foreach ($element->getValueOptions() as $optionId => $optionLabel) {
+            $elementId .= '_' . $optionId;
+            $checked = '';
+            if (in_array($optionId, $values)) {
+                $checked = 'checked="checked"';
+            }
+            echo '<label class="hidden" style="display: inline-block;"><input ' . $checked . ' type="checkbox" name="' . $element->getName() . '[]" value="' . $optionId . '"> ' . $optionLabel . '</label>';
+        }
+        echo '</div>';
+    } else {
+        // unknown element
+        echo $this->formRow($element);
+    }
+    echo '<div class="col-sm-offset-4 col-sm-10">';
+    echo $errorHtml;
+    echo '</div>';
+    echo '</div>';
+}
+
+echo $this->form()->closeTag();
+
+echo '</div>';
+echo '</div>';
+echo '</div>';

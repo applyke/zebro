@@ -1,0 +1,22 @@
+# install gulp globally
+sudo npm install gulp -g
+
+# creating npm project
+npm init
+
+# install gulp into project, add gulp as dev dependency into package.json
+npm install gulp --save-dev
+
+# install required plugins for tasks: lint js (code quality control, check for errors, etc), compile sass files, concatenate js, minify and rename concatenated files
+npm install jshint gulp-jshint gulp-sass gulp-concat gulp-uglify gulp-rename --save-dev
+npm install gulp-cssnano gulp-autoprefixer gulp-sourcemaps --save-dev
+
+# create gulpfile.js add tasks
+> gulpfile.js
+
+# create dist dir
+mkdir assets/dist
+
+# run tasks
+# gulp or gulp default
+# gulp watch

@@ -1,0 +1,90 @@
+<?php
+$data = $filter->getData();
+if (!empty($data)): ?>
+    <div class="panel panel-default">
+        <div class="panel-heading">Фильтр</div>
+        <div class="panel-body">
+            <form id="filter_form" class="form-inline" method="get">
+                <table class="table">
+                    <tbody>
+                    <?php
+                    $maxCellsNum = 0;
+                    ?>
+                    <?php foreach ($filter->getData() as $row => $col): ?>
+                        <tr>
+                            <?php foreach ($col as $cellNum => $filterData): ?>
+                                <?php
+                                $colspan = '';
+                                if ($cellNum > $maxCellsNum) {
+                                    $maxCellsNum++;
+                                }
+                                if (isset($filterData['colspan'])) {
+                                    $colspan = 'colspan = "' . $filterData['colspan'] . '"';
+                                }
+                                $addClass = isset($filterData['attributes']['class']) ? $filterData['attributes']['class'] : null;
+                                ?>
+                                <td <?php echo $colspan; ?>>
+                                    <div class="form-group">
+                                        <?php if (!empty($filterData)): ?>
+                                            <?php
+                                            switch ($filterData['type']):
+                                                case \Application\Service\FilterService::TYPE_TEXT: ?>
+                                                    <label><?php echo $filterData['label'] ?>: </label>
+                                                    <input class="form-control <?php echo $addClass ?>" type="text"
+                                                           name="<?php echo $filterData['name'] ?>"
+                                                           value="<?php echo $filter->getValue($filterData['name']) ?>">
+                                                    <?php break;
+                                                case \Application\Service\FilterService::TYPE_SELECT: ?>
+                                                    <label><?php echo $filterData['label'] ?>: </label>
+                                                    <select class="form-control <?php echo $addClass ?>" name="<?php echo $filterData['name'] ?>">
+                                                        <option value="">--выберите--</option>
+                                                        <?php foreach ($filterData['options'] as $oVal => $oLabel): ?>
+                                                            <?php if (!is_array($oLabel)): ?>
+                                                                <?php $selected = '';
+                                                                if ($filter->getValue($filterData['name']) == $oVal) {
+                                                                    $selected = 'selected';
+                                                                } ?>
+                                                                <option <?php echo $selected ?>
+                                                                    value="<?php echo $oVal; ?>"><?php echo $oLabel; ?></option>
+                                                            <?php else: ?>
+                                                                <optgroup label="<?php echo $oVal; ?>">
+                                                                    <?php foreach ($oLabel as $oVal2 => $oLabel2): ?>
+                                                                        <?php $selected = '';
+                                                                        if ($filter->getValue($filterData['name']) == $oVal2) {
+                                                                            $selected = 'selected';
+                                                                        } ?>
+                                                                        <option <?php echo $selected ?>
+                                                                            value="<?php echo $oVal2; ?>"><?php echo $oLabel2; ?></option>
+                                                                    <?php endforeach; ?>
+                                                                </optgroup>
+                                                            <?php endif; ?>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                    <?php break;
+                                            endswitch;
+                                            ?>
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
+                            <?php endforeach; ?>
+                        </tr>
+                    <?php endforeach; ?>
+                    <?php /*
+                <tr>
+                    <td colspan="<?php echo $maxCellsNum + 1; ?>"></td>
+                </tr>
+                */ ?>
+                    </tbody>
+                </table>
+                <div class="text-left">
+                    <div class="form-group">
+                        <button type="button" style="margin-right: 15px;" class="btn btn-default"
+                                onclick="location.href='<?php echo $filter->pageUrl() ?>'">Очистить
+                        </button>
+                        <button type="submit" class="btn btn-primary">Фильтровать</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+<?php endif ?>
