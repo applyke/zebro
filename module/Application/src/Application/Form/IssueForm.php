@@ -24,12 +24,12 @@ class IssueForm extends ApplicationFormAbstract
         }
 
         $issue_type = array();
-        foreach ($options['issue_types'] as $t) {
+        foreach ($options['type'] as $t) {
             $issue_type[$t->getId()] = $t->getTitle();
         }
 
         $issue_priority = array();
-        foreach ($options['issue_priority'] as $t) {
+        foreach ($options['priority'] as $t) {
             $issue_priority[$t->getId()] = $t->getTitle();
         }
         $assignee = array();
@@ -117,7 +117,7 @@ class IssueForm extends ApplicationFormAbstract
         )));
 
         if (is_object($issueType)) {
-            $this->get('issue_type')->setValue($issueType->getId());
+            $this->get('type')->setValue($issueType->getId());
         }
 
         $this->add(new Form\Element\Select('priority', array(
@@ -128,7 +128,7 @@ class IssueForm extends ApplicationFormAbstract
             )
         )));
         if (is_object($issuePriority)) {
-            $this->get('issue_priority')->setValue($issuePriority->getId());
+            $this->get('priority')->setValue($issuePriority->getId());
         }
 
         $this->add(new Form\Element\Select('assignee', array(

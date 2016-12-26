@@ -52,8 +52,8 @@ class IssuesController extends AbstractController
         $issueForm = new \Application\Form\IssueForm('issue', array(
             'issue' => $issue,
             'projects' => $projectRepository->findBy(array(), array('name' => 'asc')),
-            'issue_types' => $issueTypeRepository->findBy(array(), array('title' => 'asc')),
-            'issue_priority' => $issuePriorityRepository->findBy(array(), array('title' => 'asc')),
+            'type' => $issueTypeRepository->findBy(array(), array('title' => 'asc')),
+            'priority' => $issuePriorityRepository->findBy(array(), array('title' => 'asc')),
             'assignee' => $userRepository->findBy(array(), array('first_name' => 'asc')),
             'reporter' => $userRepository->findBy(array(), array('first_name' => 'asc')),
             'status' => $statusRepository->findBy(array(), array('title' => 'asc')),
@@ -71,8 +71,8 @@ class IssuesController extends AbstractController
                 $values = $issueForm->getData();
 //
                 $issue->setProject($projectRepository->findOneById($values['project']));
-                $issue->setType($issueTypeRepository->findOneById($values['issue_type']));
-                $issue->setPriority($issuePriorityRepository->findOneById($values['issue_priority']));
+                $issue->setType($issueTypeRepository->findOneById($values['type']));
+                $issue->setPriority($issuePriorityRepository->findOneById($values['priority']));
                 $issue->setAssignee($userRepository->findOneById($values['assignee']));
                 $issue->setReporter($userRepository->findOneById($values['reporter']));
                 $issue->setStatus($statusRepository->findOneById($values['status']));

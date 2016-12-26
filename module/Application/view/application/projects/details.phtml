@@ -41,7 +41,8 @@
                                         <td><?php echo $issue->getProject()->getName() ?></td>
                                         <td><?php if ($issue->getType()):
                                                 echo $issue->getType()->getTitle(); endif; ?></td>
-                                        <td><?php echo $issue->getAssignee()->getFirstName() ?></td>
+                                        <td><?php if ($issue->getAssignee()):
+                                            echo $issue->getAssignee()->getFirstName(); endif; ?></td>
                                         <td>
                                             <div class="mdl-cell mdl-cell--2-col">
                                                 <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"
