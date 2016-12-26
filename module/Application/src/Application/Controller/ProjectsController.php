@@ -102,7 +102,7 @@ class ProjectsController extends AbstractController
 
         return new ViewModel(array(
             'project' => $project,
-            'projectsIssues' => $projectsIssues,
+           'projectsIssues' => $projectsIssues,
         ));
     }
 
