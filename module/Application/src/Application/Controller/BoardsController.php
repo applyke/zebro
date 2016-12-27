@@ -70,7 +70,7 @@ class BoardsController extends AbstractController
 //                $boardColumns = $boardColumnsRepository->findBy(array('board'=>$board->getId()));
 //
                 $board->setProject($projectRepository->findOneById($values['project']));
-                $board->setType($userRepository->findOneById($values['administrator']));
+                $board->setAdministrator($userRepository->findOneById($values['administrator']));
                 $board->setStatus($statusRepository->findOneById($values['status']));
 
                 $entityManager->persist($board);

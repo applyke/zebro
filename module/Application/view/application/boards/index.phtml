@@ -12,7 +12,8 @@
                         <div class="mdl-list__item-secondary-action">
                             <a  href="/boards/details/<?php echo $board->getId() ?>">
                         Board name:<?php echo $board->getTitle() ?></a></div>
-                        <div class="mdl-list__item-text-body">Administrators:<?php echo $board->getAdministrator()->getFirstName() ?>
+                        <div class="mdl-list__item-text-body">Administrators:<?php if($board->getAdministrator()):
+                         echo $board->getAdministrator()->getFirstName(); endif; ?>
                         </div>
                             <div class="mdl-list__item-text-body">Project:<?php  echo $board->getProject()->getName() ?>
                         </div>

@@ -94,7 +94,7 @@ class BoardsForm extends ApplicationFormAbstract
         )));
 
         if (is_object($administrator)) {
-            $this->get('type')->setValue($administrator->getId());
+            $this->get('administrator')->setValue($administrator->getId());
         }
 
 
