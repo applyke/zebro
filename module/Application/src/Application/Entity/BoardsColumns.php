@@ -22,11 +22,9 @@ class BoardsColumns extends EntityAbstract
     protected $name;
 
     /** @ORM\Column(type="string", length=128) */
-
     protected $min;
     
    /** @ORM\Column(type="string", length=128) */
-
     protected $max;
 
     /**
@@ -34,6 +32,13 @@ class BoardsColumns extends EntityAbstract
      * @ORM\JoinColumn(name="board", referencedColumnName="id")
      */
     protected $board;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Status", inversedBy="id")
+     * @ORM\JoinTable(name="column_to_project")
+     */
+    protected $status;
+
 
     /** @ORM\Column(type="datetime") */
     protected $created;

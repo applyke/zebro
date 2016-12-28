@@ -99,6 +99,7 @@ return array(
             'Application\Controller\Projects' => Factory\Controller\ProjectsFactory::class,
             'Application\Controller\Issues' => Factory\Controller\IssuesFactory::class,
             'Application\Controller\Boards' => Factory\Controller\BoardsFactory::class,
+            'Application\Controller\BoardsColumns' => Factory\Controller\BoardsColumnsFactory::class,
             )
     ),
     'view_helpers' => array(

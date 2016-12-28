@@ -68,7 +68,7 @@ class BoardsController extends AbstractController
 
 //                $board = $boardRepository->findOneById((int)$id);
 //                $boardColumns = $boardColumnsRepository->findBy(array('board'=>$board->getId()));
-//
+
                 $board->setProject($projectRepository->findOneById($values['project']));
                 $board->setAdministrator($userRepository->findOneById($values['administrator']));
                 $board->setStatus($statusRepository->findOneById($values['status']));
@@ -91,14 +91,24 @@ class BoardsController extends AbstractController
         $boardRepository = $entityManager->getRepository('\Application\Entity\Board');
         /** @var \Application\Repository\BoardsColumnsRepository $boardColumnsRepository */
         $boardColumnsRepository = $entityManager->getRepository('\Application\Entity\BoardsColumns');
+        /** @var \Application\Repository\IssueRepository $issueRepository */
+        $issueRepository = $entityManager->getRepository('\Application\Entity\Issue');
         $board = $boardRepository->findOneById((int)$id);
         $boardColumns = $boardColumnsRepository->findBy(array('board'=>$board->getId()));
         if (!$board) {
             return $this->notFound();
         }
+        /** @var \Application\Repository\StatusRepository $statusRepository */
+        $statusRepository = $entityManager->getRepository('\Application\Entity\Status');
+        $statuses =  $statusRepository->findBy(array(), array('title' => 'asc'));
+        $issuesArray = array();
+        foreach ($statuses as $status){
+            $issuesArray[$status->getId()] = $issueRepository->findBy(array('project' => $board->getProject()->getId(), 'status'=>$status));
+        }
         return new ViewModel(array(
             'board' => $board,
-            'boardColumns'=>$boardColumns
+            'boardColumns'=>$boardColumns,
+            'issuesArray' => $issuesArray,
         ));
     }
 }
