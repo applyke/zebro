@@ -1,0 +1,173 @@
+<?php echo $this->partial('application/includes/flash_message.phtml'); ?>
+<?php echo $this->partial('application/includes/delete_modal.phtml'); ?>
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--2-col">Global Setting</div>
+
+    <div class="mdl-cell mdl-cell--6-col">
+
+            <div>
+                <h4>Project Categories</h4>
+                <ul class="demo-list-three mdl-list">
+                    <?php foreach ($projectCategories as $projectCategory): ?>
+                        <li class="mdl-list__item mdl-list__item--three-line">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-avatar">person</i>
+                                  <span><?php echo $projectCategory->getName(); ?></span>
+                                                            </span>
+
+                            <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"
+                               href="/setting/project-category/create/<?php echo $projectCategory->getId(); ?>"> <i class="material-icons">mode_edit</i>
+                            </a>
+
+                            <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab show-dialog "
+                               data-url="/setting/project-category/delete/<?php echo $projectCategory->getId(); ?>"><i
+                                    class="material-icons">delete</i> </a>
+                        </li>
+                    <?php endforeach; ?>
+                    <li class="mdl-list__item mdl-list__item--three-line">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-avatar">person</i>
+                                  <a  href="/setting/project-category/create/"><span> Add New Project Category </span>   </a>
+                            </span>
+
+                        <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"
+                           href="/setting/project-category/create/"> <i class="material-icons">add</i>
+                        </a>
+
+                    </li>
+                </ul>
+            </div>
+
+        <div>
+            <h4>Project Types</h4>
+            <ul class="demo-list-three mdl-list">
+                <?php foreach ($projectTypes as $projectType): ?>
+                    <li class="mdl-list__item mdl-list__item--three-line">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-avatar">person</i>
+                                  <span><?php echo $projectType->getTitle(); ?></span>
+                                                            </span>
+
+                        <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"
+                           href="/setting/project-type/create/<?php echo $projectType->getId(); ?>"> <i class="material-icons">mode_edit</i>
+                        </a>
+
+                        <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab show-dialog "
+                           data-url="/setting/project-type/delete/<?php echo $projectType->getId(); ?>"><i
+                                class="material-icons">delete</i> </a>
+                    </li>
+                <?php endforeach; ?>
+                <li class="mdl-list__item mdl-list__item--three-line">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-avatar">person</i>
+                                  <a  href="/setting/project-type/create/"><span> Add New Project Type </span>   </a>
+                            </span>
+
+                    <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"
+                       href="/setting/project-type/create/"> <i class="material-icons">add</i>
+                    </a>
+
+                </li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>Status</h4>
+            <ul class="demo-list-three mdl-list">
+                <?php foreach ($statuses as $statuse): ?>
+                    <li class="mdl-list__item mdl-list__item--three-line">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-avatar">person</i>
+                                  <span><?php echo $statuse->getTitle(); ?></span>
+                                                            </span>
+
+                        <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"
+                           href="/setting/status/create/<?php echo $statuse->getId(); ?>"> <i class="material-icons">mode_edit</i>
+                        </a>
+
+                        <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab show-dialog "
+                           data-url="/setting/status/delete/<?php echo $statuse->getId(); ?>"><i
+                                class="material-icons">delete</i> </a>
+                    </li>
+                <?php endforeach; ?>
+                <li class="mdl-list__item mdl-list__item--three-line">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-avatar">person</i>
+                                  <a  href="/setting/status/create/"><span> Add New Status </span>   </a>
+                            </span>
+
+                    <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"
+                       href="/setting/status/create/"> <i class="material-icons">add</i>
+                    </a>
+
+                </li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>Issue Priorities</h4>
+            <ul class="demo-list-three mdl-list">
+                <?php foreach ($issuePriorities as $issuePrioritie): ?>
+                    <li class="mdl-list__item mdl-list__item--three-line">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-avatar">person</i>
+                                  <span><?php echo $issuePrioritie->getTitle(); ?></span>
+                                                            </span>
+
+                        <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"
+                           href="/setting/issues-priority/create/<?php echo $issuePrioritie->getId(); ?>"> <i class="material-icons">mode_edit</i>
+                        </a>
+
+                        <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab show-dialog "
+                           data-url="/setting/issues-priority/delete/<?php echo $issuePrioritie->getId(); ?>"><i
+                                class="material-icons">delete</i> </a>
+                    </li>
+                <?php endforeach; ?>
+                <li class="mdl-list__item mdl-list__item--three-line">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-avatar">person</i>
+                                  <a  href="/setting/issues-priority/create/"><span> Add New Issue Priorities </span>   </a>
+                            </span>
+
+                    <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"
+                       href="/setting/issues-priority/create/"> <i class="material-icons">add</i>
+                    </a>
+
+                </li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>Issue Types</h4>
+            <ul class="demo-list-three mdl-list">
+                <?php foreach ($issueTypes as $issueType): ?>
+                    <li class="mdl-list__item mdl-list__item--three-line">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons mdl-list__item-avatar">person</i>
+                                  <span><?php echo $issueType->getTitle(); ?></span>
+                            </span>
+
+                        <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"
+                           href="/setting/issues-type/create/<?php echo $issueType->getId(); ?>"> <i class="material-icons">mode_edit</i>
+                        </a>
+
+                        <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab show-dialog "
+                           data-url="/setting/issues-type/delete/<?php echo $issueType->getId(); ?>"><i
+                                class="material-icons">delete</i> </a>
+                    </li>
+                <?php endforeach; ?>
+                <li class="mdl-list__item mdl-list__item--three-line">
+                    <span class="mdl-list__item-primary-content">
+                        <i class="material-icons mdl-list__item-avatar">person</i>
+                        <a  href="/setting/issues-type/create/"><span> Add New Issue Types </span>  </a>
+                    </span>
+
+                    <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"
+                       href="/setting/issues-type/create/"> <i class="material-icons">add</i>
+                    </a>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

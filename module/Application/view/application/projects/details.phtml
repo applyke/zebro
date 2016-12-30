@@ -15,7 +15,6 @@
                     <li class="mdl-list__item">Project key: <?php echo $project->getProjectKey() ?></li>
                     <li class="mdl-list__item">Description: <?php echo $project->getDescription() ?></li>
                     <li class="mdl-list__item">Avatar: <?php echo $project->getAvatar() ?></li>
-                    <li class="mdl-list__item">Url: <?php echo $project->getUrl() ?></li>
                     <li class="mdl-list__item">Project type: <?php if ($project->getType()):  echo $project->getType()->getTitle();endif;  ?></li>
                     <li class="mdl-list__item">Project category: <?php if ($project->getCategory()): echo $project->getCategory()->getName(); endif; ?></li>
                     <li class="mdl-list__item">Project

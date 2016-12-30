@@ -5,11 +5,11 @@ namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="Application\Repository\StatusRepository"))
+ * @ORM\Entity(repositoryClass="Application\Repository\GlobalStatusRepository"))
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="`status`")
+ * @ORM\Table(name="`global_status`")
  */
-class Status extends EntityAbstract
+class GlobalStatus extends EntityAbstract
 {
     /**
      * @ORM\Id
@@ -23,10 +23,5 @@ class Status extends EntityAbstract
 
     /** @ORM\Column(type="string", length=128) */
     protected $title;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Project")
-     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")     */
-    protected $project;
 
 }

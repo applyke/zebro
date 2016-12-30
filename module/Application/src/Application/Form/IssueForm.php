@@ -49,7 +49,6 @@ class IssueForm extends ApplicationFormAbstract
         $issueType = null;
         $issuePriority = null;
         $issueAssignee = null;
-        $issueReporter = null;
         $status = null;
         if (isset($options['issue'])) {
             /** @var \Application\Entity\Issue $issue */
@@ -63,8 +62,6 @@ class IssueForm extends ApplicationFormAbstract
             /** @var \Application\Entity\User $issueAssignee */
             $issueAssignee = $issue->getAssignee();
             /** @var \Application\Entity\User $issueReporter */
-            $issueReporter = $issue->getReporter();
-            /** @var \Application\Entity\Status $status */
             $status = $issue->getStatus();
         }
 
@@ -142,17 +139,6 @@ class IssueForm extends ApplicationFormAbstract
             $this->get('assignee')->setValue($assignee->getId());
         }
 
-        $this->add(new Form\Element\Select('reporter', array(
-            'label' => "Reporter",
-            'value_options' => $reporter,
-            'attributes' => array(
-                'field_icon_class' => 'fa fa-unlock'
-            )
-        )));
-        if (is_object($reporter)) {
-            $this->get('reporter')->setValue($reporter->getId());
-        }
-
         $this->add(new Form\Element\Select('status', array(
             'label' => "Issue status",
             'value_options' => $issue_status,
@@ -185,7 +171,6 @@ class IssueForm extends ApplicationFormAbstract
         $issueType = null;
         $issuePriority = null;
         $assignee = null;
-        $reporter = null;
         $status = null;
 
         if (isset($options['issue'])) {
@@ -199,8 +184,6 @@ class IssueForm extends ApplicationFormAbstract
             $issuePriority = $issue->getPriority();
             /** @var \Application\Entity\User $assignee */
             $assignee = $issue->getAssignee();
-            /** @var \Application\Entity\User $reporter */
-            $reporter = $issue->getReporter();
             /** @var \Application\Entity\Status $status */
             $status = $issue->getStatus();
         }
@@ -331,31 +314,6 @@ class IssueForm extends ApplicationFormAbstract
                                 \Zend\Validator\Callback::INVALID_VALUE => 'User doesn\'t exists',
                             ),
                             'callback' => function ($value, $context = array()) use ($assignee) {
-                                $em = $this->getEntityManager();
-                                $userRepository = $em->getRepository('\Application\Entity\User');
-                                if (is_object($userRepository->findOneById($value))) {
-                                    return true;
-                                }
-                                return false;
-                            },
-                        ),
-                    ),
-                ),
-            ),
-            'reporter' => array(
-                'required' => false,
-                'filters' => array(
-                    new \Zend\Filter\StringTrim(),
-                    new \Zend\Filter\Digits(),
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'Callback',
-                        'options' => array(
-                            'messages' => array(
-                                \Zend\Validator\Callback::INVALID_VALUE => 'User doesn\'t exists',
-                            ),
-                            'callback' => function ($value, $context = array()) use ($reporter) {
                                 $em = $this->getEntityManager();
                                 $userRepository = $em->getRepository('\Application\Entity\User');
                                 if (is_object($userRepository->findOneById($value))) {

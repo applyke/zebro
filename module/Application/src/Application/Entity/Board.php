@@ -39,13 +39,14 @@ class Board extends EntityAbstract
      */
     protected $administrator;
     
-    /**
-     * @ORM\OneToMany(targetEntity="Project", mappedBy="id")
-     */
-    protected $shares;
+//    /**
+//     * @ORM\OneToMany(targetEntity="Project", mappedBy="id")
+//     */
+//    protected $shares;
 
+    //TODO: Think about this field
     /** @ORM\Column(type="smallint") */
-    protected $status = 1;
+    protected $status;
 
     /** @ORM\Column(type="datetime") */
     protected $created;

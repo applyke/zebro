@@ -33,6 +33,36 @@ return array(
                     ),
                 ),
             ),
+            'setting' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/setting',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Application\Controller\Setting',
+                        'controller' => 'Setting',
+                        'action' => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'default' => array(
+                        'type' => 'Zend\Mvc\Router\Http\Segment',
+                        'options' => array(
+                            'route' => '[/:controller][/:action][/:id][/:id2][/]',
+                            'constraints' => array(
+                                '__NAMESPACE__' => 'Application\Controller',
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id' => '[0-9]+',
+                                'id2' => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'action' => 'index'
+                            ),
+                        ),
+                    ),
+                ),
+            ),
             'home' => array(
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => array(
@@ -100,6 +130,12 @@ return array(
             'Application\Controller\Issues' => Factory\Controller\IssuesFactory::class,
             'Application\Controller\Boards' => Factory\Controller\BoardsFactory::class,
             'Application\Controller\BoardsColumns' => Factory\Controller\BoardsColumnsFactory::class,
+            'Application\Controller\Setting\Setting'=> Factory\Controller\Setting\SettingFactory::class,
+            'Application\Controller\Setting\ProjectCategory'=>Factory\Controller\Setting\ProjectCategoryFactory::class,
+            'Application\Controller\Setting\ProjectType'=>Factory\Controller\Setting\ProjectTypeFactory::class,
+            'Application\Controller\Setting\Status'=>Factory\Controller\Setting\StatusFactory::class,
+            'Application\Controller\Setting\IssuesPriority'=>Factory\Controller\Setting\IssuesPriorityFactory::class,
+            'Application\Controller\Setting\IssuesType'=>Factory\Controller\Setting\IssuesTypeFactory::class,
             )
     ),
     'view_helpers' => array(

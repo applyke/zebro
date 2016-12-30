@@ -21,6 +21,7 @@ class Project extends EntityAbstract
     /** @ORM\Column(type="string", length=128) */
     protected $name;
 
+    /** Code of project */
     /** @ORM\Column(type="string", length=128) */
     protected $project_key;
 
@@ -28,11 +29,13 @@ class Project extends EntityAbstract
 
     protected $description;
 
+    /** Project's Logo */
     /** @ORM\Column(type="string", length=256) */
     protected $avatar;
 
-    /** @ORM\Column(type="string", length=1024) */
-    protected $url;
+//    /**  */
+//    /** @ORM\Column(type="string", length=1024) */
+//    protected $url;
 
     /**
      * @ORM\ManyToOne(targetEntity="ProjectType")

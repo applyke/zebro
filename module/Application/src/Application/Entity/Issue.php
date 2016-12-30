@@ -23,11 +23,11 @@ class Issue extends EntityAbstract
      * @ORM\JoinColumn(name="project_id", referencedColumnName="id")     */
     protected $project;
 
+    /** task's name**/
     /** @ORM\Column(type="string", length=128) */
     protected $summary;
 
     /** @ORM\Column(type="string", length=1024) */
-
     protected $description;
 
     /**
@@ -42,16 +42,13 @@ class Issue extends EntityAbstract
 
 
     /**
+     * Who working with task now
+     *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_to_assignee", referencedColumnName="id")
      */
     protected $assignee;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_reporter", referencedColumnName="id")
-     */
-    protected $reporter;
 
     /**
      * @ORM\ManyToOne(targetEntity="Status")
@@ -59,8 +56,9 @@ class Issue extends EntityAbstract
     protected $status;
 
 
-   /** @ORM\Column(type="string", length=256) */
-    protected $labels;
+//    /**  */
+//   /** @ORM\Column(type="string", length=256) */
+//    protected $labels;
 
 
     /** @ORM\Column(type="datetime") */

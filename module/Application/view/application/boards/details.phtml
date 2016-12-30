@@ -3,9 +3,9 @@
     <?php foreach ($boardColumns as $column): ?>
 
     <div class="mdl-cell mdl-cell--2-col column" draggable="true">
-
-             <?php echo $column->getName() ?>
-
+          <div>
+                <span><?php echo $column->getName() ?></span>
+          </div>
         <div class="boardColumn">
             <?php if($issuesArray && $issuesArray[$column->getStatus()->getId()]): ?>
                 <?php foreach ($issuesArray[$column->getStatus()->getId()] as $issue): ?>

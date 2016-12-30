@@ -24,6 +24,7 @@ class IssuesController extends AbstractController
             'issues' => $all_issues,
         ));
     }
+
     public function createAction()
     {
         $id = $this->params()->fromRoute('id');
@@ -55,7 +56,6 @@ class IssuesController extends AbstractController
             'type' => $issueTypeRepository->findBy(array(), array('title' => 'asc')),
             'priority' => $issuePriorityRepository->findBy(array(), array('title' => 'asc')),
             'assignee' => $userRepository->findBy(array(), array('first_name' => 'asc')),
-            'reporter' => $userRepository->findBy(array(), array('first_name' => 'asc')),
             'status' => $statusRepository->findBy(array(), array('title' => 'asc')),
             'backBtnUrl' =>$this->url()->fromRoute('home' ,array(
                 'controller' => 'issues',

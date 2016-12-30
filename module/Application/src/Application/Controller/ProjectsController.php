@@ -23,7 +23,7 @@ class ProjectsController extends AbstractController
         //$all_project = $projectRepository->findAll();
 
         $paginationService = $this->getPaginationService();
-        $all_project = $projectRepository->findByWithTotalCount(array(), array('id' => 'ASC'), $this->getPageLimit(), $this->getPageOffset());
+        $all_project = $projectRepository->findByWithTotalCount(array(), array('id' => 'DESC'), $this->getPageLimit(), $this->getPageOffset());
         $projectsTotalCount = $projectRepository->getTotalCount();
 
         return new ViewModel(array(

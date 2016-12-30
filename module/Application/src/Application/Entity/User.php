@@ -40,6 +40,7 @@ class User extends EntityAbstract
      */
     protected $role;
 
+    /** activity user */
     /** @ORM\Column(type="smallint") */
     protected $status = 1;
 

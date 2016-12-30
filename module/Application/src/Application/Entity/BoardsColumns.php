@@ -21,9 +21,11 @@ class BoardsColumns extends EntityAbstract
     /** @ORM\Column(type="string", length=128) */
     protected $name;
 
+    /** min count of elements in column */
     /** @ORM\Column(type="string", length=128) */
     protected $min;
-    
+
+    /** max count of elements in column */
    /** @ORM\Column(type="string", length=128) */
     protected $max;
 

@@ -85,13 +85,6 @@ class ProjectForm extends ApplicationFormAbstract
             $this->get('avatar')->setValue($project->getAvatar());
         }
 
-        $this->add(new Form\Element\Text('url', array(
-            'label' => "URL"
-        )));
-        if (is_object($project)) {
-            $this->get('url')->setValue($project->getUrl());
-        }
-
         $this->add(new Form\Element\Select('type', array(
             'label' => "Project Type",
             'value_options' => $projectTypes,
@@ -182,18 +175,6 @@ class ProjectForm extends ApplicationFormAbstract
                 )
             ),
             'avatar' => array(
-                'required' => true,
-                'filters' => array(
-                    new \Zend\Filter\StringTrim(),
-                ),
-                'validators' => array(
-                    new \Zend\Validator\StringLength(array(
-                        'min' => 2,
-                        'max' => 256
-                    )),
-                )
-            ),
-            'url' => array(
                 'required' => true,
                 'filters' => array(
                     new \Zend\Filter\StringTrim(),

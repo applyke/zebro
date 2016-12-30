@@ -5,11 +5,11 @@ namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="Application\Repository\IssuePriorityRepository"))
+ * @ORM\Entity(repositoryClass="Application\Repository\GlobalIssuePriorityRepository"))
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="`issue_priority`")
+ * @ORM\Table(name="`global_issue_priority`")
  */
-class IssuePriority extends EntityAbstract
+class GlobalIssuePriority extends EntityAbstract
 {
     /**
      * @ORM\Id
@@ -26,10 +26,5 @@ class IssuePriority extends EntityAbstract
 
     /** @ORM\Column(type="string", length=256) */
     protected $icon;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Project")
-     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")     */
-    protected $project;
 
 }
