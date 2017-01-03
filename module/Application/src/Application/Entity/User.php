@@ -40,6 +40,12 @@ class User extends EntityAbstract
      */
     protected $role;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Company", inversedBy="id")
+     * @ORM\JoinTable(name="user_to_company")
+     */
+    protected $companies;
+
     /** activity user */
     /** @ORM\Column(type="smallint") */
     protected $status = 1;

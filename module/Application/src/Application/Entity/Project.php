@@ -21,6 +21,11 @@ class Project extends EntityAbstract
     /** @ORM\Column(type="string", length=128) */
     protected $name;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Company")
+     * @ORM\JoinColumn(name="$company_id", referencedColumnName="id") */
+    protected $company;
+
     /** Code of project */
     /** @ORM\Column(type="string", length=128) */
     protected $project_key;

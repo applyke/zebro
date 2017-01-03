@@ -55,6 +55,10 @@ class Issue extends EntityAbstract
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id")     */
     protected $status;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Sprint")
+     * @ORM\JoinColumn(name="sprint_id", referencedColumnName="id", nullable=true)     */
+    protected $sprint;
 
 //    /**  */
 //   /** @ORM\Column(type="string", length=256) */
