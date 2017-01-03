@@ -7,9 +7,11 @@ use Zend\Form;
 use Zend\InputFilter\Factory as FilterFactory;
 use Application\Service\HydratorStrategyService;
 use Application\Form\ApplicationFormAbstract;
+use Zend\Validator\File\MimeType;
 
 class IssuesPriorityForm extends ApplicationFormAbstract
 {
+    private $is_icon_required = true;
 
     public function __construct($name = null, $options = array())
     {
@@ -34,22 +36,26 @@ class IssuesPriorityForm extends ApplicationFormAbstract
         }
 
         $this->add(new Form\Element\Text('code', array(
-            'label' => "Code"
+            'label' => "Code",
         )));
+
         if (is_object($issuePriority)) {
             $this->get('code')->setValue($issuePriority->getCode());
         }
 
-
-        $this->add(new Form\Element\File('icon', array(
-            'label' => "Icon",
-            )
-        ));
-
-        if (is_object($issuePriority)) {
-            $this->get('icon')->setValue($issuePriority->getIcon());
+        if (is_object($issuePriority) && $issuePriority->getIcon()) {
+            $image = new Form\Element\Image('preview');
+            $image->setAttribute('src', $issuePriority->getIcon() );
+            $image->setAttribute('width', '50px');
+            $this->add($image);
+            $this->is_icon_required = false;
         }
 
+
+        $this->add(new Form\Element\File('icon', array(
+                'label' => "Icon",
+            )
+        ));
 
 
         $this->add(array(
@@ -96,6 +102,19 @@ class IssuesPriorityForm extends ApplicationFormAbstract
                     new \Zend\Validator\StringLength(array(
                         'min' => 2,
                         'max' => 128
+                    )),
+                )
+            ),
+            'icon'=> array(
+                'required'   => $this->is_icon_required,
+                'validators' => array(
+                    new \Zend\Validator\File\IsImage(),
+                    new \Zend\Validator\File\FilesSize( array(
+                            'max'  => 10240000,
+                        )
+                    ),
+                    new \Zend\Validator\File\Count(array(
+                        'max'  => 1,
                     )),
                 )
             ),
