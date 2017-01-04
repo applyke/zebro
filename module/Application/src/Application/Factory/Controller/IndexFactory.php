@@ -16,8 +16,10 @@ class IndexFactory implements FactoryInterface
 
         /** @var \Doctrine\Orm\EntityManager $entityManager */
         $entityManager = $serviceManager->get('doctrine.entitymanager.orm_default');
+        $AuthenticationService =  $serviceManager->get('Zend\Authentication\AuthenticationService');
         $controller = new Controller();
         $controller->setEntityManager($entityManager);
+        $controller->setAuthenticationService($AuthenticationService);
         return $controller;
     }
 }

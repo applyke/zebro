@@ -1,0 +1,42 @@
+<div class="panel panel-default">
+    <div class="panel-body align-centered">
+        <div class="col-sm-5" style="float: none; margin: 0 auto;">
+            <form action="<?php echo $this->url('home', array('controller' => 'index', 'action' => 'index')) ?>"
+                  method="post" class="form-sign-in" role="form">
+                <h2 class="form-signin-heading">Authorization Required</h2>
+
+                <div class="form-group">
+                    <label for="inputEmail1">Login</label>
+                    <input id="inputEmail1" name="email" type="text" class="form-control" placeholder="Login"
+                           required=""
+                           autofocus="">
+                    <?php if (!empty($this->form->get('email')->getMessages())): ?>
+                        <p class="text-danger"><?php echo current($this->form->get('email')->getMessages()) ?></p>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword1">Password</label>
+                    <input id="inputPassword1" name="password" type="password" class="form-control"
+                           placeholder="Password"
+                           required="">
+                    <?php if (!empty($this->form->get('password')->getMessages())): ?>
+                        <p class="text-danger"><?php echo current($this->form->get('password')->getMessages()) ?></p>
+                    <?php endif; ?>
+                </div>
+
+                <?php //echo $this->form->get('g-recaptcha-response')->render() ?>
+                <?php /*if (!empty($this->form->get('g-recaptcha-response')->getMessages())): ?>
+                    <p class="text-danger"><?php echo current($this->form->get('g-recaptcha-response')->getMessages()) ?></p>
+                <?php endif; */ ?>
+
+                <div class="form-group">
+                    <?php if (!$this->form->getMessages() && !empty($this->error_msg)): ?>
+                        <p class="text-danger text-center"><?php echo $this->error_msg ?></p>
+                    <?php endif; ?>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

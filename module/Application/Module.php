@@ -25,6 +25,8 @@ class Module
 
     public function onBootstrap(MvcEvent $e)
     {
+
+        $request = $e->getRequest();
         $config = $e->getApplication()->getServiceManager()->get('Configuration');
         if (!empty($config['php_settings'])) {
             foreach ($config['php_settings'] as $key => $value) {
@@ -37,13 +39,23 @@ class Module
         \Zend\Log\Logger::registerErrorHandler($serviceManager->get('logger'));
         \Zend\Log\Logger::registerExceptionHandler($serviceManager->get('logger'));
 
+        if (!$request instanceof \Zend\Console\Request) {
+            $sessionConfig = new \Zend\Session\Config\SessionConfig();
+            $sessionConfig->setOptions($config['session']);
+            $sessionManager = new \Zend\Session\SessionManager($sessionConfig);
+            \Zend\Session\Container::setDefaultManager($sessionManager);
+        }
+
         $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
-        $request = $e->getRequest();
         if (!$request instanceof \Zend\Console\Request) {
+            define('HOST', $request->getUri()->getHost());
             $eventManager->attach(MvcEvent::EVENT_ROUTE, array($this, 'onRoute'), -1);    // -1 - very low priority - system callback will be run first
+//            $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'onDispatchError'), -1);
             $eventManager->attach(MvcEvent::EVENT_RENDER_ERROR, array($this, 'onRenderError'), -1);
+            $eventManager->attach(\Application\Controller\Plugin\Rbac::EVENT_LOGIN, array($this, 'onLogin'), -1);
+            $eventManager->attach(\Application\Controller\Plugin\Rbac::EVENT_PERMISSION_DENIED, array($this, 'onPermissionDenied'), -1);
             $eventManager->attach(MvcEvent::EVENT_FINISH, array($this, 'onFinish'), -1);
         }
     }
@@ -61,6 +73,25 @@ class Module
             $e->getApplication()->getResponse()->setStatusCode(404);
             return $e->getApplication()->getEventManager()->trigger(MvcEvent::EVENT_DISPATCH_ERROR, $e);
         }
+        $serviceManager = $e->getApplication()->getServiceManager();
+        /** @var \Application\Controller\Plugin\Rbac $aclPlugin */
+        $aclPlugin = $serviceManager->get('ControllerPluginManager')->get('Rbac');
+        $aclPlugin->checkACL($e);
+    }
+
+    public function onLogin(MvcEvent $e)
+    {
+        // render login form
+        $routeMatch = $e->getRouteMatch();
+        return $routeMatch
+            ->setParam('__NAMESPACE__', 'Application\Controller')
+            ->setParam('controller', 'Application\Controller\Index')
+            ->setParam('action', 'index');
+    }
+
+    public function onPermissionDenied(MvcEvent $e)
+    {
+        return $this->handleErrors($e, 'Access denied for role "' . USER_ROLE . '" ');
     }
 
     public function onRenderError(MvcEvent $e)
@@ -68,29 +99,29 @@ class Module
         return $this->handleErrors($e);
     }
 
-//    public function onDispatchError(MvcEvent $e)
-//    {
-//        $request = $e->getRequest();
-//        if (!$request instanceof \Zend\Console\Request) {
-//            $statusCode = $e->getApplication()->getResponse()->getStatusCode();
-//            if ($statusCode == 404) {
-//                if (strpos($request->getUri(), '/api/') === false) {
-//                    $e->getViewModel()->setTemplate('layout/404');
-//                    $routeMatch = $e->getRouteMatch();
-//
-//                    if (is_object($routeMatch)) {
-//                        // render 404 error page
-//                        return $routeMatch
-//                            ->setParam('controller', 'Error')
-//                            ->setParam('action', 'error404')
-//                            ->setParam('__NAMESPACE__', 'Application\Controller');
-//                    }
-//                }
-//            } else {
-//                return $this->handleErrors($e);
-//            }
-//        }
-//    }
+    public function onDispatchError(MvcEvent $e)
+    {
+        $request = $e->getRequest();
+        if (!$request instanceof \Zend\Console\Request) {
+            $statusCode = $e->getApplication()->getResponse()->getStatusCode();
+            if ($statusCode == 404) {
+                if (strpos($request->getUri(), '/api/') === false) {
+                    $e->getViewModel()->setTemplate('layout/404');
+                    $routeMatch = $e->getRouteMatch();
+
+                    if (is_object($routeMatch)) {
+                        // render 404 error page
+                        return $routeMatch
+                            ->setParam('controller', 'Error')
+                            ->setParam('action', 'error404')
+                            ->setParam('__NAMESPACE__', 'Application\Controller');
+                    }
+                }
+            } else {
+                return $this->handleErrors($e);
+            }
+        }
+    }
 
     public function onFinish(MvcEvent $e)
     {

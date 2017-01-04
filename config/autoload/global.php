@@ -11,7 +11,7 @@
  * file.
  */
 $rememberMe = 60 * 60 * 8;
-return [
+return array(
     'session' => array(
         //'phpSaveHandler' => 'redis',
         //'savePath' => 'tcp://127.0.0.1:6379?weight=1&timeout=1',
@@ -32,4 +32,4 @@ return [
         'error_log' => __DIR__ . '/../../data/log/' . date('Y-M') . '-fatal.txt',
         'default_charset' => 'UTF-8',
     ),
-];
+);

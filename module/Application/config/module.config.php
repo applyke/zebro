@@ -118,6 +118,9 @@ return array(
 
 
         ),
+        'invokables' => array(
+            'Zend\Authentication\AuthenticationService' => 'Zend\Authentication\AuthenticationService',
+        )
     ),
     'controllers' => array(
         'invokables' => array(
@@ -137,6 +140,12 @@ return array(
             'Application\Controller\Setting\IssuesPriority'=>Factory\Controller\Setting\IssuesPriorityFactory::class,
             'Application\Controller\Setting\IssuesType'=>Factory\Controller\Setting\IssuesTypeFactory::class,
             )
+    ),
+    'controller_plugins' => array(
+        'invokables' => array(
+            'Rbac' => 'Application\Controller\Plugin\Rbac',
+            'Identity' => 'Application\Controller\Plugin\Identity',
+        )
     ),
     'view_helpers' => array(
         'invokables' => array(),
