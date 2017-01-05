@@ -20,6 +20,10 @@ return array(
                 )
             ),
         ),
+        'user'=>array(
+            'extends' => array(),
+            'allow_all' => true,
+        ),
         'admin' => array(
             'extends' => array(),
             'allow_all' => true,

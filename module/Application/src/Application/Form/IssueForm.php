@@ -72,13 +72,6 @@ class IssueForm extends ApplicationFormAbstract
             $this->get('summary')->setValue($issue->getSummary());
         }
 
-        $this->add(new Form\Element\Text('labels', array(
-            'label' => "Labels"
-        )));
-        if (is_object($issue)) {
-            $this->get('labels')->setValue($issue->getLabels());
-        }
-
         $this->add(new Form\Element\Text('description', array(
             'label' => "Description"
         )));

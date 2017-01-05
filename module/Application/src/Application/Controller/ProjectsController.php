@@ -58,7 +58,7 @@ class ProjectsController extends AbstractController
             'project_types' => $projectTypeRepository->findBy(array(), array('title' => 'asc')),
             'project_categories' => $projectCategoriesRepository->findBy(array(), array('name' => 'asc')),
             'users' => $userRepository->findBy(array(), array('first_name' => 'asc')),
-            'backBtnUrl' =>$this->url()->fromRoute('/' ,array(
+            'backBtnUrl' =>$this->url()->fromRoute('pages', array(
                 'controller' => 'projects',
                 'action'=>'index'), array(), true)
         ));
@@ -75,9 +75,9 @@ class ProjectsController extends AbstractController
                 $entityManager->persist($project);
                 $entityManager->flush();
                 $this->flashMessenger()->addSuccessMessage('Saved');
-                return $this->redirect()->toRoute('/' ,array(
+                return $this->redirect()->toRoute('pages', array(
                     'controller' => 'projects',
-                    'action'=>'index'), array(), true);
+                    'action' => 'index'), array(), true);
             }
         }
 

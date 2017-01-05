@@ -40,12 +40,12 @@ class IndexController extends AbstractController
                 if ($result->isValid()) {
                     $userId = $result->getIdentity();
                     $user = $entityManager->getRepository('Application\Entity\User')->findOneBy(array('id' => $userId, 'status' => 1));
-                    if (!$user || $user->getRole()->getCode() != \Application\Entity\Role::ROLE_ADMIN) {
+                    if (!$user || $user->getRole()->getCode() != \Application\Entity\Role::ROLE_USER) {
                         $viewData['error_msg'] = 'The user account is disabled';
                         $this->getAuthenticationService()->clearIdentity();
                     } else {
                         $viewData['error_msg'] = null;
-                        $user->setLastLogin(new \DateTime());
+                        //$user->setLastLogin(new \DateTime());
                         $entityManager->persist($user);
                         $entityManager->flush();
                         session_regenerate_id(true);
@@ -55,7 +55,7 @@ class IndexController extends AbstractController
                         if ($referer != $requestUri) {
                             return $this->redirect()->toUrl($referer);
                         } else {
-                            return $this->redirect()->toUrl('/admin');
+                            return $this->redirect()->toUrl('/projects');
                         }
                     }
                 }
@@ -76,6 +76,8 @@ class IndexController extends AbstractController
         $entityManager = $this->getEntityManager();
         /** @var \Application\Repository\CompanyRepository $companyRepository */
         $companyRepository = $entityManager->getRepository('\Application\Entity\Company');
+        /** @var \Application\Repository\RoleRepository $roleRepository */
+        $roleRepository = $entityManager->getRepository('\Application\Entity\Role');
         $user = new \Application\Entity\User();
 
         $form = new \Application\Form\SignupForm('user', array(
@@ -88,7 +90,21 @@ class IndexController extends AbstractController
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
                 $values = $form->getData();
-                // TODO: write create new user and new company (if need). maybe change Entity/
+                $user->setRole($roleRepository->findOneBy(array('code'=>'user')));
+                $entityManager->persist($user);
+//                $company_id = null;
+//                if($values['company']){
+//                    $company_id = $values['company'];
+//                } if($values['new_company']){
+//                    $company = new \Application\Entity\Company();
+//                    $company->setCreator($user);
+//                    $entityManager->persist($company);
+//                    $company_id = $company->getId();
+//                }
+//                $user->setCompanies($companyRepository->findOneById($company_id));
+                $entityManager->flush();
+                $this->flashMessenger()->addSuccessMessage('Saved');
+                return $this->redirect()->toUrl('/');
 
             }
         }

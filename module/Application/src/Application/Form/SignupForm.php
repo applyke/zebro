@@ -9,6 +9,7 @@ use Application\Service\HydratorStrategyService;
 
 class SignupForm extends ApplicationFormAbstract
 {
+
     public function __construct($name = null, $options = array())
     {
         parent::__construct($name, $options);
@@ -71,16 +72,20 @@ class SignupForm extends ApplicationFormAbstract
 
 
 
-        $this->add(new Form\Element\Select('companies', array(
-            'label' => "Project Name",
-            'value_options' => $companies,
-            'attributes' => array(
-                'field_icon_class' => 'fa fa-unlock'
-            )
-        )));
-        if (is_object($company)) {
-            $this->get('companies')->setValue($company->getId());
-        }
+//        $this->add(new Form\Element\Select('companies', array(
+//            'label' => "Company Name",
+//            'value_options' => $companies,
+//            'attributes' => array(
+//                'field_icon_class' => 'fa fa-unlock'
+//            )
+//        )));
+//        if (is_object($company)) {
+//            $this->get('companies')->setValue($company->getId());
+//        }
+//
+//        $this->add(new Form\Element\Text('new_company', array(
+//            'label' => "Your company name"
+//        )));
 
 
         $this->add(array(
@@ -147,7 +152,19 @@ class SignupForm extends ApplicationFormAbstract
                 'validators' => array(
                     new \Zend\Validator\StringLength(array(
                         'min' => 2,
-                        'max' => 1024
+                        'max' => 128
+                    )),
+                )
+            ),
+            'new_company' => array(
+                'required' => false,
+                'filters' => array(
+                    new \Zend\Filter\StringTrim(),
+                ),
+                'validators' => array(
+                    new \Zend\Validator\StringLength(array(
+                        'min' => 2,
+                        'max' => 128
                     )),
                 )
             ),
@@ -171,31 +188,31 @@ class SignupForm extends ApplicationFormAbstract
                 'validators' => array()
             ),
 
-            'companies' => array(
-                'required' => false,
-                'filters' => array(
-                    new \Zend\Filter\StringTrim(),
-                    new \Zend\Filter\Digits(),
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'Callback',
-                        'options' => array(
-                            'messages' => array(
-                                \Zend\Validator\Callback::INVALID_VALUE => 'Companies doesn\'t exists',
-                            ),
-                            'callback' => function ($value, $context = array()) use ($project) {
-                                $em = $this->getEntityManager();
-                                $companyRepository = $em->getRepository('\Application\Entity\Company');
-                                if (is_object($companyRepository->findOneById($value))) {
-                                    return true;
-                                }
-                                return false;
-                            },
-                        ),
-                    ),
-                ),
-            ),
+//            'companies' => array(
+//                'required' => false,
+//                'filters' => array(
+//                    new \Zend\Filter\StringTrim(),
+//                    new \Zend\Filter\Digits(),
+//                ),
+//                'validators' => array(
+//                    array(
+//                        'name' => 'Callback',
+//                        'options' => array(
+//                            'messages' => array(
+//                                \Zend\Validator\Callback::INVALID_VALUE => 'Companies doesn\'t exists',
+//                            ),
+//                            'callback' => function ($value, $context = array()) use ($project) {
+//                                $em = $this->getEntityManager();
+//                                $companyRepository = $em->getRepository('\Application\Entity\Company');
+//                                if (is_object($companyRepository->findOneById($value))) {
+//                                    return true;
+//                                }
+//                                return false;
+//                            },
+//                        ),
+//                    ),
+//                ),
+//            ),
 
         ));
     }

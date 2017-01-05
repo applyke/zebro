@@ -5,7 +5,7 @@ namespace Application;
 return array(
     'router' => array(
         'routes' => array(
-            '/' => array(
+            'pages' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
                     'route' => '/',
