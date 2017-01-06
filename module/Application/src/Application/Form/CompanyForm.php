@@ -19,7 +19,7 @@ class CompanyForm extends ApplicationFormAbstract
         $this->setAttribute('action', '');
         $this->setAttribute('class', 'mdl-cell mdl-cell--6-col');
         $company = null;
-        if (isset($options['user'])) {
+        if (isset($options['company'])) {
             /** @var \Application\Entity\Company $company */
             $company = $options['company'];
         }

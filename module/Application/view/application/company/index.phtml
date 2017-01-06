@@ -1,0 +1,66 @@
+<?php echo $this->partial('application/includes/flash_message.phtml'); ?>
+<?php echo $this->partial('application/includes/delete_modal.phtml'); ?>
+
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--2-col">Choose Project</div>
+
+    <div class="mdl-cell mdl-cell--6-col">
+
+        <?php if($usersCompanies): ?>
+        <div>
+            <h4>Your's companies</h4>
+            <?php foreach ($usersCompanies as $company): ?>
+                <ul class="demo-list-three mdl-list">
+                    <li class="mdl-list__item mdl-list__item--three-line">
+                    <span class="mdl-list__item-primary-content">
+                        <i class="mdl-chip__contact mdl-color--teal mdl-color-text--white">
+                            <?php echo $company->getCreator()
+                                    ->getFirstName() . " " .$company->getCreator()
+                                    ->getLastName(); ?> </i>
+                        <a  href="/company/details/<?php echo $company->getId() ?>"><span><?php echo $company->getName() ?></span>   </a>
+                    </span>
+                        </span>
+
+                        <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"
+                           href="/company/create/<?php echo $company->getId() ?>"> <i class="material-icons">mode_edit</i>
+                        </a>
+
+                        <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab show-dialog "
+                           data-url="/company/delete/<?php echo $company->getId() ?>"><i
+                                class="material-icons">delete</i> </a>
+                    </li>
+                </ul>
+
+            <?php endforeach; ?>
+             </div>
+        <?php endif; ?>
+        <?php if($user_work_in_company): ?>
+        <div>
+            <h4>Company where you are working</h4>
+            <?php foreach ($user_work_in_company as $company): ?>
+                <ul class="demo-list-three mdl-list">
+                    <li class="mdl-list__item mdl-list__item--three-line">
+                    <span class="mdl-list__item-primary-content">
+                        <i class="mdl-chip__contact mdl-color--teal mdl-color-text--white">
+                            <?php echo $company->getCreator()
+                                    ->getFirstName() . " " .$company->getCreator()
+                                    ->getLastName(); ?> </i>
+                        <a  href="/company/details/<?php echo $company->getId() ?>"><span><?php echo $company->getName() ?></span>   </a>
+                    </span>
+                        </span>
+
+                        <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"
+                           href="/company/create/<?php echo $company->getId() ?>"> <i class="material-icons">mode_edit</i>
+                        </a>
+
+                        <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab show-dialog "
+                           data-url="/company/delete/<?php echo $company->getId() ?>"><i
+                                class="material-icons">delete</i> </a>
+                    </li>
+                </ul>
+
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+    </div>
+

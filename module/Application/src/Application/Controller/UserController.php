@@ -6,7 +6,7 @@ use Application\Controller\AbstractController;
 use Zend\View\Model\ViewModel;
 use Application\Service\ProjectService;
 
-class CompanyController extends AbstractController
+class UserController extends AbstractController
 {
 
     public function onDispatch(\Zend\Mvc\MvcEvent $e)

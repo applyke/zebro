@@ -139,6 +139,9 @@ return array(
             'Application\Controller\Setting\Status'=>Factory\Controller\Setting\StatusFactory::class,
             'Application\Controller\Setting\IssuesPriority'=>Factory\Controller\Setting\IssuesPriorityFactory::class,
             'Application\Controller\Setting\IssuesType'=>Factory\Controller\Setting\IssuesTypeFactory::class,
+            'Application\Controller\Company'=>Factory\Controller\CompanyFactory::class,
+            'Application\Controller\User'=>Factory\Controller\UserFactory::class,
+
             )
     ),
     'controller_plugins' => array(

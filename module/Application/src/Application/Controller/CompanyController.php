@@ -21,14 +21,16 @@ class CompanyController extends AbstractController
         /** @var \Application\Repository\CompanyRepository $companyRepository */
         $companyRepository = $entityManager->getRepository('\Application\Entity\Company');
         //$all_project = $projectRepository->findAll();
+        $user = $this->plugin('Identity')->getIdentity();
 
-        $paginationService = $this->getPaginationService();
-        $all_company = $companyRepository->findByWithTotalCount(array(), array('id' => 'DESC'), $this->getPageLimit(), $this->getPageOffset());
-        $projectsTotalCount = $companyRepository->getTotalCount();
+        $usersCompanies = $companyRepository->findBy(array('creator' => $user ));
+
+        $user_work_in_company = $user->getCompanies()->toArray();
+
 
         return new ViewModel(array(
-            'companies' => $all_company,
-            'paginator' => $paginationService->createPaginator($projectsTotalCount, $this->getPageNumber(), $this->getPageLimit()),
+            'usersCompanies' => $usersCompanies,
+            'user_work_in_company' => $user_work_in_company,
         ));
     }
 
@@ -62,41 +64,57 @@ class CompanyController extends AbstractController
             $companyForm->setData($this->getRequest()->getPost());
             if ($companyForm->isValid()) {
                 $values = $companyForm->getData();
-                $identity =  $this->zfcUserAuthentication()->getIdentity();
-                $company->setCreator($userRepository->findOneById($identity->getId()));
+                $user = $this->plugin('Identity')->getIdentity();
+                $company->setCreator($userRepository->findOneById($user->getId()));
                 $entityManager->persist($company);
                 $entityManager->flush();
                 $this->flashMessenger()->addSuccessMessage('Saved');
                 return $this->redirect()->toRoute('pages', array(
-                    'controller' => 'projects',
+                    'controller' => 'company',
                     'action' => 'index'), array(), true);
             }
         }
 
         return new ViewModel(array(
-            'projectForm' => $companyForm,
+            'companyForm' => $companyForm,
         ));
     }
 
-//    public function detailsAction()
-//    {
-//        $id = $this->params()->fromRoute('id');
-//        $entityManager = $this->getEntityManager();
-//        /** @var \Application\Repository\ProjectRepository $projectRepository */
-//        $projectRepository = $entityManager->getRepository('\Application\Entity\Project');
-//        $project = $projectRepository->findOneById((int)$id);
-//        if (!$project) {
-//            return $this->notFound();
+    public function detailsAction()
+    {
+        $id = $this->params()->fromRoute('id');
+        $entityManager = $this->getEntityManager();
+        /** @var \Application\Repository\CompanyRepository $companyRepository */
+        $companyRepository = $entityManager->getRepository('\Application\Entity\Company');
+        /** @var \Application\Repository\ProjectRepository $projectRepository */
+        $projectRepository = $entityManager->getRepository('\Application\Entity\Project');
+        /** @var \Application\Repository\ProjectPermissionRepository $projectPermissionRepository */
+        $projectPermissionRepository = $entityManager->getRepository('\Application\Entity\ProjectPermission');
+        /** @var \Application\Repository\UserRepository $userRepository */
+        $userRepository = $entityManager->getRepository('\Application\Entity\User');
+
+        $user = $this->plugin('Identity')->getIdentity();
+        $company = $companyRepository->findOneById((int)$id);
+        if (!$company) {
+            return $this->notFound();
+        }
+
+        $companiesProjects = $projectRepository->findBy(array('company' => $company));
+//        $companiesUsers = $userRepository->findBy(array('companies' => $company) );
+        $projectPermission = $projectPermissionRepository->findBy(array('user'=>$user, 'company'=>$company));
+
+//        if (!$projectPermission) {
+//            return $this->notFound(); //TODO: change to page where write about don't have permission
 //        }
-//        /** @var \Application\Repository\IssueRepository $issueRepository */
-//        $issueRepository = $entityManager->getRepository('\Application\Entity\Issue');
-//        $projectsIssues = $issueRepository->findBy(array('project' => $id));
-//
-//        return new ViewModel(array(
-//            'project' => $project,
-//            'projectsIssues' => $projectsIssues,
-//        ));
-//    }
+
+        return new ViewModel(array(
+            'company' => $company,
+            'projects' => $companiesProjects,
+            //'arrayUsers' => $companiesUsers,
+            'projectPermission' => $projectPermission
+        ));
+    }
+
 //
 //    public function deleteAction()
 //    {
