@@ -1,0 +1,46 @@
+<?php echo $this->partial('application/includes/flash_message.phtml'); ?>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <hr>
+        <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--2-col">
+                Users in project</div>
+
+            <div class="mdl-cell mdl-cell--6-col">
+
+                <ul class="demo-list-three">
+                    <?php if (!empty($users_in_project)): ?>
+                        <li class="mdl-list__item">Issue list </li>
+                        <table class="mdl-data-table mdl-js-data-table ">
+                            <tbody>
+                            <tr>
+                                <th>Name</th>
+
+                                <th></th>
+                            </tr>
+                            <?php foreach ($users_in_project as $user): ?>
+                                <tr>
+                                    <td><?php echo $user->getFirstName(). ' ' . $user->getLastName(); ?></td>
+
+                                    <td>
+                                        <div class="mdl-cell mdl-cell--2-col">
+                                            <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"
+                                               href="/projects/permission/<?php echo $project->getId() ?>/<?php echo $user->getId(); ?>"> <i
+                                                    class="material-icons">mode_edit</i> </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+
+                    <?php endif; ?>
+                </ul>
+                <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                   href="/projects/permission/<?php echo $project->getId();?>">Add User to Project</a>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -25,9 +25,19 @@ class ProjectPermission extends EntityAbstract
     protected $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Company")
-     * @ORM\JoinColumn(name="company_id", referencedColumnName="id")     */
-    protected $company;
+     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")     */
+    protected $project;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $create_task;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $update_task;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)

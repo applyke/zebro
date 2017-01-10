@@ -106,6 +106,89 @@ class ProjectsController extends AbstractController
         ));
     }
 
+    public function usersAction()
+    {
+        $id = $this->params()->fromRoute('id');
+        $entityManager = $this->getEntityManager();
+        /** @var \Application\Repository\ProjectRepository $projectRepository */
+        $projectRepository = $entityManager->getRepository('\Application\Entity\Project');
+        /** @var \Application\Repository\ProjectPermissionRepository $projectPermissionRepository */
+        $projectPermissionRepository = $entityManager->getRepository('\Application\Entity\ProjectPermission');
+        $project = $projectRepository->findOneById((int)$id);
+        if (!$project) {
+            return $this->notFound();
+        }
+        $users_in_project = $projectPermissionRepository->getUsersInProject($project);
+        return new ViewModel(array(
+            'project' => $project,
+            'users_in_project' => $users_in_project,
+        ));
+    }
+
+    public function permissionAction()
+    {
+        $project_id = $this->params()->fromRoute('id');
+        $user_id = $this->params()->fromRoute('id2');
+        $entityManager = $this->getEntityManager();
+        /** @var \Application\Repository\ProjectRepository $projectRepository */
+        $projectRepository = $entityManager->getRepository('\Application\Entity\Project');
+        /** @var \Application\Repository\ProjectPermissionRepository $projectPermissionRepository */
+        $projectPermissionRepository = $entityManager->getRepository('\Application\Entity\ProjectPermission');
+        /** @var \Application\Repository\UserRepository $userRepository */
+        $userRepository = $entityManager->getRepository('\Application\Entity\User');
+        $project = $projectRepository->findOneById((int)$project_id);
+        $user = null;
+        if($user_id){
+            $user = $userRepository->findOneById((int)$user_id);
+        }
+        $projectPermission = null;
+        if (!$project) {
+            return $this->notFound();
+        }
+        if($user){
+            $projectPermission = $projectPermissionRepository->findOneBy(array('user'=> $user, 'project'=> $project));
+        }
+        if(!$projectPermission){
+            $projectPermission = new  \Application\Entity\ProjectPermission();
+            $projectPermission->setProject($project);
+            if($user){
+                $projectPermission->setUser($user);
+            }
+
+        }
+        $projectPermissionForm = new \Application\Form\ProjectPermissionForm('projectPermission', array(
+            'projectPermission' => $projectPermission,
+            'companies_projects'=> $projectRepository->getProjectsInCompany($project->getCompany()),
+            'companies_users' => $userRepository->getUsersInCompany($project->getCompany()),
+            'backBtnUrl' =>$this->url()->fromRoute('pages', array(
+                'controller' => 'projects',
+                'action'=>'users',
+                'id' => $project_id), array(), true)
+        ));
+
+        $projectPermissionForm->setEntityManager($entityManager)
+            ->bind($projectPermission);
+        if ($this->getRequest()->isPost()) {
+            $projectPermissionForm->setData($this->getRequest()->getPost());
+            if ($projectPermissionForm->isValid()) {
+                $values = $projectPermissionForm->getData();
+                $entityManager->persist($projectPermission);
+                $entityManager->flush();
+                $this->flashMessenger()->addSuccessMessage('Saved');
+                return $this->redirect()->toRoute('pages', array(
+                    'controller' => 'projects',
+                    'action' => 'users',
+                    'id' => $project_id), array(), true);
+            }
+        }
+
+        return new ViewModel(array(
+            'projectPermissionForm' => $projectPermissionForm,
+        ));
+
+
+    }
+
     public function deleteAction()
     {
         $id = $this->params()->fromRoute('id');

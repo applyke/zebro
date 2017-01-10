@@ -4,15 +4,15 @@
     <div class="panel-body">
         <hr>
         <div class="mdl-grid">
-            <div class="mdl-cell mdl-cell--2-col">
-                <h3><?php echo $company->getName() ?></h3>
+            <div class="mdl-cell mdl-cell--4-col">
+                <h3>Company: <?php echo $company->getName() ?></h3>
 
             <div class="mdl-cell mdl-cell--6-col">
 
                 <ul class="demo-list-three">
 
                     <?php if (!empty($projects)): ?>
-                        <li class="mdl-list__item">Project list </li>
+                        <li class="mdl-list__item">Project list</li>
 
                             <table class="mdl-data-table mdl-js-data-table ">
                                 <tbody>
@@ -22,23 +22,18 @@
                                     <th>Project lead</th>
                                     <th>Project type</th>
                                     <th>Project category</th>
-                                    <th></th>
                                 </tr>
                                 <?php foreach ($projects as $project): ?>
                                     <tr>
-                                        <td><?php echo $project->getName() ?></td>
+                                        <td>
+                                            <a href="/projects/details/<?php echo $project->getId() ?>"> <?php echo $project->getName() ?></a>
+
+                                        </td>
                                         <td><?php echo $project->getProjectKey() ?></td>
                                         <td><?php if ($project->getProjectLead()): echo $project->getProjectLead()->getFirstName();
                                             else: echo 'NONE'; endif; ?></td>
                                         <td><?php if ($project->getType()):  echo $project->getType()->getTitle();endif;  ?></td>
                                         <td><?php if ($project->getCategory()): echo $project->getCategory()->getName(); endif; ?></td>
-                                        <td>
-                                            <div class="mdl-cell mdl-cell--2-col">
-                                                <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"
-                                                   href="/projects/details/<?php echo $project->getId() ?>"> <i
-                                                        class="material-icons">enter</i> </a>
-                                            </div>
-                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>
@@ -51,7 +46,7 @@
 <!--                <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"-->
 <!--                   href="/details/create/">Create new project</a>-->
 <!--                --><?php //endif; ?>
-                <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" href="/projects">Back</a>
+                <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" href="/company">Back</a>
 
             </div>
         </div>

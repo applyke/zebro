@@ -20,14 +20,9 @@ class CompanyController extends AbstractController
         $entityManager = $this->getEntityManager();
         /** @var \Application\Repository\CompanyRepository $companyRepository */
         $companyRepository = $entityManager->getRepository('\Application\Entity\Company');
-        //$all_project = $projectRepository->findAll();
         $user = $this->plugin('Identity')->getIdentity();
-
         $usersCompanies = $companyRepository->findBy(array('creator' => $user ));
-
         $user_work_in_company = $user->getCompanies()->toArray();
-
-
         return new ViewModel(array(
             'usersCompanies' => $usersCompanies,
             'user_work_in_company' => $user_work_in_company,
@@ -43,21 +38,18 @@ class CompanyController extends AbstractController
         /** @var \Application\Repository\UserRepository $userRepository */
         $userRepository = $entityManager->getRepository('\Application\Entity\User');
         $company = new \Application\Entity\Company();
-
         if (isset($id)) {
             $company = $companyRepository->findOneById($id);
             if (!$company) {
                 return $this->notFound();
             }
         }
-
         $companyForm = new \Application\Form\CompanyForm('company', array(
             'company' => $company,
             'backBtnUrl' =>$this->url()->fromRoute('pages', array(
                 'controller' => 'company',
                 'action'=>'index'), array(), true)
         ));
-
         $companyForm->setEntityManager($entityManager)
             ->bind($company);
         if ($this->getRequest()->isPost()) {
@@ -74,7 +66,6 @@ class CompanyController extends AbstractController
                     'action' => 'index'), array(), true);
             }
         }
-
         return new ViewModel(array(
             'companyForm' => $companyForm,
         ));
@@ -114,6 +105,7 @@ class CompanyController extends AbstractController
             'projectPermission' => $projectPermission
         ));
     }
+
 
 //
 //    public function deleteAction()

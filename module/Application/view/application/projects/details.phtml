@@ -20,6 +20,7 @@
                     <li class="mdl-list__item">Project
                         lead: <?php if ($project->getProjectLead()): echo $project->getProjectLead()->getFirstName();
                         else: echo 'NONE'; endif; ?></li>
+                    <li class="mdl-list__item"><a href="/projects/users/<?php echo $project->getId() ?>">Users in project</a></li>
                     <hr>
                     <?php if (!empty($projectsIssues)): ?>
                         <li class="mdl-list__item">Issue list </li>
@@ -60,6 +61,7 @@
                    href="/issues/create/">Create new issue</a>
                 <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
                    href="/projects/create/<?php echo $project->getId() ?>">Edit  project</a>
+
                 <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" href="/projects">Back</a>
 
             </div>
