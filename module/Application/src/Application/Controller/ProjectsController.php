@@ -159,7 +159,7 @@ class ProjectsController extends AbstractController
         $projectPermissionForm = new \Application\Form\ProjectPermissionForm('projectPermission', array(
             'projectPermission' => $projectPermission,
             'companies_projects'=> $projectRepository->getProjectsInCompany($project->getCompany()),
-            'companies_users' => $userRepository->getUsersInCompany($project->getCompany()),
+           // 'companies_users' => $userRepository->getUsersInCompany($project->getCompany()),
             'backBtnUrl' =>$this->url()->fromRoute('pages', array(
                 'controller' => 'projects',
                 'action'=>'users',

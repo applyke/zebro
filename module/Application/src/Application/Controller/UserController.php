@@ -36,6 +36,22 @@ class UserController extends AbstractController
         ));
     }
 
+    public function activateAction()
+    {
+        $id = $this->params()->fromRoute('id');
+        $entityManager = $this->getEntityManager();
+        /** @var \Application\Repository\UserRepository $userRepository */
+        $userRepository = $entityManager->getRepository('\Application\Entity\User');
+        $user = $userRepository->findOneById($id);
+        if(!$user && $user->getStatus() != 0){
+            return $this->notFound();
+        }
+        $user->getStatus(1);
+        $entityManager->persist($user);
+        $entityManager->flush();
+        return new ViewModel();
+    }
+
 
 //    public function detailsAction()
 //    {

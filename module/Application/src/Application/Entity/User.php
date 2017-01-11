@@ -48,7 +48,7 @@ class User extends EntityAbstract
 
     /** activity user */
     /** @ORM\Column(type="smallint") */
-    protected $status = 1;
+    protected $status = 0;
 
     /** @ORM\Column(type="datetime") */
     protected $created;

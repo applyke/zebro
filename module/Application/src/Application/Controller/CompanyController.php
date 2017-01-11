@@ -92,7 +92,7 @@ class CompanyController extends AbstractController
 
         $companiesProjects = $projectRepository->findBy(array('company' => $company));
 //        $companiesUsers = $userRepository->findBy(array('companies' => $company) );
-        $projectPermission = $projectPermissionRepository->findBy(array('user'=>$user, 'company'=>$company));
+       // $projectPermission = $projectPermissionRepository->findBy(array('user'=>$user, 'company'=>$company));
 
 //        if (!$projectPermission) {
 //            return $this->notFound(); //TODO: change to page where write about don't have permission
@@ -102,7 +102,7 @@ class CompanyController extends AbstractController
             'company' => $company,
             'projects' => $companiesProjects,
             //'arrayUsers' => $companiesUsers,
-            'projectPermission' => $projectPermission
+            //'projectPermission' => $projectPermission
         ));
     }
 

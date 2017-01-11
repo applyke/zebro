@@ -58,7 +58,7 @@ class SignupForm extends ApplicationFormAbstract
 
 
 
-        $this->add(new Form\Element\Text('email', array(
+        $this->add(new Form\Element\Email('email', array(
             'label' => "Email"
         )));
 

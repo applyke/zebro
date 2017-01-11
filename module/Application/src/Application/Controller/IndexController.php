@@ -5,6 +5,7 @@ namespace Application\Controller;
 use Application\Controller\AbstractController;
 use Zend\View\Model\ViewModel;
 use Application\ApplicationTraits\AuthenticationServiceAwareTrait;
+use Application\Service\AdminMailer;
 
 class IndexController extends AbstractController
 {
@@ -102,9 +103,15 @@ class IndexController extends AbstractController
 //                    $company_id = $company->getId();
 //                }
 //                $user->setCompanies($companyRepository->findOneById($company_id));
+
                 $entityManager->flush();
-                $this->flashMessenger()->addSuccessMessage('Saved');
-                return $this->redirect()->toUrl('/');
+                $admin_mailer = new AdminMailer();
+                $host = $this->getRequest()->getServer()->get('REMOTE_ADDR');
+                $massage = "Please go from link to finish registration: <a href='{$host}/user/activate/{$user->gedId()}'> </a>";
+                $admin_mailer->setSubject("Registration in Applike Tracer")
+                    ->setBody("$massage")->setMailFrom("user@host.com")
+                    ->send();
+                return $this->redirect()->toUrl('/index/massage/');
 
             }
         }
@@ -125,6 +132,11 @@ class IndexController extends AbstractController
     {
         echo 500;
         die;
+    }
+
+    public function massageAction()
+    {
+        return new ViewModel();
     }
 
 }
