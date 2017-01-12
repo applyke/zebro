@@ -24,7 +24,8 @@ class Company extends EntityAbstract
     /**
      *
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="creator_id", referencedColumnName="id") */
+     * @ORM\JoinColumn(name="creator_id", referencedColumnName="id")
+     */
     protected $creator;
 
 }

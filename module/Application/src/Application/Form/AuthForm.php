@@ -14,7 +14,7 @@ class AuthForm extends ApplicationFormAbstract
         parent::__construct($name, $options);
         $this->setAttribute('method', 'post');
         $this->setAttribute('action', '/admin');
-        $this->setAttribute('class', 'form-sign-in');
+        $this->setAttribute('class', 'mdl-cell mdl-cell--6-col');
         $user = null;
         if (isset($options['user'])) {
             /** @var \Application\Entity\User $user */
@@ -29,7 +29,7 @@ class AuthForm extends ApplicationFormAbstract
         $this->add(new Form\Element\Text('email', array(
             'label' => "Email"
         )));
-        //       $config = $this->getServiceLocator()->get('Configuration');
+//       $config = $this->getServiceLocator()->get('Configuration');
 //        $public_key = $config['recaptcha']['public_key'];
 //        $private_key = $config['recaptcha']['private_key'];
 //        $options['recaptcha_public_key'] = $public_key;

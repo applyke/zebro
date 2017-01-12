@@ -18,7 +18,7 @@ abstract class EntityAbstract
             return $this;
         }
         throw new \BadMethodCallException();
-       
+
     }
 
     public function __isset($k)

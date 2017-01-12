@@ -111,6 +111,14 @@ foreach ($form->getElements() as $element) {
         echo '<label class="' . $labelClass . '" for="' . $elementId . '">' . $element->getLabel() . '</label>';
         echo '<span ><span class="' . $fieldIconClass . '"></span></span>';
         echo '</div>';
+    } else if (get_class($element) === 'Zend\Form\Element\Email') {
+        $type = 'text';
+        echo '<div class="' . $inputGroupClass . '">';
+        echo '<label class="' . $labelClass . '" for="' . $elementId . '">' . $element->getLabel() . '</label>';
+
+        echo '<input class="mdl-textfield__input" value="' . $element->getValue() . '" type="' . $type . '" multiple  id="' . $elementId . '"  name="' . $element->getName() . '">';
+        echo '<span ><span class="' . $fieldIconClass . '"></span></span>';
+        echo '</div>';
     } else if (get_class($element) === 'Zend\Form\Element\Submit') {
         echo '<div class="col-sm-offset-4 col-sm-10">';
         if ($form->showBackBtn) {

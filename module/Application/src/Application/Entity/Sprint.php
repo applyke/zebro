@@ -24,11 +24,12 @@ class Sprint extends EntityAbstract
     /** @ORM\Column(type="string", length=1024, nullable=true) */
     protected $description;
 
-    /** @ORM\Column(type="integer")  */
+    /** @ORM\Column(type="integer") */
     protected $hours;
 
     /**
      * @ORM\ManyToOne(targetEntity="Project")
-     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")     */
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     */
     protected $project;
 }

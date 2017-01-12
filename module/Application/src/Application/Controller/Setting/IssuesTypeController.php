@@ -24,10 +24,10 @@ class IssuesTypeController extends AbstractController
         }
 
         $issuesTypeForm = new \Application\Form\Setting\IssuesTypeForm('globalIssuePriority', array(
-            'globalIssuePriority' =>  $globalIssueType,
-            'backBtnUrl' =>$this->url()->fromRoute('setting' ,array(
+            'globalIssuePriority' => $globalIssueType,
+            'backBtnUrl' => $this->url()->fromRoute('setting', array(
                 'controller' => 'setting',
-                'action'=>'index'), array(), true)
+                'action' => 'index'), array(), true)
         ));
 
         $issuesTypeForm->setEntityManager($entityManager)
@@ -39,12 +39,12 @@ class IssuesTypeController extends AbstractController
                 $entityManager->persist($globalIssueType);
                 $entityManager->flush();
                 $this->flashMessenger()->addSuccessMessage('Saved');
-                return $this->redirect()->toRoute('setting' ,array(
+                return $this->redirect()->toRoute('setting', array(
                     'controller' => 'setting',
-                    'action'=>'index'), array(), true);
+                    'action' => 'index'), array(), true);
             }
         }
-        return new ViewModel( array(
+        return new ViewModel(array(
             'issuesTypeForm' => $issuesTypeForm,
         ));
     }
@@ -64,6 +64,6 @@ class IssuesTypeController extends AbstractController
         }
         return $this->removeEntity($globalIssueType, array(
             'controller' => 'issues-type'
-        ),'/setting');
+        ), '/setting');
     }
 }

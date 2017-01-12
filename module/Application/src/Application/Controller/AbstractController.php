@@ -5,6 +5,7 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Application\ApplicationTraits\DoctrineEntityManagerAwareTrait;
 use Application\ApplicationTraits\PaginationAwareTrait;
+use Application\ApplicationTraits\IdentityAwareTrait;
 
 use Zend\View\Resolver;
 
@@ -12,10 +13,11 @@ abstract class AbstractController extends AbstractActionController
 {
     use DoctrineEntityManagerAwareTrait;
     use PaginationAwareTrait;
+    use IdentityAwareTrait;
 
     protected $paramsPlugin;
     protected $pageLimit = 10;
-   
+
     protected function setLayoutData()
     {
     }

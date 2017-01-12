@@ -25,7 +25,7 @@ class CompanyForm extends ApplicationFormAbstract
         }
 
         $this->add(new Form\Element\Text('name', array(
-        'label' => "Name"
+            'label' => "Name"
         )));
 
         if (is_object($company)) {

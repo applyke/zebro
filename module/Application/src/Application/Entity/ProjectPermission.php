@@ -21,12 +21,14 @@ class ProjectPermission extends EntityAbstract
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id") */
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
     protected $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="Project")
-     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")     */
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     */
     protected $project;
 
     /**

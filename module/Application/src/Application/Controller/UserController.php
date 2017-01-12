@@ -17,17 +17,17 @@ class UserController extends AbstractController
 
     public function indexAction()
     {
-        $id =  $this->zfcUserAuthentication()->getIdentity()->getId();
+        $id = $this->zfcUserAuthentication()->getIdentity()->getId();
         $entityManager = $this->getEntityManager();
         /** @var \Application\Repository\CompanyRepository $companyRepository */
         $companyRepository = $entityManager->getRepository('\Application\Entity\Company');
         /** @var \Application\Repository\UserRepository $userRepository */
         $userRepository = $entityManager->getRepository('\Application\Entity\User');
         //$all_project = $projectRepository->findAll();
-        $user = $userRepository->findOneBy(array('id'=>$id));
+        $user = $userRepository->findOneBy(array('id' => $id));
         //TODO: Complete show information about users's companies and projects
         $paginationService = $this->getPaginationService();
-        $all_company = $companyRepository->findByWithTotalCount(array('creator'=> $user), array('id' => 'DESC'), $this->getPageLimit(), $this->getPageOffset());
+        $all_company = $companyRepository->findByWithTotalCount(array('creator' => $user), array('id' => 'DESC'), $this->getPageLimit(), $this->getPageOffset());
         $projectsTotalCount = $companyRepository->getTotalCount();
 
         return new ViewModel(array(
@@ -43,7 +43,7 @@ class UserController extends AbstractController
         /** @var \Application\Repository\UserRepository $userRepository */
         $userRepository = $entityManager->getRepository('\Application\Entity\User');
         $user = $userRepository->findOneById($id);
-        if(!$user && $user->getStatus() != 0){
+        if (!$user && $user->getStatus() != 0) {
             return $this->notFound();
         }
         $user->setStatus(1);

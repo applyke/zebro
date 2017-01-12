@@ -23,10 +23,10 @@ class StatusController extends AbstractController
         }
 
         $statusForm = new \Application\Form\Setting\StatusForm('globalStatus', array(
-            'globalStatus' =>  $globalStatus,
-            'backBtnUrl' =>$this->url()->fromRoute('setting' ,array(
+            'globalStatus' => $globalStatus,
+            'backBtnUrl' => $this->url()->fromRoute('setting', array(
                 'controller' => 'setting',
-                'action'=>'index'), array(), true)
+                'action' => 'index'), array(), true)
         ));
 
         $statusForm->setEntityManager($entityManager)
@@ -38,12 +38,12 @@ class StatusController extends AbstractController
                 $entityManager->persist($globalStatus);
                 $entityManager->flush();
                 $this->flashMessenger()->addSuccessMessage('Saved');
-                return $this->redirect()->toRoute('setting' ,array(
+                return $this->redirect()->toRoute('setting', array(
                     'controller' => 'setting',
-                    'action'=>'index'), array(), true);
+                    'action' => 'index'), array(), true);
             }
         }
-        return new ViewModel( array(
+        return new ViewModel(array(
             'statusForm' => $statusForm,
         ));
     }
@@ -63,6 +63,6 @@ class StatusController extends AbstractController
         }
         return $this->removeEntity($globalStatus, array(
             'controller' => 'issues-type'
-        ),'/setting');
+        ), '/setting');
     }
 }

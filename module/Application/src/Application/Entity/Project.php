@@ -23,7 +23,8 @@ class Project extends EntityAbstract
 
     /**
      * @ORM\ManyToOne(targetEntity="Company")
-     * @ORM\JoinColumn(name="$company_id", referencedColumnName="id") */
+     * @ORM\JoinColumn(name="$company_id", referencedColumnName="id")
+     */
     protected $company;
 
     /** Code of project */
@@ -47,8 +48,8 @@ class Project extends EntityAbstract
      * @ORM\JoinColumn(name="project_type", referencedColumnName="id")
      */
     protected $type;
-    
-     /**
+
+    /**
      * @ORM\ManyToOne(targetEntity="ProjectCategories")
      * @ORM\JoinColumn(name="project_category", referencedColumnName="id")
      */
@@ -61,7 +62,7 @@ class Project extends EntityAbstract
      */
     protected $status;
 
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="project_lead", referencedColumnName="id")

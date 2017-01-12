@@ -36,10 +36,6 @@ class IssueForm extends ApplicationFormAbstract
         foreach ($options['assignee'] as $t) {
             $assignee[$t->getId()] = $t->getFirstName();
         }
-        $reporter = array();
-        foreach ($options['reporter'] as $t) {
-            $reporter[$t->getId()] = $t->getFirstName();
-        }
         $issue_status = array();
         foreach ($options['status'] as $t) {
             $issue_status[$t->getId()] = $t->getTitle();
@@ -183,18 +179,6 @@ class IssueForm extends ApplicationFormAbstract
 
         return $factory->createInputFilter(array(
             'summary' => array(
-                'required' => true,
-                'filters' => array(
-                    new \Zend\Filter\StringTrim(),
-                ),
-                'validators' => array(
-                    new \Zend\Validator\StringLength(array(
-                        'min' => 2,
-                        'max' => 128
-                    )),
-                )
-            ),
-            'labels' => array(
                 'required' => true,
                 'filters' => array(
                     new \Zend\Filter\StringTrim(),

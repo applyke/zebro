@@ -57,9 +57,9 @@ class IssuesController extends AbstractController
             'priority' => $issuePriorityRepository->findBy(array(), array('title' => 'asc')),
             'assignee' => $userRepository->findBy(array(), array('first_name' => 'asc')),
             'status' => $statusRepository->findBy(array(), array('title' => 'asc')),
-            'backBtnUrl' =>$this->url()->fromRoute('home' ,array(
+            'backBtnUrl' => $this->url()->fromRoute('home', array(
                 'controller' => 'issues',
-                'action'=>'index'), array(), true)
+                'action' => 'index'), array(), true)
         ));
 
 
@@ -69,20 +69,17 @@ class IssuesController extends AbstractController
             $issueForm->setData($this->getRequest()->getPost());
             if ($issueForm->isValid()) {
                 $values = $issueForm->getData();
-//
                 $issue->setProject($projectRepository->findOneById($values['project']));
                 $issue->setType($issueTypeRepository->findOneById($values['type']));
                 $issue->setPriority($issuePriorityRepository->findOneById($values['priority']));
                 $issue->setAssignee($userRepository->findOneById($values['assignee']));
-                $issue->setReporter($userRepository->findOneById($values['reporter']));
                 $issue->setStatus($statusRepository->findOneById($values['status']));
-
                 $entityManager->persist($issue);
                 $entityManager->flush();
                 $this->flashMessenger()->addSuccessMessage('Saved');
-                return $this->redirect()->toRoute('home' ,array(
+                return $this->redirect()->toRoute('home', array(
                     'controller' => 'issues',
-                    'action'=>'index'), array(), true);
+                    'action' => 'index'), array(), true);
             }
         }
         return new ViewModel(array(

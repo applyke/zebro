@@ -33,7 +33,7 @@ class SignupForm extends ApplicationFormAbstract
         }
 
         $this->add(new Form\Element\Text('first_name', array(
-        'label' => "First Name"
+            'label' => "First Name"
         )));
 
         if (is_object($user)) {
@@ -57,7 +57,6 @@ class SignupForm extends ApplicationFormAbstract
         }
 
 
-
         $this->add(new Form\Element\Email('email', array(
             'label' => "Email"
         )));
@@ -69,7 +68,6 @@ class SignupForm extends ApplicationFormAbstract
         $this->add(new Form\Element\Password('password', array(
             'label' => "Password"
         )));
-
 
 
 //        $this->add(new Form\Element\Select('companies', array(

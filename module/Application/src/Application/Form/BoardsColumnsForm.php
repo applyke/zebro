@@ -38,9 +38,9 @@ class BoardsColumnsForm extends ApplicationFormAbstract
             $status = $boardscolumns->getStatus();
         }
 
-       if(!$board && $options['boards_from_id']){
-           $board = $options['boards_from_id'];
-       }
+        if (!$board && $options['boards_from_id']) {
+            $board = $options['boards_from_id'];
+        }
 
 
         $this->add(new Form\Element\Text('name', array(

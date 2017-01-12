@@ -21,7 +21,7 @@ class CompanyController extends AbstractController
         /** @var \Application\Repository\CompanyRepository $companyRepository */
         $companyRepository = $entityManager->getRepository('\Application\Entity\Company');
         $user = $this->plugin('Identity')->getIdentity();
-        $usersCompanies = $companyRepository->findBy(array('creator' => $user ));
+        $usersCompanies = $companyRepository->findBy(array('creator' => $user));
         $user_work_in_company = $user->getCompanies()->toArray();
         return new ViewModel(array(
             'usersCompanies' => $usersCompanies,
@@ -46,9 +46,9 @@ class CompanyController extends AbstractController
         }
         $companyForm = new \Application\Form\CompanyForm('company', array(
             'company' => $company,
-            'backBtnUrl' =>$this->url()->fromRoute('pages', array(
+            'backBtnUrl' => $this->url()->fromRoute('pages', array(
                 'controller' => 'company',
-                'action'=>'index'), array(), true)
+                'action' => 'index'), array(), true)
         ));
         $companyForm->setEntityManager($entityManager)
             ->bind($company);
@@ -92,7 +92,7 @@ class CompanyController extends AbstractController
 
         $companiesProjects = $projectRepository->findBy(array('company' => $company));
 //        $companiesUsers = $userRepository->findBy(array('companies' => $company) );
-       // $projectPermission = $projectPermissionRepository->findBy(array('user'=>$user, 'company'=>$company));
+        // $projectPermission = $projectPermissionRepository->findBy(array('user'=>$user, 'company'=>$company));
 
 //        if (!$projectPermission) {
 //            return $this->notFound(); //TODO: change to page where write about don't have permission

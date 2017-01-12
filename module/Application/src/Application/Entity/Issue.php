@@ -20,7 +20,8 @@ class Issue extends EntityAbstract
 
     /**
      * @ORM\ManyToOne(targetEntity="Project")
-     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")     */
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     */
     protected $project;
 
     /** task's name**/
@@ -32,12 +33,14 @@ class Issue extends EntityAbstract
 
     /**
      * @ORM\ManyToOne(targetEntity="IssueType")
-     * @ORM\JoinColumn(name="type_id", referencedColumnName="id")     */
+     * @ORM\JoinColumn(name="type_id", referencedColumnName="id")
+     */
     protected $type;
 
     /**
      * @ORM\ManyToOne(targetEntity="IssuePriority")
-     * @ORM\JoinColumn(name="priority_id", referencedColumnName="id")     */
+     * @ORM\JoinColumn(name="priority_id", referencedColumnName="id")
+     */
     protected $priority;
 
 
@@ -52,12 +55,14 @@ class Issue extends EntityAbstract
 
     /**
      * @ORM\ManyToOne(targetEntity="Status")
-     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")     */
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     */
     protected $status;
 
     /**
      * @ORM\ManyToOne(targetEntity="Sprint")
-     * @ORM\JoinColumn(name="sprint_id", referencedColumnName="id", nullable=true)     */
+     * @ORM\JoinColumn(name="sprint_id", referencedColumnName="id", nullable=true)
+     */
     protected $sprint;
 
 //    /**  */

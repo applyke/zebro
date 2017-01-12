@@ -23,10 +23,10 @@ class ProjectTypeController extends AbstractController
         }
 
         $projectTypeForm = new \Application\Form\Setting\ProjectTypeForm('projectType', array(
-            'projectType' =>  $projectType,
-            'backBtnUrl' =>$this->url()->fromRoute('setting' ,array(
+            'projectType' => $projectType,
+            'backBtnUrl' => $this->url()->fromRoute('setting', array(
                 'controller' => 'setting',
-                'action'=>'index'), array(), true)
+                'action' => 'index'), array(), true)
         ));
 
         $projectTypeForm->setEntityManager($entityManager)
@@ -38,12 +38,12 @@ class ProjectTypeController extends AbstractController
                 $entityManager->persist($projectType);
                 $entityManager->flush();
                 $this->flashMessenger()->addSuccessMessage('Saved');
-                return $this->redirect()->toRoute('setting' ,array(
+                return $this->redirect()->toRoute('setting', array(
                     'controller' => 'setting',
-                    'action'=>'index'), array(), true);
+                    'action' => 'index'), array(), true);
             }
         }
-        return new ViewModel( array(
+        return new ViewModel(array(
             'projectTypeForm' => $projectTypeForm,
         ));
     }
@@ -63,6 +63,6 @@ class ProjectTypeController extends AbstractController
         }
         return $this->removeEntity($projectType, array(
             'controller' => 'issues-type'
-        ),'/setting');
+        ), '/setting');
     }
 }

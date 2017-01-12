@@ -23,7 +23,7 @@ class PaginationService
         $paginator->setView($renderer);
         return $paginator;
     }
-    
+
     public function setRenderer(\Zend\View\Renderer\PhpRenderer $phpRenderer)
     {
         $this->renderer = $phpRenderer;

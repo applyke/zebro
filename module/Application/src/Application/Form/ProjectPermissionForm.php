@@ -24,7 +24,7 @@ class ProjectPermissionForm extends ApplicationFormAbstract
         $companies_users = null;
         $companies_projects = null;
         $project = null;
-        $user =null;
+        $user = null;
         if (isset($options['projectPermission'])) {
             /** @var \Application\Entity\ProjectPermission $projectPermission */
             $projectPermission = $options['projectPermission'];
@@ -185,8 +185,6 @@ class ProjectPermissionForm extends ApplicationFormAbstract
             $projectPermission = $options['projectPermission'];
         }
 
-        return $factory->createInputFilter(array(
-
-        ));
+        return $factory->createInputFilter(array());
     }
 }

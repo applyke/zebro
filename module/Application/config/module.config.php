@@ -87,7 +87,7 @@ return array(
             'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
             'logger' => 'Application\Factory\Service\LoggerServiceFactory',
             'pagination' => 'Application\Factory\Service\PaginationServiceFactory',
-
+            'identity' => 'Application\Factory\Plugin\IdentityFactory',
 
         ),
         'invokables' => array(
@@ -97,7 +97,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Application\Controller\Error' => Controller\ErrorController::class,
-            
+
         ),
         'factories' => array(
             'Application\Controller\Index' => Factory\Controller\IndexFactory::class,
@@ -105,21 +105,23 @@ return array(
             'Application\Controller\Issues' => Factory\Controller\IssuesFactory::class,
             'Application\Controller\Boards' => Factory\Controller\BoardsFactory::class,
             'Application\Controller\BoardsColumns' => Factory\Controller\BoardsColumnsFactory::class,
-            'Application\Controller\Setting\Setting'=> Factory\Controller\Setting\SettingFactory::class,
-            'Application\Controller\Setting\ProjectCategory'=>Factory\Controller\Setting\ProjectCategoryFactory::class,
-            'Application\Controller\Setting\ProjectType'=>Factory\Controller\Setting\ProjectTypeFactory::class,
-            'Application\Controller\Setting\Status'=>Factory\Controller\Setting\StatusFactory::class,
-            'Application\Controller\Setting\IssuesPriority'=>Factory\Controller\Setting\IssuesPriorityFactory::class,
-            'Application\Controller\Setting\IssuesType'=>Factory\Controller\Setting\IssuesTypeFactory::class,
-            'Application\Controller\Company'=>Factory\Controller\CompanyFactory::class,
-            'Application\Controller\User'=>Factory\Controller\UserFactory::class,
+            'Application\Controller\Setting\Setting' => Factory\Controller\Setting\SettingFactory::class,
+            'Application\Controller\Setting\ProjectCategory' => Factory\Controller\Setting\ProjectCategoryFactory::class,
+            'Application\Controller\Setting\ProjectType' => Factory\Controller\Setting\ProjectTypeFactory::class,
+            'Application\Controller\Setting\Status' => Factory\Controller\Setting\StatusFactory::class,
+            'Application\Controller\Setting\IssuesPriority' => Factory\Controller\Setting\IssuesPriorityFactory::class,
+            'Application\Controller\Setting\IssuesType' => Factory\Controller\Setting\IssuesTypeFactory::class,
+            'Application\Controller\Company' => Factory\Controller\CompanyFactory::class,
+            'Application\Controller\User' => Factory\Controller\UserFactory::class,
 
-            )
+        )
     ),
     'controller_plugins' => array(
         'invokables' => array(
             'Rbac' => 'Application\Controller\Plugin\Rbac',
-            'Identity' => 'Application\Controller\Plugin\Identity',
+        ),
+        'factories' => array(
+            'identity' => 'Application\Factory\Plugin\IdentityFactory',
         )
     ),
     'view_helpers' => array(

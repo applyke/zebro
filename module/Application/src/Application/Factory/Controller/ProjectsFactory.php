@@ -19,7 +19,9 @@ class ProjectsFactory implements FactoryInterface
         $controller = new Controller();
         $controller->setEntityManager($entityManager);
         $paginationService = $serviceManager->get('pagination');
+        $identityPlugin = $serviceManager->get('identity');
         $controller->setPaginationService($paginationService);
+        $controller->setIdentityPlugin($identityPlugin);
         return $controller;
     }
 }

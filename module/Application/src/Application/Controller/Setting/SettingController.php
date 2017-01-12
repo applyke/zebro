@@ -19,13 +19,13 @@ class SettingController extends AbstractController
         $entityManager = $this->getEntityManager();
         /** @var \Application\Repository\GlobalStatusRepository $globalStatusRepository */
         $globalStatusRepository = $entityManager->getRepository('\Application\Entity\GlobalStatus');
-        /** @var \Application\Repository\GlobalIssuePriorityRepository $globalIssuePriorityRepository  */
+        /** @var \Application\Repository\GlobalIssuePriorityRepository $globalIssuePriorityRepository */
         $globalIssuePriorityRepository = $entityManager->getRepository('\Application\Entity\GlobalIssuePriority');
-        /** @var \Application\Repository\GlobalIssueTypeRepository $globalIssueTypeRepository  */
+        /** @var \Application\Repository\GlobalIssueTypeRepository $globalIssueTypeRepository */
         $globalIssueTypeRepository = $entityManager->getRepository('\Application\Entity\GlobalIssueType');
-        /** @var \Application\Repository\ProjectCategoriesRepository $projectCategoriesRepository  */
+        /** @var \Application\Repository\ProjectCategoriesRepository $projectCategoriesRepository */
         $projectCategoriesRepository = $entityManager->getRepository('\Application\Entity\ProjectCategories');
-        /** @var \Application\Repository\ProjectTypeRepository $projectTypeRepository   */
+        /** @var \Application\Repository\ProjectTypeRepository $projectTypeRepository */
         $projectTypeRepository = $entityManager->getRepository('\Application\Entity\ProjectType');
 
         $statuses = $globalStatusRepository->findAll();
@@ -36,8 +36,8 @@ class SettingController extends AbstractController
 
         return new ViewModel(array(
             'statuses' => $statuses,
-            'issuePriorities'=> $issuePriorities,
-            'issueTypes'=>$issueTypes,
+            'issuePriorities' => $issuePriorities,
+            'issueTypes' => $issueTypes,
             'projectCategories' => $projectCategories,
             'projectTypes' => $projectTypes,
         ));

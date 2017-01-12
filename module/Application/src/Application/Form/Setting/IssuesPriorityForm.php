@@ -45,7 +45,7 @@ class IssuesPriorityForm extends ApplicationFormAbstract
 
         if (is_object($issuePriority) && $issuePriority->getIcon()) {
             $image = new Form\Element\Image('preview');
-            $image->setAttribute('src', $issuePriority->getIcon() );
+            $image->setAttribute('src', $issuePriority->getIcon());
             $image->setAttribute('width', '50px');
             $this->add($image);
             $this->is_icon_required = false;
@@ -105,16 +105,16 @@ class IssuesPriorityForm extends ApplicationFormAbstract
                     )),
                 )
             ),
-            'icon'=> array(
-                'required'   => $this->is_icon_required,
+            'icon' => array(
+                'required' => $this->is_icon_required,
                 'validators' => array(
                     new \Zend\Validator\File\IsImage(),
-                    new \Zend\Validator\File\FilesSize( array(
-                            'max'  => 10240000,
+                    new \Zend\Validator\File\FilesSize(array(
+                            'max' => 10240000,
                         )
                     ),
                     new \Zend\Validator\File\Count(array(
-                        'max'  => 1,
+                        'max' => 1,
                     )),
                 )
             ),

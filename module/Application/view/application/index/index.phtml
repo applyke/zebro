@@ -1,22 +1,22 @@
 <div class="panel panel-default">
     <div class="panel-body align-centered">
-        <div class="col-sm-5" style="float: none; margin: 0 auto;">
+        <div class="mdl-cell mdl-cell--4-col" style="float: none; margin: 0 auto;">
             <form action="<?php echo $this->url('home', array('controller' => 'index', 'action' => 'index')) ?>"
                   method="post" class="form-sign-in" role="form">
-                <h2 class="form-signin-heading">Authorization Required</h2>
+                <h3 class="form-signin-heading">Authorization Required</h3>
 
                 <div class="form-group">
                     <label for="inputEmail1">Login</label>
-                    <input id="inputEmail1" name="email" type="text" class="form-control" placeholder="Login"
+                    <input id="inputEmail1" name="email" type="text" class="mdl-textfield__input" placeholder="Login"
                            required=""
                            autofocus="">
                     <?php if (!empty($this->form->get('email')->getMessages())): ?>
-                        <p class="text-danger"><?php echo current($this->form->get('email')->getMessages()) ?></p>
+                        <p class="mdl-textfield__erro"><?php echo current($this->form->get('email')->getMessages()) ?></p>
                     <?php endif; ?>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword1">Password</label>
-                    <input id="inputPassword1" name="password" type="password" class="form-control"
+                    <input id="inputPassword1" name="password" type="password" class="mdl-textfield__input"
                            placeholder="Password"
                            required="">
                     <?php if (!empty($this->form->get('password')->getMessages())): ?>
@@ -29,11 +29,11 @@
                     <p class="text-danger"><?php echo current($this->form->get('g-recaptcha-response')->getMessages()) ?></p>
                 <?php endif; */ ?>
 
-                <div class="form-group">
+                <div class="mdl-cell mdl-cell--6-col">
                     <?php if (!$this->form->getMessages() && !empty($this->error_msg)): ?>
-                        <p class="text-danger text-center"><?php echo $this->error_msg ?></p>
+                        <p class="tmdl-textfield__erro"><?php echo $this->error_msg ?></p>
                     <?php endif; ?>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
+                    <button class="mdl-button mdl-js-button mdl-button--raised" type="submit">Log In</button>
                 </div>
 
             </form>

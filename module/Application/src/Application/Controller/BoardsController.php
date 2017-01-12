@@ -24,6 +24,7 @@ class BoardsController extends AbstractController
             'boards' => $all_boards,
         ));
     }
+
     public function createAction()
     {
         $id = $this->params()->fromRoute('id');
@@ -42,7 +43,7 @@ class BoardsController extends AbstractController
 
         if (isset($id)) {
             $board = $boardRepository->findOneById((int)$id);
-            $boardColumns = $boardColumnsRepository->findBy(array('board'=>$board->getId()));
+            $boardColumns = $boardColumnsRepository->findBy(array('board' => $board->getId()));
             if (!$board) {
                 return $this->notFound();
             }
@@ -53,9 +54,9 @@ class BoardsController extends AbstractController
             'projects' => $projectRepository->findBy(array(), array('name' => 'asc')),
             'administrator' => $userRepository->findBy(array(), array('first_name' => 'asc')),
             'status' => $statusRepository->findBy(array(), array('title' => 'asc')),
-            'backBtnUrl' =>$this->url()->fromRoute('home' ,array(
+            'backBtnUrl' => $this->url()->fromRoute('home', array(
                 'controller' => 'boards',
-                'action'=>'index'), array(), true)
+                'action' => 'index'), array(), true)
         ));
 
 
@@ -83,6 +84,7 @@ class BoardsController extends AbstractController
             'boardForm' => $boardForm,
         ));
     }
+
     public function detailsAction()
     {
         $id = $this->params()->fromRoute('id');
@@ -94,20 +96,20 @@ class BoardsController extends AbstractController
         /** @var \Application\Repository\IssueRepository $issueRepository */
         $issueRepository = $entityManager->getRepository('\Application\Entity\Issue');
         $board = $boardRepository->findOneById((int)$id);
-        $boardColumns = $boardColumnsRepository->findBy(array('board'=>$board->getId()));
+        $boardColumns = $boardColumnsRepository->findBy(array('board' => $board->getId()));
         if (!$board) {
             return $this->notFound();
         }
         /** @var \Application\Repository\StatusRepository $statusRepository */
         $statusRepository = $entityManager->getRepository('\Application\Entity\Status');
-        $statuses =  $statusRepository->findBy(array(), array('title' => 'asc'));
+        $statuses = $statusRepository->findBy(array(), array('title' => 'asc'));
         $issuesArray = array();
-        foreach ($statuses as $status){
-            $issuesArray[$status->getId()] = $issueRepository->findBy(array('project' => $board->getProject()->getId(), 'status'=>$status));
+        foreach ($statuses as $status) {
+            $issuesArray[$status->getId()] = $issueRepository->findBy(array('project' => $board->getProject()->getId(), 'status' => $status));
         }
         return new ViewModel(array(
             'board' => $board,
-            'boardColumns'=>$boardColumns,
+            'boardColumns' => $boardColumns,
             'issuesArray' => $issuesArray,
         ));
     }

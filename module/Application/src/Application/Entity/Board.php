@@ -27,18 +27,19 @@ class Board extends EntityAbstract
     /** @ORM\Column(type="string", length=1024) */
     protected $description;
 
-  
+
     /**
      * @ORM\ManyToOne(targetEntity="Project")
-     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")     */
-     protected $project;
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     */
+    protected $project;
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="administrator", referencedColumnName="id")
      */
     protected $administrator;
-    
+
 //    /**
 //     * @ORM\OneToMany(targetEntity="Project", mappedBy="id")
 //     */

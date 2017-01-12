@@ -23,10 +23,10 @@ class ProjectCategoryController extends AbstractController
         }
 
         $projectCategoryForm = new \Application\Form\Setting\ProjectCategoryForm('projectCategories', array(
-            'projectCategories' =>  $projectCategories,
-            'backBtnUrl' =>$this->url()->fromRoute('setting' ,array(
+            'projectCategories' => $projectCategories,
+            'backBtnUrl' => $this->url()->fromRoute('setting', array(
                 'controller' => 'setting',
-                'action'=>'index'), array(), true)
+                'action' => 'index'), array(), true)
         ));
 
         $projectCategoryForm->setEntityManager($entityManager)
@@ -38,12 +38,12 @@ class ProjectCategoryController extends AbstractController
                 $entityManager->persist($projectCategories);
                 $entityManager->flush();
                 $this->flashMessenger()->addSuccessMessage('Saved');
-                return $this->redirect()->toRoute('setting' ,array(
+                return $this->redirect()->toRoute('setting', array(
                     'controller' => 'setting',
-                    'action'=>'index'), array(), true);
+                    'action' => 'index'), array(), true);
             }
         }
-        return new ViewModel( array(
+        return new ViewModel(array(
             'projectCategoryForm' => $projectCategoryForm,
         ));
     }
@@ -63,6 +63,6 @@ class ProjectCategoryController extends AbstractController
         }
         return $this->removeEntity($projectCategories, array(
             'controller' => 'project-category'
-        ),'/setting');
+        ), '/setting');
     }
 }
