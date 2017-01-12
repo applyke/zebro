@@ -27,7 +27,7 @@ class ProjectsController extends AbstractController
         $projectPermissionRepository = $entityManager->getRepository('\Application\Entity\ProjectPermission');
 
         $paginationService = $this->getPaginationService();
-        $all_project = $projectPermissionRepository->getUsersProjectWithPagination($user, array('id' => 'DESC'), $this->getPageLimit(), $this->getPageOffset());
+        $all_project = $projectPermissionRepository->getUsersProjectWithPagination( $user, array('id' => 'DESC'), $this->getPageLimit(), $this->getPageOffset());
         $projectsTotalCount = $projectPermissionRepository->getTotalCount();
 
         return new ViewModel(array(
@@ -71,7 +71,7 @@ class ProjectsController extends AbstractController
                 return $this->notFound();
             }
         }
-        if (!$project) {
+        if(!$project){
             $project = new \Application\Entity\Project();
             $project_create = true;
         }
@@ -82,9 +82,9 @@ class ProjectsController extends AbstractController
             'project_types' => $projectTypeRepository->findBy(array(), array('title' => 'asc')),
             'project_categories' => $projectCategoriesRepository->findBy(array(), array('name' => 'asc')),
             'users' => $userRepository->findBy(array(), array('first_name' => 'asc')),
-            'backBtnUrl' => $this->url()->fromRoute('pages', array(
+            'backBtnUrl' =>$this->url()->fromRoute('pages', array(
                 'controller' => 'projects',
-                'action' => 'index'), array(), true)
+                'action'=>'index'), array(), true)
         ));
 
         $projectForm->setEntityManager($entityManager)
@@ -98,7 +98,7 @@ class ProjectsController extends AbstractController
                 $project->setCategory($projectCategoriesRepository->findOneById($values['category']));
                 $entityManager->persist($project);
                 $entityManager->persist($projectPermissionRepository->getLeadPermissionToProject($userRepository->findOneById($values['project_lead']), $project));
-                if ($project_create) {
+                if($project_create) {
                     $statusRepository->saveStatusesForProject($project, $globalStatusRepository->findAll());
                     $issueTypeRepository->saveIssueTypeForProject($project, $globalIssueTypeRepository->findAll());
                     $issuePriorityRepository->saveIssuePriorityForProject($project, $globalIssuePriorityRepository->findAll());
@@ -132,7 +132,7 @@ class ProjectsController extends AbstractController
 
         return new ViewModel(array(
             'project' => $project,
-            'projectsIssues' => $projectsIssues,
+           'projectsIssues' => $projectsIssues,
         ));
     }
 
@@ -168,31 +168,32 @@ class ProjectsController extends AbstractController
         $userRepository = $entityManager->getRepository('\Application\Entity\User');
         $project = $projectRepository->findOneById((int)$project_id);
         $user = null;
-        if ($user_id) {
+        if($user_id){
             $user = $userRepository->findOneById((int)$user_id);
         }
         $projectPermission = null;
         if (!$project) {
             return $this->notFound();
         }
-        if ($user) {
-            $projectPermission = $projectPermissionRepository->findOneBy(array('user' => $user, 'project' => $project));
+        if($user){
+            $projectPermission = $projectPermissionRepository->findOneBy(array('user'=> $user, 'project'=> $project));
         }
-        if (!$projectPermission) {
+        if(!$projectPermission){
             $projectPermission = new  \Application\Entity\ProjectPermission();
             $projectPermission->setProject($project);
-            if ($user) {
+            if($user){
                 $projectPermission->setUser($user);
             }
 
         }
+        $companies_projects = $projectRepository->getProjectsInCompany($project->getCompany() );
         $projectPermissionForm = new \Application\Form\ProjectPermissionForm('projectPermission', array(
             'projectPermission' => $projectPermission,
-            'companies_projects' => $projectRepository->getProjectsInCompany($project->getCompany()),
-            // 'companies_users' => $userRepository->getUsersInCompany($project->getCompany()),
-            'backBtnUrl' => $this->url()->fromRoute('pages', array(
+            'companies_projects'=> $companies_projects,
+            'companies_users' => $userRepository->getUsersInCompany($project->getCompany()),
+            'backBtnUrl' =>$this->url()->fromRoute('pages', array(
                 'controller' => 'projects',
-                'action' => 'users',
+                'action'=>'users',
                 'id' => $project_id), array(), true)
         ));
 
@@ -231,6 +232,6 @@ class ProjectsController extends AbstractController
         }
         return $this->removeEntity($project, array(
             'controller' => 'project'
-        ), '/projects');
+        ),'/projects');
     }
 }

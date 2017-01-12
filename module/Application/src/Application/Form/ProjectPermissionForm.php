@@ -21,8 +21,8 @@ class ProjectPermissionForm extends ApplicationFormAbstract
         $this->setAttribute('class', 'mdl-cell mdl-cell--6-col');
 
         $projectPermission = null;
-        $companies_users = null;
-        $companies_projects = null;
+        $companies_users = array();
+        $companies_projects = array();
         $project = null;
         $user = null;
         if (isset($options['projectPermission'])) {
@@ -31,13 +31,14 @@ class ProjectPermissionForm extends ApplicationFormAbstract
             $project = $projectPermission->getProject();
             $user = $projectPermission->getUser();
         }
-        if (isset($options['companies_users'])) {
-            /** @var \Application\Entity\ProjectPermission $projectPermission */
-            $companies_users = $options['companies_users'];
+
+        foreach ($options['companies_users'] as $t) {
+            $companies_users[$t->getId()] = $t->getName().' '. $t->getLastName();
         }
-        if (isset($options['companies_projects'])) {
-            /** @var \Application\Entity\ProjectPermission $projectPermission */
-            $companies_projects = $options['companies_projects'];
+
+
+        foreach ($options['companies_projects'] as $t) {
+            $companies_projects[$t->getId()] = $t->getName();
         }
 
 
@@ -60,7 +61,7 @@ class ProjectPermissionForm extends ApplicationFormAbstract
             )
         )));
         if (is_object($user)) {
-            $this->get('project')->setValue($user->getId());
+            $this->get('user')->setValue($user->getId());
         }
 
 

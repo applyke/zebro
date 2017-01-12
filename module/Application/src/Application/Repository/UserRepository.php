@@ -12,3 +12,4 @@ class UserRepository extends Repository
        return $this->findBy(array('companies' => $company));//TODO: Error in this line. But  I don't why.
     }
 }
+

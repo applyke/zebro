@@ -8,6 +8,6 @@ class ProjectRepository extends Repository
 {
     public function getProjectsInCompany(Company $company)
     {
-        return $this->findBy(array('company'=>$company));
+        return $this->findBy(array('company'=> $company));
     }
 }
