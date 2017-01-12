@@ -10,7 +10,7 @@ use Zend\Mail\Transport\SmtpOptions;
  *
  * $admin_mailer = new AdminMailer();
 $admin_mailer->setSubject($subject)
-->setBody($massage)->setMailFrom("user@host.com")
+->setBody($massage)->setMailTo("user@host.com")
 ->send();
  *
  * Class AdminMailer
@@ -90,13 +90,21 @@ class AdminMailer
     }
 
     /**
-     * @param $mail_from
+     * @param $mail_to
      * @return AdminMailer
      */
-    public function setMailFrom($mail_from)
+    public function setMailTo($mail_to)
+    {
+        $this->mail_to = $mail_to;
+        return $this;
+    }
+
+    /**
+     * @param $mail_from
+     */
+    protected function setMailFrom($mail_from)
     {
         $this->mail_from = $mail_from;
-        return $this;
     }
 
     private function getLocalConfig()
@@ -209,13 +217,7 @@ class AdminMailer
         return $this->ssl;
     }
 
-    /**
-     * @param mixed $mail_to
-     */
-    private function setMailTo($mail_to)
-    {
-        $this->mail_to = $mail_to;
-    }
+
 
     /**
      * @param mixed $host_name

@@ -106,10 +106,10 @@ class IndexController extends AbstractController
 
                 $entityManager->flush();
                 $admin_mailer = new AdminMailer();
-                $host = $this->getRequest()->getServer()->get('REMOTE_ADDR');
-                $massage = "Please go from link to finish registration: <a href='{$host}/user/activate/{$user->gedId()}'> </a>";
+                $host = $_SERVER['SERVER_NAME'];
+                $massage = "<html><head></head><body>Please go from link to finish registration: <a href='http://{$host}/user/activate/{$user->getId()}'>http://{$host}/user/activate/{$user->getId()}</a></body></html>";
                 $admin_mailer->setSubject("Registration in Applike Tracer")
-                    ->setBody("$massage")->setMailFrom("user@host.com")
+                    ->setBody("$massage")->setMailTo($user->getEmail())
                     ->send();
                 return $this->redirect()->toUrl('/index/massage/');
 

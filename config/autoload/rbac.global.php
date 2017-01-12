@@ -16,7 +16,8 @@ return array(
             'allow' => array(
                 'application' => array(
                     'controller:index:index',
-                    'controller:index:signup'
+                    'controller:index:signup',
+                    'controller:user:activate',
                 )
             ),
         ),

@@ -46,7 +46,7 @@ class UserController extends AbstractController
         if(!$user && $user->getStatus() != 0){
             return $this->notFound();
         }
-        $user->getStatus(1);
+        $user->setStatus(1);
         $entityManager->persist($user);
         $entityManager->flush();
         return new ViewModel();
