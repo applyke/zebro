@@ -9,14 +9,13 @@ use Zend\Mail\Transport\SmtpOptions;
  * Example:
  *
  * $admin_mailer = new AdminMailer();
-$admin_mailer->setSubject($subject)
-->setBody($massage)->setMailTo("user@host.com")
-->send();
+ * $admin_mailer->setSubject($subject)
+ * ->setBody($massage)->setMailTo("user@host.com")
+ * ->send();
  *
  * Class AdminMailer
  * @package Application\Service
  */
-
 class AdminMailer
 {
     private $mail_to;
@@ -47,14 +46,15 @@ class AdminMailer
         $this->setBody('');
     }
 
-    function send(){
+    function send()
+    {
         $message = new Message();
         $message->addTo($this->getMailTo())
             ->addFrom($this->getMailFrom())
             ->setSubject($this->getSubject())
             ->setBody($this->getBody());
         $transport = new SmtpTransport();
-        $options   = new SmtpOptions(array(
+        $options = new SmtpOptions(array(
             'name' => $this->getHostName(),
             'host' => $this->getHost(),
             'port' => $this->getPort(),
@@ -111,7 +111,7 @@ class AdminMailer
     {
         $rootPath = dirname($this->findParentPath('module'));
         $config_string = "{$rootPath}/config/autoload/local.php";
-        $config = new \Zend\Config\Config(include $config_string );
+        $config = new \Zend\Config\Config(include $config_string);
         return $config->mail;
     }
 
@@ -216,7 +216,6 @@ class AdminMailer
     {
         return $this->ssl;
     }
-
 
 
     /**

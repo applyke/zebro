@@ -28,18 +28,18 @@ class BoardsColumnsController extends AbstractController
             }
         }
         $boards_from_id = null;
-        if(isset($id)){
+        if (isset($id)) {
             $boards_from_id = $boardRepository->findOneById((int)$id);
         }
 
         $boardsColumnsForm = new \Application\Form\BoardsColumnsForm('boardscolumns', array(
             'boardscolumns' => $boardsColumns,
             'board' => $boardRepository->findBy(array(), array('title' => 'asc')),
-            'boards_from_id'=>$boards_from_id,
+            'boards_from_id' => $boards_from_id,
             'status' => $statusRepository->findBy(array(), array('title' => 'asc')),
-            'backBtnUrl' =>$this->url()->fromRoute('home' ,array(
+            'backBtnUrl' => $this->url()->fromRoute('home', array(
                 'controller' => 'boards',
-                'action'=>'index'), array(), true)
+                'action' => 'index'), array(), true)
         ));
 
         $boardsColumnsForm->setEntityManager($entityManager)
@@ -53,11 +53,11 @@ class BoardsColumnsController extends AbstractController
                 $entityManager->persist($boardsColumns);
                 $entityManager->flush();
                 $this->flashMessenger()->addSuccessMessage('Saved');
-                return $this->redirect()->toUrl('/boards/details/'.$id);
+                return $this->redirect()->toUrl('/boards/details/' . $id);
             }
         }
         return new ViewModel(array(
-            'boardsColumnsForm'=> $boardsColumnsForm,
+            'boardsColumnsForm' => $boardsColumnsForm,
         ));
     }
 }

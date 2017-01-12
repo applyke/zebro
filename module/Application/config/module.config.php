@@ -76,34 +76,6 @@ return array(
                     ),
                 ),
             ),
-//            'project' => array(
-//                'type' => 'Zend\Mvc\Router\Http\Literal',
-//                'options' => array(
-//                    'route' => '/',
-//                    'defaults' => array(
-//                        '__NAMESPACE__' => 'Application\Controller',
-//                    ),
-//                ),
-//                'may_terminate' => true,
-//                'child_routes' => array(
-//                    'default' => array(
-//                        'type' => 'Zend\Mvc\Router\Http\Segment',
-//                        'options' => array(
-//                            'route' => '/[:controller][/:action][/:id][/:id2][/]',
-//                            'constraints' => array(
-//                                '__NAMESPACE__' => 'Application\Controller',
-//                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-//                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-//                                'id' => '[0-9]+',
-//                                'id2' => '[0-9]+',
-//                            ),
-//                            'defaults' => array(
-//                                'action' => 'index'
-//                            ),
-//                        ),
-//                    ),
-//                ),
-//            ),
         ),
     ),
     'service_manager' => array(

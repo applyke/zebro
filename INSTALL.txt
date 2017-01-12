@@ -98,6 +98,9 @@ text/cache.manifest       manifest;
 mysql user_name -u project_name_u -p
 source /var/www/project_name/sql/INSTALL.sql
 
+#Migrations
+ ./vendor/bin/doctrine-module  migrations:migrate
+
 
 #################
 ### GULP

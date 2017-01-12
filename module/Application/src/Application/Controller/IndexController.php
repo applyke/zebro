@@ -13,7 +13,7 @@ class IndexController extends AbstractController
 
     public function indexAction()
     {
-         $viewData = array();
+        $viewData = array();
         $form = new \Application\Form\AuthForm('user', array());
         if ($this->getRequest()->isPost()) {
             $viewData['error_msg'] = 'Login or password is incorrect';
@@ -82,21 +82,21 @@ class IndexController extends AbstractController
         $user = new \Application\Entity\User();
 
         $form = new \Application\Form\SignupForm('user', array(
-            'companies' => $companyRepository->findBy(array(), array('name' => 'asc')),
-                )
+                'companies' => $companyRepository->findBy(array(), array('name' => 'asc')),
+            )
         );
         $form->setEntityManager($entityManager)
             ->bind($user);
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
             if ($form->isValid()) {
-                $values = $form->getData();
-                $user->setRole($roleRepository->findOneBy(array('code'=>'user')));
+                $user->setRole($roleRepository->findOneBy(array('code' => 'user')));
                 $entityManager->persist($user);
+//                $values = $form->getData();
 //                $company_id = null;
 //                if($values['company']){
-//                    $company_id = $values['company'];
-//                } if($values['new_company']){
+//                    $company_id = $values['company];
+//                } if($values['new_company']){'
 //                    $company = new \Application\Entity\Company();
 //                    $company->setCreator($user);
 //                    $entityManager->persist($company);
@@ -107,8 +107,8 @@ class IndexController extends AbstractController
                 $entityManager->flush();
                 $admin_mailer = new AdminMailer();
                 $host = $_SERVER['SERVER_NAME'];
-                $massage = "<html><head></head><body>Please go from link to finish registration: <a href='http://{$host}/user/activate/{$user->getId()}'>http://{$host}/user/activate/{$user->getId()}</a></body></html>";
-                $admin_mailer->setSubject("Registration in Applike Tracer")
+                $massage = "Please go from link to finish registration:  http://{$host}/user/activate/{$user->getId()}";
+                $admin_mailer->setSubject("Registration in Applyke Tracker")
                     ->setBody("$massage")->setMailTo($user->getEmail())
                     ->send();
                 return $this->redirect()->toUrl('/index/massage/');
@@ -116,22 +116,9 @@ class IndexController extends AbstractController
             }
         }
 
-
         return new ViewModel(array(
-            'SignupForm'=>$form,
+            'SignupForm' => $form,
         ));
-    }
-
-    public function error404Action()
-    {
-        echo 404;
-        die;
-    }
-
-    public function errorAction()
-    {
-        echo 500;
-        die;
     }
 
     public function massageAction()

@@ -166,7 +166,7 @@ class BoardsForm extends ApplicationFormAbstract
                 )
             ),
             'description' => array(
-                'required' => true,
+                'required' => false,
                 'filters' => array(
                     new \Zend\Filter\StringTrim(),
                 ),
@@ -228,7 +228,7 @@ class BoardsForm extends ApplicationFormAbstract
                 ),
             ),
             'status' => array(
-                'required' => false,
+                'required' => true,
                 'filters' => array(
                     new \Zend\Filter\StringTrim(),
                     new \Zend\Filter\Digits(),
