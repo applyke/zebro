@@ -17,14 +17,18 @@ class ProjectsController extends AbstractController
 
     public function indexAction()
     {
+        $user = $this->plugin('Identity')->getIdentity();
         $entityManager = $this->getEntityManager();
         /** @var \Application\Repository\ProjectRepository $projectRepository */
         $projectRepository = $entityManager->getRepository('\Application\Entity\Project');
         //$all_project = $projectRepository->findAll();
 
+        /** @var \Application\Repository\ProjectPermissionRepository $projectPermissionRepository */
+        $projectPermissionRepository = $entityManager->getRepository('\Application\Entity\ProjectPermission');
+
         $paginationService = $this->getPaginationService();
-        $all_project = $projectRepository->findByWithTotalCount(array(), array('id' => 'DESC'), $this->getPageLimit(), $this->getPageOffset());
-        $projectsTotalCount = $projectRepository->getTotalCount();
+        $all_project = $projectPermissionRepository->getUsersProjectWithPagination( $user, array('id' => 'DESC'), $this->getPageLimit(), $this->getPageOffset());
+        $projectsTotalCount = $projectPermissionRepository->getTotalCount();
 
         return new ViewModel(array(
             'projects' => $all_project,
@@ -44,7 +48,22 @@ class ProjectsController extends AbstractController
         $projectCategoriesRepository = $entityManager->getRepository('\Application\Entity\ProjectCategories');
         /** @var \Application\Repository\UserRepository $userRepository */
         $userRepository = $entityManager->getRepository('\Application\Entity\User');
-        $project = new \Application\Entity\Project();
+        /** @var \Application\Repository\ProjectPermissionRepository $projectPermissionRepository */
+        $projectPermissionRepository = $entityManager->getRepository('\Application\Entity\ProjectPermission');
+        /** @var \Application\Repository\GlobalStatusRepository $globalStatusRepository */
+        $globalStatusRepository = $entityManager->getRepository('\Application\Entity\GlobalStatus');
+        /** @var \Application\Repository\GlobalIssueTypeRepository $globalIssueTypeRepository */
+        $globalIssueTypeRepository = $entityManager->getRepository('\Application\Entity\GlobalIssueType');
+        /** @var \Application\Repository\GlobalIssuePriorityRepository $globalIssuePriorityRepository */
+        $globalIssuePriorityRepository = $entityManager->getRepository('\Application\Entity\GlobalIssuePriority');
+        /** @var \Application\Repository\StatusRepository $statusRepository */
+        $statusRepository = $entityManager->getRepository('\Application\Entity\Status');
+        /** @var \Application\Repository\IssueTypeRepository $issueTypeRepository */
+        $issueTypeRepository = $entityManager->getRepository('\Application\Entity\IssueType');
+        /** @var \Application\Repository\IssuePriorityRepository $issuePriorityRepository */
+        $issuePriorityRepository = $entityManager->getRepository('\Application\Entity\IssuePriority');
+        $project = null;
+        $project_create = false;
 
         if (isset($id)) {
             $project = $projectRepository->findOneById($id);
@@ -52,6 +71,11 @@ class ProjectsController extends AbstractController
                 return $this->notFound();
             }
         }
+        if(!$project){
+            $project = new \Application\Entity\Project();
+            $project_create = true;
+        }
+
 
         $projectForm = new \Application\Form\ProjectForm('project', array(
             'project' => $project,
@@ -73,6 +97,12 @@ class ProjectsController extends AbstractController
                 $project->setType($projectTypeRepository->findOneById($values['type']));
                 $project->setCategory($projectCategoriesRepository->findOneById($values['category']));
                 $entityManager->persist($project);
+                $entityManager->persist($projectPermissionRepository->getLeadPermissionToProject($userRepository->findOneById($values['project_lead']), $project));
+                if($project_create) {
+                    $statusRepository->saveStatusesForProject($project, $globalStatusRepository->findAll());
+                    $issueTypeRepository->saveIssueTypeForProject($project, $globalIssueTypeRepository->findAll());
+                    $issuePriorityRepository->saveIssuePriorityForProject($project, $globalIssuePriorityRepository->findAll());
+                }
                 $entityManager->flush();
                 $this->flashMessenger()->addSuccessMessage('Saved');
                 return $this->redirect()->toRoute('pages', array(

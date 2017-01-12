@@ -18,7 +18,7 @@ class Status extends EntityAbstract
      */
     protected $id;
 
-    /** @ORM\Column(type="string", length=32, unique=true) */
+    /** @ORM\Column(type="string", length=32) */
     protected $code;
 
     /** @ORM\Column(type="string", length=128) */

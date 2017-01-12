@@ -92,18 +92,6 @@ class IndexController extends AbstractController
             if ($form->isValid()) {
                 $user->setRole($roleRepository->findOneBy(array('code' => 'user')));
                 $entityManager->persist($user);
-//                $values = $form->getData();
-//                $company_id = null;
-//                if($values['company']){
-//                    $company_id = $values['company];
-//                } if($values['new_company']){'
-//                    $company = new \Application\Entity\Company();
-//                    $company->setCreator($user);
-//                    $entityManager->persist($company);
-//                    $company_id = $company->getId();
-//                }
-//                $user->setCompanies($companyRepository->findOneById($company_id));
-
                 $entityManager->flush();
                 $admin_mailer = new AdminMailer();
                 $host = $_SERVER['SERVER_NAME'];
@@ -115,6 +103,7 @@ class IndexController extends AbstractController
 
             }
         }
+
 
         return new ViewModel(array(
             'SignupForm' => $form,
