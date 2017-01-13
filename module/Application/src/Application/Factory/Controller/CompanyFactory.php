@@ -18,8 +18,10 @@ class CompanyFactory implements FactoryInterface
         $entityManager = $serviceManager->get('doctrine.entitymanager.orm_default');
         $controller = new Controller();
         $controller->setEntityManager($entityManager);
+        $identityPlugin = $serviceManager->get('identity');
         $paginationService = $serviceManager->get('pagination');
         $controller->setPaginationService($paginationService);
+        $controller->setIdentityPlugin($identityPlugin);
         return $controller;
     }
 }
