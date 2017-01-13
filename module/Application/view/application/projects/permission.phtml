@@ -1,9 +1,12 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <?php echo $this->utils()->getAction() ?> Project
+        <?php echo $this->utils()->getAction() ?> Permission to Project
     </div>
     <div class="panel-body">
-        <?php echo $this->partial('application/includes/form/form_horizontal.phtml', array('form' => $projectPermissionForm)); ?>
+        <div>
+            <p>Project: <?php echo $project->getName()?></p>
+            <p>User: <?php echo $user->getFirstName(). ' ' . $user->getLastName(); ?></p>
+        </div>
+        <div><?php echo $this->partial('application/includes/form/form_horizontal.phtml', array('form' => $projectPermissionForm)); ?></div>
     </div>
-
 </div>

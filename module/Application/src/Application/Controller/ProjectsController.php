@@ -172,28 +172,20 @@ class ProjectsController extends AbstractController
             $user = $userRepository->findOneById((int)$user_id);
         }
         $projectPermission = null;
-        if (!$project) {
+        if (!$project && $user) {
             return $this->notFound();
         }
-        if($user){
-            $projectPermission = $projectPermissionRepository->findOneBy(array('user'=> $user, 'project'=> $project));
-        }
+        $projectPermission = $projectPermissionRepository->findOneBy(array('user'=> $user, 'project'=> $project));
         if(!$projectPermission){
             $projectPermission = new  \Application\Entity\ProjectPermission();
             $projectPermission->setProject($project);
-            if($user){
-                $projectPermission->setUser($user);
-            }
-
+            $projectPermission->setUser($user);
         }
-        $companies_projects = $projectRepository->getProjectsInCompany($project->getCompany() );
         $projectPermissionForm = new \Application\Form\ProjectPermissionForm('projectPermission', array(
             'projectPermission' => $projectPermission,
-            'companies_projects'=> $companies_projects,
-            'companies_users' => $userRepository->getUsersInCompany($project->getCompany()),
             'backBtnUrl' =>$this->url()->fromRoute('pages', array(
                 'controller' => 'projects',
-                'action'=>'users',
+                'action' => 'users',
                 'id' => $project_id), array(), true)
         ));
 
@@ -203,6 +195,8 @@ class ProjectsController extends AbstractController
             $projectPermissionForm->setData($this->getRequest()->getPost());
             if ($projectPermissionForm->isValid()) {
                 $values = $projectPermissionForm->getData();
+                $projectPermission->setProject($projectRepository->findOneById($values['project']));
+                $projectPermission->setUser($userRepository->findOneById($values['user']));
                 $entityManager->persist($projectPermission);
                 $entityManager->flush();
                 $this->flashMessenger()->addSuccessMessage('Saved');
@@ -215,9 +209,67 @@ class ProjectsController extends AbstractController
 
         return new ViewModel(array(
             'projectPermissionForm' => $projectPermissionForm,
+            'user'=>$user,
+            'project' =>$project,
         ));
 
 
+    }
+
+    public function inviteAction()
+    {
+        $project_id = $this->params()->fromRoute('id');
+        $entityManager = $this->getEntityManager();
+        /** @var \Application\Repository\ProjectRepository $projectRepository */
+        $projectRepository = $entityManager->getRepository('\Application\Entity\Project');
+        /** @var \Application\Repository\ProjectPermissionRepository $projectPermissionRepository */
+        $projectPermissionRepository = $entityManager->getRepository('\Application\Entity\ProjectPermission');
+        /** @var \Application\Repository\UserRepository $userRepository */
+        $userRepository = $entityManager->getRepository('\Application\Entity\User');
+
+        $project = $projectRepository->findOneById((int)$project_id);
+        $inviteForm =  new \Application\Form\InviteForm();
+        if ($this->getRequest()->isPost()) {
+            $inviteForm->setData($this->getRequest()->getPost());
+            if ($inviteForm->isValid()) {
+                $values = $inviteForm->getData();
+                $invites_email = array();
+                if($values['email_1']) $invites_email[]=$values['email_1'];
+                if($values['email_2']) $invites_email[]=$values['email_2'];
+                if($values['email_3']) $invites_email[]=$values['email_3'];
+
+                foreach ($invites_email as $email){
+                    $u = $userRepository->findOneByEmail($email);
+                    if( $u){
+                        //TODO: create invite to email where user can add to project
+                    } else {
+                        $new_user = new \Application\Entity\User();
+                        $new_user->setEmail($email);
+                        $password = substr(md5(microtime()),rand(0,26),20);
+                        $new_user->setPassword($password);
+                        // TODO: write create new permission from new user and add user to company
+                        // TODO: create new Action in User controller where rout has pass and email user. Action can reset password
+                        // TODO: create invite to email
+
+
+                    }
+                }
+
+//                $entityManager->persist($projectPermission);
+//                $entityManager->flush();
+                $this->flashMessenger()->addSuccessMessage('Saved');
+                return $this->redirect()->toRoute('pages', array(
+                    'controller' => 'projects',
+                    'action' => 'users',
+                    'id' => $project_id), array(), true);
+            }
+        }
+
+
+        return new ViewModel(array(
+            'inviteForm'=> $inviteForm,
+            'project'=> $project
+        ));
     }
 
     public function deleteAction()

@@ -19,12 +19,10 @@ class ProjectPermissionForm extends ApplicationFormAbstract
         $this->setAttribute('method', 'post');
         $this->setAttribute('action', '');
         $this->setAttribute('class', 'mdl-cell mdl-cell--6-col');
-
         $projectPermission = null;
-        $companies_users = array();
-        $companies_projects = array();
         $project = null;
         $user = null;
+
         if (isset($options['projectPermission'])) {
             /** @var \Application\Entity\ProjectPermission $projectPermission */
             $projectPermission = $options['projectPermission'];
@@ -32,38 +30,16 @@ class ProjectPermissionForm extends ApplicationFormAbstract
             $user = $projectPermission->getUser();
         }
 
-        foreach ($options['companies_users'] as $t) {
-            $companies_users[$t->getId()] = $t->getName().' '. $t->getLastName();
-        }
 
-
-        foreach ($options['companies_projects'] as $t) {
-            $companies_projects[$t->getId()] = $t->getName();
-        }
-
-
-        $this->add(new Form\Element\Select('project', array(
+        $this->add(new Form\Element\Hidden('project', array(
             'label' => "Project Name",
-            'value_options' => $companies_projects,
-            'attributes' => array(
-                'field_icon_class' => 'fa fa-unlock'
-            )
         )));
-        if (is_object($project)) {
-            $this->get('project')->setValue($project->getId());
-        }
+        $this->get('project')->setValue($project->getId());
 
-        $this->add(new Form\Element\Select('user', array(
+        $this->add(new Form\Element\Hidden('user', array(
             'label' => "Users",
-            'value_options' => $companies_users,
-            'attributes' => array(
-                'field_icon_class' => 'fa fa-unlock'
-            )
         )));
-        if (is_object($user)) {
-            $this->get('user')->setValue($user->getId());
-        }
-
+        $this->get('user')->setValue($user->getId());
 
         $this->add(new Form\Element\Radio('create_task', array(
             'label' => "Create Task",
