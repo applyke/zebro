@@ -9,6 +9,7 @@ select{
     width: 100%;
     display: block;
 }
+
 .addButton {
     bottom: 10%;
     right: 10%;
@@ -23,9 +24,21 @@ select{
 .mdl-data-table td, .mdl-data-table th {
     text-align: left;
 }
-.boardColumn{
-    background-color: #e0e0e0;
-    height: 300px;
+.boardColumn {
+    padding: 5%;
+    min-height: 20px;
+    background-color: #ebebeb;
+    margin-right: 5px;
+    text-align: center;
+    cursor: move;
+}
+.issueColumns{
+    border: 1px solid #3081f0;
+    border-radius: 3px;
+    min-height: 40px;
+}
+.issueColumns.over {
+    border: 2px dashed #000;
 }
 [draggable] {
     -moz-user-select: none;
@@ -36,6 +49,7 @@ select{
     -khtml-user-drag: element;
     -webkit-user-drag: element;
 }
-.column.over {
-    border: 2px dashed #000;
+.projectNameOnTask{
+    text-align: right;
+    margin-right: 5%;
 }

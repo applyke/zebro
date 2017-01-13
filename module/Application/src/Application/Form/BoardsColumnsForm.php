@@ -27,41 +27,40 @@ class BoardsColumnsForm extends ApplicationFormAbstract
             $boards_columns_status[$t->getId()] = $t->getTitle();
         }
         $board = null;
-        $boardscolumns = null;
+        $boardColumns = null;
         $status = null;
-        if (isset($options['boardscolumns'])) {
-            /** @var \Application\Entity\BoardsColumns $boardscolumns */
-            $boardscolumns = $options['boardscolumns'];
+        if (isset($options['boardColumns'])) {
+            /** @var \Application\Entity\BoardsColumns $boardColumns */
+            $boardColumns = $options['boardColumns'];
             /** @var \Application\Entity\Board $board */
-            $board = $boardscolumns->getBoard();
+            $board = $boardColumns->getBoard();
             /** @var \Application\Entity\Status $status */
-            $status = $boardscolumns->getStatus();
+            $status = $boardColumns->getStatus();
         }
 
         if (!$board && $options['boards_from_id']) {
             $board = $options['boards_from_id'];
         }
 
-
         $this->add(new Form\Element\Text('name', array(
             'label' => "Column's Name"
         )));
-        if (is_object($boardscolumns)) {
-            $this->get('name')->setValue($boardscolumns->getName());
+        if (is_object($boardColumns)) {
+            $this->get('name')->setValue($boardColumns->getName());
         }
 
         $this->add(new Form\Element\Text('min', array(
             'label' => "Min"
         )));
-        if (is_object($boardscolumns)) {
-            $this->get('min')->setValue($boardscolumns->getMin());
+        if (is_object($boardColumns)) {
+            $this->get('min')->setValue($boardColumns->getMin());
         }
 
         $this->add(new Form\Element\Text('max', array(
             'label' => "Max"
         )));
-        if (is_object($boardscolumns)) {
-            $this->get('max')->setValue($boardscolumns->getMax());
+        if (is_object($boardColumns)) {
+            $this->get('max')->setValue($boardColumns->getMax());
         }
 
         $this->add(new Form\Element\Select('board', array(
@@ -105,15 +104,15 @@ class BoardsColumnsForm extends ApplicationFormAbstract
     {
         $factory = new FilterFactory();
         $board = null;
-        $boardscolumns = null;
+        $boardColumns = null;
         $status = null;
-        if (isset($options['boardscolumns'])) {
-            /** @var \Application\Entity\BoardsColumns $boardscolumns */
-            $boardscolumns = $options['boardscolumns'];
+        if (isset($options['boardColumns'])) {
+            /** @var \Application\Entity\BoardsColumns $boardColumns */
+            $boardColumns = $options['boardColumns'];
             /** @var \Application\Entity\Board $board */
-            $board = $boardscolumns->getBoard();
+            $board = $boardColumns->getBoard();
             /** @var \Application\Entity\Status $status */
-            $status = $boardscolumns->getStatus();
+            $status = $boardColumns->getStatus();
         }
 
         return $factory->createInputFilter(array(
@@ -134,24 +133,24 @@ class BoardsColumnsForm extends ApplicationFormAbstract
                 'filters' => array(
                     new \Zend\Filter\Digits(),
                 ),
-//                'validators' => array(
-//                    new \Zend\Validator\StringLength(array(
-//                        'min' => 1,
-//                        'max' => 128
-//                    )),
-//                )
+                'validators' => array(
+                    new \Zend\Validator\StringLength(array(
+                        'min' => 1,
+                        'max' => 128
+                    )),
+                )
             ),
             'max' => array(
                 'required' => true,
                 'filters' => array(
                     new \Zend\Filter\Digits(),
                 ),
-//                'validators' => array(
-//                    new \Zend\Validator\StringLength(array(
-//                        'min' => 1,
-//                        'max' => 1024
-//                    )),
-//                )
+                'validators' => array(
+                    new \Zend\Validator\StringLength(array(
+                        'min' => 1,
+                        'max' => 128
+                    )),
+                )
             ),
             'board' => array(
                 'required' => false,
@@ -164,7 +163,7 @@ class BoardsColumnsForm extends ApplicationFormAbstract
                         'name' => 'Callback',
                         'options' => array(
                             'messages' => array(
-                                \Zend\Validator\Callback::INVALID_VALUE => 'User doesn\'t exists',
+                                \Zend\Validator\Callback::INVALID_VALUE => 'Board doesn\'t exists',
                             ),
                             'callback' => function ($value, $context = array()) use ($board) {
                                 $em = $this->getEntityManager();

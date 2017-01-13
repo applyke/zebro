@@ -11,6 +11,8 @@ return array(
                     'route' => '/',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Application\Controller',
+                        'controller' => 'Index',
+                        'action' => 'index',
                     ),
                 ),
                 'may_terminate' => true,

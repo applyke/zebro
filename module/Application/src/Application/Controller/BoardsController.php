@@ -40,7 +40,7 @@ class BoardsController extends AbstractController
         /** @var \Application\Repository\StatusRepository $statusRepository */
         $statusRepository = $entityManager->getRepository('\Application\Entity\Status');
         $board = new \Application\Entity\Board();
-
+       
         if (isset($id)) {
             $board = $boardRepository->findOneById((int)$id);
             $boardColumns = $boardColumnsRepository->findBy(array('board' => $board->getId()));
@@ -54,7 +54,7 @@ class BoardsController extends AbstractController
             'projects' => $projectRepository->findBy(array(), array('name' => 'asc')),
             'administrator' => $userRepository->findBy(array(), array('first_name' => 'asc')),
             'status' => $statusRepository->findBy(array(), array('title' => 'asc')),
-            'backBtnUrl' => $this->url()->fromRoute('home', array(
+            'backBtnUrl' => $this->url()->fromRoute('pages/default', array(
                 'controller' => 'boards',
                 'action' => 'index'), array(), true)
         ));
@@ -77,7 +77,9 @@ class BoardsController extends AbstractController
                 $entityManager->persist($board);
                 $entityManager->flush();
                 $this->flashMessenger()->addSuccessMessage('Saved');
-                return $this->redirect()->toUrl('/boards');
+                return $this->redirect()->toRoute('pages/default', array(
+                    'controller' => 'boards',
+                    'action' => 'index'), array(), true);
             }
         }
         return new ViewModel(array(
@@ -96,7 +98,7 @@ class BoardsController extends AbstractController
         /** @var \Application\Repository\IssueRepository $issueRepository */
         $issueRepository = $entityManager->getRepository('\Application\Entity\Issue');
         $board = $boardRepository->findOneById((int)$id);
-        $boardColumns = $boardColumnsRepository->findBy(array('board' => $board->getId()));
+        $boardColumns = $boardColumnsRepository->findBy(array('board' => $board->getId()), array('consecutive_number' => 'asc'));
         if (!$board) {
             return $this->notFound();
         }

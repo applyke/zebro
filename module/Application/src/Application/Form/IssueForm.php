@@ -124,8 +124,8 @@ class IssueForm extends ApplicationFormAbstract
                 'field_icon_class' => 'fa fa-unlock'
             )
         )));
-        if (is_object($assignee)) {
-            $this->get('assignee')->setValue($assignee->getId());
+        if (is_object($issueAssignee)) {
+            $this->get('assignee')->setValue($issueAssignee->getId());
         }
 
         $this->add(new Form\Element\Select('status', array(

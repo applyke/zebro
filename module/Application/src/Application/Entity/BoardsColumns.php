@@ -28,6 +28,10 @@ class BoardsColumns extends EntityAbstract
     /** max count of elements in column */
     /** @ORM\Column(type="string", length=128) */
     protected $max;
+    
+    /** max count of elements in column */
+    /** @ORM\Column(type="string", length=128) */
+    protected $consecutive_number;
 
     /**
      * @ORM\ManyToOne(targetEntity="Board")

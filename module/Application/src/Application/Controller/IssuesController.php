@@ -57,7 +57,7 @@ class IssuesController extends AbstractController
             'priority' => $issuePriorityRepository->findBy(array(), array('title' => 'asc')),
             'assignee' => $userRepository->findBy(array(), array('first_name' => 'asc')),
             'status' => $statusRepository->findBy(array(), array('title' => 'asc')),
-            'backBtnUrl' => $this->url()->fromRoute('home', array(
+            'backBtnUrl' => $this->url()->fromRoute('pages/default', array(
                 'controller' => 'issues',
                 'action' => 'index'), array(), true)
         ));
@@ -77,7 +77,7 @@ class IssuesController extends AbstractController
                 $entityManager->persist($issue);
                 $entityManager->flush();
                 $this->flashMessenger()->addSuccessMessage('Saved');
-                return $this->redirect()->toRoute('home', array(
+                return $this->redirect()->toRoute('pages/default', array(
                     'controller' => 'issues',
                     'action' => 'index'), array(), true);
             }
