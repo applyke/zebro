@@ -18,6 +18,7 @@ return array(
                     'controller:index:index',
                     'controller:index:signup',
                     'controller:user:activate',
+                    'controller:user:resetpassword',
                 )
             ),
         ),

@@ -5,6 +5,7 @@ namespace Application\Controller;
 use Application\Controller\AbstractController;
 use Zend\View\Model\ViewModel;
 use Application\Service\ProjectService;
+use Application\Service\AdminMailer;
 
 class ProjectsController extends AbstractController
 {
@@ -226,7 +227,9 @@ class ProjectsController extends AbstractController
         $projectPermissionRepository = $entityManager->getRepository('\Application\Entity\ProjectPermission');
         /** @var \Application\Repository\UserRepository $userRepository */
         $userRepository = $entityManager->getRepository('\Application\Entity\User');
-
+        /** @var \Application\Repository\RoleRepository $roleRepository */
+        $roleRepository = $entityManager->getRepository('\Application\Entity\Role');
+        $user = $this->getIdentityPlugin()->getIdentity();
         $project = $projectRepository->findOneById((int)$project_id);
         $inviteForm =  new \Application\Form\InviteForm();
         if ($this->getRequest()->isPost()) {
@@ -247,11 +250,22 @@ class ProjectsController extends AbstractController
                         $new_user->setEmail($email);
                         $password = substr(md5(microtime()),rand(0,26),20);
                         $new_user->setPassword($password);
-                        // TODO: write create new permission from new user and add user to company
-                        // TODO: create new Action in User controller where rout has pass and email user. Action can reset password
-                        // TODO: create invite to email
+                        $company = $project->getCompany();
+                       // $new_user->setCompanies();
 
-
+                        $new_user->setRole($roleRepository->findOneBy(array('code'=>\Application\Entity\Role::ROLE_USER)));
+                        $entityManager->persist($new_user);
+                        $projectPermission = new  \Application\Entity\ProjectPermission();
+                        $projectPermission->setProject($project);
+                        $projectPermission->setUser($new_user);
+                        $entityManager->persist($projectPermission);
+                        $entityManager->flush();
+                        $admin_mailer = new AdminMailer();
+                        $host = $_SERVER['SERVER_NAME'];
+                        $massage = "User with email {$user->getEmail()} invited you to Project {$project->getName()}. Your  Account is complete. Go from link to reset password http://{$host}/user/reset-password/$password/?email={$email}}";
+                        $admin_mailer->setSubject("Registration in Applyke Tracker")
+                            ->setBody("$massage")->setMailTo($new_user->getEmail())
+                            ->send();
                     }
                 }
 
