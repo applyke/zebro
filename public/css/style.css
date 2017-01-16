@@ -27,29 +27,24 @@ select{
 .boardColumn {
     padding: 5%;
     min-height: 20px;
-    background-color: #ebebeb;
-    margin-right: 5px;
-    text-align: center;
+    background: #ebebeb;
+    /*text-align: left;*/
     cursor: move;
 }
 .issueColumns{
-    border: 1px solid #3081f0;
+    border: 1px solid #96c8ff;
+    background: #fdfdfd;
     border-radius: 3px;
     min-height: 40px;
 }
-.issueColumns.over {
-    border: 2px dashed #000;
-}
-[draggable] {
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-    /* Required to make elements draggable in old WebKit */
-    -khtml-user-drag: element;
-    -webkit-user-drag: element;
-}
+
 .projectNameOnTask{
     text-align: right;
-    margin-right: 5%;
+}
+ul{
+    list-style: none;
+}
+.highlight {
+    border: 1px solid #3081f0;
+    font-weight: bold;
 }

@@ -37,6 +37,10 @@ class Issue extends EntityAbstract
      */
     protected $type;
 
+    /** sequence number of elements in column */
+    /** @ORM\Column(type="string", length=128) */
+    protected $sequence_number=0;
+
     /**
      * @ORM\ManyToOne(targetEntity="IssuePriority")
      * @ORM\JoinColumn(name="priority_id", referencedColumnName="id")

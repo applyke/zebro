@@ -17,6 +17,7 @@ gulp.task('lint', function() {
 gulp.task('js', function() {
     return gulp.src([
         'assets/js/jquery-3.1.1.js',
+        'assets/js/jquery-ui.js',
         'node_modules/material-design-lite/material.js',
         'node_modules/mdl-selectfield/src/selectfield/selectfield.js',
         'assets/js/layout.js'

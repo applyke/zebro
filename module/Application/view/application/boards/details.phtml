@@ -1,50 +1,45 @@
 <div class="mdl-grid">
     <?php foreach ($boardColumns as $column): ?>
-        <div class="mdl-cell mdl-cell--3-col column" draggable="true">
-            <div class="columnsHeader"
-            <span><?php echo $column->getName() ?></span>
-        </div>
-            <div class="boardColumn"  id="columns">
-
-                <?php if ($issuesArray && $issuesArray[$column->getStatus()->getId()]): ?>
-                    <?php foreach ($issuesArray[$column->getStatus()->getId()] as $issue): ?>
-                        <div class="issueColumns mdl-cell mdl-cell--12-col " draggable="true">
-                            <?php echo $issue->getSummary(); ?>
-                            <a class=""
-                               href="/issues/create/<?php echo $issue->getId() ?>"> edit </a>
-                            <div class="projectNameOnTask">
-                                <?php echo $issue->getProject()->getName(); ?>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </div>
-        </div>
-    <?php endforeach; ?>
-    <div class="mdl-cell mdl-cell--2-col addButton">
-        <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored "
-           href="/boards-columns/create/<?php echo $board->getId(); ?>">
-            <i class="material-icons">add</i>
-        </a>
-        <?php if ($boardColumns): ?>
-            <button id="demo-menu-top-right"
-                    class="mdl-button mdl-js-button mdl-button--fab">
-                <i class="material-icons">mode_edit</i>
-            </button>
-
-            <ul class="mdl-menu mdl-menu--top-right mdl-js-menu mdl-js-ripple-effect"
-                data-mdl-for="demo-menu-top-right">
-                <?php foreach ($boardColumns as $column): ?>
-
-                    <a href="/boards-columns/create/<?php echo $board->getId(); ?>/<?php echo $column->getId(); ?>">
-                        <li class="mdl-menu__item"> <?php echo $column->getName() ?></li>
-                    </a>
-
-                <?php endforeach; ?>
-            </ul>
-        <?php endif; ?>
-
-        <?php //echo $paginator; ?>
+    <div class="mdl-cell mdl-cell--3-col column container">
+        <div class="columnsHeader "
+        <span><?php echo $column->getName() ?></span>
     </div>
+    <ul class="sortable connectedSortable boardColumn" id="<?php echo $column->getId() ?>">
+        <?php if ($issuesArray && $issuesArray[$column->getStatus()->getId()]): ?>
+            <?php foreach ($issuesArray[$column->getStatus()->getId()] as $issue): ?>
+                <li class="issueColumns mdl-cell  mdl-cell--12-col " id="<?php echo $issue->getId(); ?>">
+                    <?php echo $issue->getSummary(); ?>
+                    <p class="projectNameOnTask">
+                        Project Name:<?php echo $issue->getProject()->getName(); ?>
+                    </p>
+                </li>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </ul>
 </div>
-<!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+<?php endforeach; ?>
+<div class="mdl-cell mdl-cell--2-col addButton">
+    <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored "
+       href="/boards-columns/create/<?php echo $board->getId(); ?>">
+        <i class="material-icons">add</i>
+    </a>
+    <?php if ($boardColumns): ?>
+        <button id="demo-menu-top-right"
+                class="mdl-button mdl-js-button mdl-button--fab">
+            <i class="material-icons">mode_edit</i>
+        </button>
+
+        <ul class="mdl-menu mdl-menu--top-right mdl-js-menu mdl-js-ripple-effect"
+            data-mdl-for="demo-menu-top-right">
+            <?php foreach ($boardColumns as $column): ?>
+                <a href="/boards-columns/create/<?php echo $board->getId(); ?>/
+            <?php echo $column->getId(); ?>">
+                    <li class="mdl-menu__item"> <?php echo $column->getName() ?></li>
+                </a>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+    <?php //echo $paginator; ?>
+</div>
+

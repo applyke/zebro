@@ -20,22 +20,19 @@ class BoardsColumnsController extends AbstractController
         /** @var \Application\Repository\StatusRepository $statusRepository */
         $statusRepository = $entityManager->getRepository('\Application\Entity\Status');
         $boardsColumns = new \Application\Entity\BoardsColumns();
-        $consecutiveNumber = 0;
+
         if (isset($id2)) {
             $boardsColumns = $boardColumnsRepository->findOneById((int)$id2);
             if (!$boardsColumns) {
                 return $this->notFound();
             }
-            $consecutiveNumber = $boardsColumns->getConsecutiveNumber();
         }
         $boards_from_id = null;
-        if (isset($id)) {
+        if(isset($id)){
             $boards_from_id = $boardRepository->findOneById((int)$id);
-            $columns = $boardColumnsRepository->findOneBy(array('board' => $boards_from_id->getId()), array('consecutive_number' => 'desc'));
-            $consecutiveNumber = $columns->getConsecutiveNumber() + 1;
         }
 
-        $boardsColumnsForm = new \Application\Form\BoardsColumnsForm('boardscolumns', array(
+        $boardsColumnsForm = new \Application\Form\BoardsColumnsForm('boardColumns', array(
             'boardColumns' => $boardsColumns,
             'board' => $boardRepository->findBy(array(), array('title' => 'asc')),
             'boards_from_id' => $boards_from_id,
@@ -53,7 +50,6 @@ class BoardsColumnsController extends AbstractController
                 $values = $boardsColumnsForm->getData();
                 $boardsColumns->setBoard($boardRepository->findOneById($values['board']));
                 $boardsColumns->setStatus($statusRepository->findOneById($values['status']));
-                $boardsColumns->setConsecutiveNumber($consecutiveNumber);
                 $entityManager->persist($boardsColumns);
                 $entityManager->flush();
                 $this->flashMessenger()->addSuccessMessage('Saved');

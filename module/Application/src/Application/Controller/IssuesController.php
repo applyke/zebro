@@ -62,14 +62,19 @@ class IssuesController extends AbstractController
                 'action' => 'index'), array(), true)
         ));
 
-
+       
         $issueForm->setEntityManager($entityManager)
             ->bind($issue);
         if ($this->getRequest()->isPost()) {
             $issueForm->setData($this->getRequest()->getPost());
             if ($issueForm->isValid()) {
                 $values = $issueForm->getData();
-                $issue->setProject($projectRepository->findOneById($values['project']));
+                $project = $projectRepository->findOneById($values['project']);
+                $lastIssues = $issueRepository->findOneBy(array('project' => $project), array('sequence_number' => 'asc'));
+                if($lastIssues){
+                    $issue->setSequenceNumber($lastIssues->getSequenceNumber()+1);
+                }
+                $issue->setProject($project);
                 $issue->setType($issueTypeRepository->findOneById($values['type']));
                 $issue->setPriority($issuePriorityRepository->findOneById($values['priority']));
                 $issue->setAssignee($userRepository->findOneById($values['assignee']));

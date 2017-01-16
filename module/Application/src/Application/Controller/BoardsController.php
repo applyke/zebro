@@ -4,6 +4,7 @@ namespace Application\Controller;
 
 use Application\Controller\AbstractController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 
 class BoardsController extends AbstractController
 {
@@ -40,7 +41,7 @@ class BoardsController extends AbstractController
         /** @var \Application\Repository\StatusRepository $statusRepository */
         $statusRepository = $entityManager->getRepository('\Application\Entity\Status');
         $board = new \Application\Entity\Board();
-       
+
         if (isset($id)) {
             $board = $boardRepository->findOneById((int)$id);
             $boardColumns = $boardColumnsRepository->findBy(array('board' => $board->getId()));
@@ -98,16 +99,38 @@ class BoardsController extends AbstractController
         /** @var \Application\Repository\IssueRepository $issueRepository */
         $issueRepository = $entityManager->getRepository('\Application\Entity\Issue');
         $board = $boardRepository->findOneById((int)$id);
-        $boardColumns = $boardColumnsRepository->findBy(array('board' => $board->getId()), array('consecutive_number' => 'asc'));
+        $boardColumns = $boardColumnsRepository->findBy(array('board' => $board->getId()));
+        /** @var \Application\Repository\StatusRepository $statusRepository */
+        $statusRepository = $entityManager->getRepository('\Application\Entity\Status');
+
+        if ($this->getRequest()->isPost()) {
+            $idColumn = (int)$this->getRequest()->getPost('idColumn');
+            $idIssues = (array)explode(',', $this->getRequest()->getPost('idIssue'));
+            if ($idColumn) {
+                $boardColumn = $boardColumnsRepository->findOneById((int)$idColumn);
+                if (!empty($idIssues)) {
+                    foreach ($idIssues as $index => $idIssue) {
+                        $issue = $issueRepository->findOneById((int)$idIssue);
+                        if (!$issue) {
+                            return new JsonModel(array('success' => 0));
+                        }
+                        $issue->setStatus($statusRepository->findOneById((int)$boardColumn->getStatus()->getId()));
+                        $issue->setSequenceNumber($index);
+                        $entityManager->persist($issue);
+                    }
+                    $entityManager->flush();
+                }
+            }
+            return new JsonModel(array('success' => 1));
+        }
+
         if (!$board) {
             return $this->notFound();
         }
-        /** @var \Application\Repository\StatusRepository $statusRepository */
-        $statusRepository = $entityManager->getRepository('\Application\Entity\Status');
         $statuses = $statusRepository->findBy(array(), array('title' => 'asc'));
         $issuesArray = array();
         foreach ($statuses as $status) {
-            $issuesArray[$status->getId()] = $issueRepository->findBy(array('project' => $board->getProject()->getId(), 'status' => $status));
+            $issuesArray[$status->getId()] = $issueRepository->findBy(array('project' => $board->getProject()->getId(), 'status' => $status), array('sequence_number' => 'asc'));
         }
         return new ViewModel(array(
             'board' => $board,
