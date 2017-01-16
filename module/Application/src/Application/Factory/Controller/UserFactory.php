@@ -16,10 +16,12 @@ class UserFactory implements FactoryInterface
 
         /** @var \Doctrine\Orm\EntityManager $entityManager */
         $entityManager = $serviceManager->get('doctrine.entitymanager.orm_default');
+        $AuthenticationService = $serviceManager->get('Zend\Authentication\AuthenticationService');
         $controller = new Controller();
         $controller->setEntityManager($entityManager);
         $paginationService = $serviceManager->get('pagination');
         $controller->setPaginationService($paginationService);
+        $controller->setAuthenticationService($AuthenticationService);
         return $controller;
     }
 }

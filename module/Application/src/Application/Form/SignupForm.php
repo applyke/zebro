@@ -183,7 +183,9 @@ class SignupForm extends ApplicationFormAbstract
                 'filters' => array(
                     new \Zend\Filter\StringTrim(),
                 ),
-                'validators' => array()
+                'validators' => array(
+                    new \Zend\Validator\EmailAddress(),
+                )
             ),
 
 //            'companies' => array(

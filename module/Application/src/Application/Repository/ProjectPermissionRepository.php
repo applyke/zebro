@@ -4,6 +4,7 @@ namespace Application\Repository;
 
 use Application\Entity\Project;
 use Application\Entity\User;
+use Application\Entity\Company;
 
 class ProjectPermissionRepository extends Repository
 {
@@ -45,5 +46,19 @@ class ProjectPermissionRepository extends Repository
         $permission->setDeleteUserFromProject(1);
         $permission->setChangePermission(1);
        return $permission;
+    }
+
+    public function getCompaniesProjectWhenUserCanInvite(User $user, Company $company)
+    {
+        $query = $this->createQueryBuilder('perm')
+            ->innerJoin('perm.project', 'project')
+            ->where('perm.user= :user')
+            ->setParameter('user', $user)
+            ->andWhere('perm.invite_to_project = 1')
+            ->andWhere('project.company = :company')
+            ->setParameter('company', $company);
+
+
+        return $query->getQuery()->getResult();
     }
 }

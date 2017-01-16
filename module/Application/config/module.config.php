@@ -35,6 +35,19 @@ return array(
                     ),
                 ),
             ),
+            'reset_password' => array(
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => array(
+                    'route' => '/user/reset-password/[:password]/',
+                    'constraints' => array(
+
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\User',
+                        'action' => 'resetpassword',
+                    ),
+                ),
+            ),
             'setting' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
