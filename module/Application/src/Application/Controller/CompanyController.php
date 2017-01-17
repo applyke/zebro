@@ -21,9 +21,21 @@ class CompanyController extends AbstractController
         /** @var \Application\Repository\CompanyRepository $companyRepository */
         $companyRepository = $entityManager->getRepository('\Application\Entity\Company');
         $user = $this->getIdentityPlugin()->getIdentity();
+      
+        $companyId = null;
+        if ($this->getRequest()->isPost()) {
+            $company = $companyRepository->findOneById($this->getRequest()->getPost('idCompany'));
+            if($company){
+                $companyId = $company->getId();
+            }
+            $user->setCompanyAccount($companyId);
+            $entityManager->persist($user);
+            $entityManager->flush();
+        }
         $usersCompanies = $companyRepository->findBy(array('creator' => $user));
         $user_work_in_company = $user->getCompanies()->toArray();
         return new ViewModel(array(
+            'user' => $user,
             'usersCompanies' => $usersCompanies,
             'user_work_in_company' => $user_work_in_company,
         ));
@@ -56,7 +68,7 @@ class CompanyController extends AbstractController
             $companyForm->setData($this->getRequest()->getPost());
             if ($companyForm->isValid()) {
                 $values = $companyForm->getData();
-                $user =  $this->getIdentityPlugin()->getIdentity();
+                $user = $this->getIdentityPlugin()->getIdentity();
                 $company->setCreator($userRepository->findOneById($user->getId()));
                 $entityManager->persist($company);
                 $entityManager->flush();

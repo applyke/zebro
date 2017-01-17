@@ -7,11 +7,13 @@
     <ul class="sortable connectedSortable boardColumn" id="<?php echo $column->getId() ?>">
         <?php if ($issuesArray && $issuesArray[$column->getStatus()->getId()]): ?>
             <?php foreach ($issuesArray[$column->getStatus()->getId()] as $issue): ?>
-                <li class="issueColumns mdl-cell  mdl-cell--12-col " id="<?php echo $issue->getId(); ?>">
-                    <?php echo $issue->getSummary(); ?>
-                    <p class="projectNameOnTask">
-                        Project Name:<?php echo $issue->getProject()->getName(); ?>
-                    </p>
+                <li class="issueColumns " id="<?php echo $issue->getId(); ?>">
+                    <div class=" mdl-cell  mdl-cell--12-col">
+                        <?php echo $issue->getSummary(); ?>
+                        <p class="projectNameOnTask">
+                            Project Name:<?php echo $issue->getProject()->getName(); ?>
+                        </p>
+                    </div>
                 </li>
             <?php endforeach; ?>
         <?php endif; ?>

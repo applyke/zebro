@@ -26,6 +26,9 @@ class User extends EntityAbstract
     protected $middle_name;
 
     /** @ORM\Column(type="string", length=128, nullable=true) */
+    protected $company_account;
+
+    /** @ORM\Column(type="string", length=128, nullable=true) */
     protected $last_name;
 
     /** @ORM\Column(type="string", length=255, unique=true) */
@@ -56,6 +59,8 @@ class User extends EntityAbstract
     /** @ORM\Column(type="datetime", nullable=true) */
     protected $updated;
 
+    /** @ORM\Column(type="datetime", nullable=true) */
+    protected $last_login;
     /**
      * @ORM\PrePersist
      */

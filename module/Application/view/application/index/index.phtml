@@ -4,7 +4,6 @@
             <form action="<?php echo $this->url('home', array('controller' => 'index', 'action' => 'index')) ?>"
                   method="post" class="form-sign-in" role="form">
                 <h3 class="form-signin-heading">Authorization Required</h3>
-
                 <div class="form-group">
                     <label for="inputEmail1">Login</label>
                     <input id="inputEmail1" name="email" type="text" class="mdl-textfield__input" placeholder="Login"
@@ -23,7 +22,7 @@
                         <p class="text-danger"><?php echo current($this->form->get('password')->getMessages()) ?></p>
                     <?php endif; ?>
                 </div>
-
+               
                 <?php //echo $this->form->get('g-recaptcha-response')->render() ?>
                 <?php /*if (!empty($this->form->get('g-recaptcha-response')->getMessages())): ?>
                     <p class="text-danger"><?php echo current($this->form->get('g-recaptcha-response')->getMessages()) ?></p>

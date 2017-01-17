@@ -1,0 +1,74 @@
+<dialog class="mdl-dialog dialogAccount" id="dialogAccountCompany">
+    <h5 class="dialogTitle">Choose company</h5>
+    <div class="mdl-dialog__content">
+        <?php if ($usersCompanies): ?>
+            <div class="form-group ">
+                <?php foreach ($usersCompanies as $company): ?>
+                    <input name="role" type="radio"  class="mdl-radio__button" value="<?php echo $company->getId() ?>" checked> <label for="cbox1">
+                        <?php echo $company->getName() ?></label><br/>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+    <div class="mdl-dialog__actions">
+
+        <a href="#" type="button" class="mdl-button mdl-js-button mdl-button--raised modal-actionAccount">Agree</a>
+        <button type="button" class="mdl-button buttonCloseAccount">Disagree</button>
+    </div>
+</dialog>
+<dialog class="mdl-dialog " id="dialogAccountUser">
+    <h5 class="dialogTitle">You switch to user mode</h5>
+    <div class="mdl-dialog__actions">
+        <a href="#" type="button" class="mdl-button mdl-js-button mdl-button--raised actionAccountUser">Agree</a>
+    </div>
+</dialog>
+
+<script>
+     $(function () {
+        var dialogAccount = document.getElementById('dialogAccountCompany');
+        var dialogAccountUser = document.getElementById('dialogAccountUser');
+         $('#showCompanies :checkbox').change(function() {
+             if($(this).attr('checked',true)) {
+                 if (!$.cookie("companyAccount")) {
+                 dialogAccount.showModal();
+                     $('#switch').attr('checked', true);
+                 }
+                else{
+                     $.removeCookie('companyAccount');
+                     dialogAccountUser.showModal();
+                     $('#switch').attr('checked', false);
+                 }
+             }});
+        $('.actionAccountUser').click(function () {
+            $('.showCompanies ').removeClass('is-checked');
+            dialogAccountUser.close();
+            $.removeCookie('companyAccount');
+            $.ajax({
+                type: "POST",
+                url: "/company/index",
+                data: 'idCompany=' + null,
+                dataType: "html",
+                success: function () {
+                }
+            });
+        });
+        $('.modal-actionAccount').click(function () {
+            $.cookie('companyAccount', "1");
+            $('.showCompanies ').addClass('is-checked');
+            $.ajax({
+                type: "POST",
+                url: "/company/index",
+                data: 'idCompany=' + $( "input:checked" ).val(),
+                dataType: "html",
+                success: function () {
+                }
+            });
+            //$( "#showCompanies :checkbox" ).val()
+            dialogAccount.close();
+        });
+        $('.buttonCloseAccount').click(function () {
+            $('.showCompanies ').removeClass('is-checked');
+            dialogAccount.close();
+        });
+    });
+</script>

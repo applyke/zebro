@@ -46,7 +46,7 @@ class IndexController extends AbstractController
                         $this->getAuthenticationService()->clearIdentity();
                     } else {
                         $viewData['error_msg'] = null;
-                        //$user->setLastLogin(new \DateTime());
+                        $user->setLastLogin(new \DateTime());
                         $entityManager->persist($user);
                         $entityManager->flush();
                         session_regenerate_id(true);
@@ -56,7 +56,9 @@ class IndexController extends AbstractController
                         if ($referer != $requestUri) {
                             return $this->redirect()->toUrl($referer);
                         } else {
-                            return $this->redirect()->toUrl('/projects');
+                            return $this->redirect()->toRoute('pages/default', array(
+                                'controller' => 'company',
+                                'action' => 'index'), array(), true);
                         }
                     }
                 }
@@ -69,7 +71,7 @@ class IndexController extends AbstractController
     public function logoutAction()
     {
         $this->getAuthenticationService()->clearIdentity();
-        return $this->redirect()->toUrl('/');
+        return $this->redirect()->toRoute('home');
     }
 
     public function signupAction()
@@ -99,7 +101,10 @@ class IndexController extends AbstractController
                 $admin_mailer->setSubject("Registration in Applyke Tracker")
                     ->setBody("$massage")->setMailTo($user->getEmail())
                     ->send();
-                return $this->redirect()->toUrl('/index/massage/');
+//                return $this->redirect()->toUrl('/index/massage/');
+                return $this->redirect()->toRoute('pages', array(
+                    'controller' => 'index',
+                    'action' => 'massage'), array(), true);
 
             }
         }

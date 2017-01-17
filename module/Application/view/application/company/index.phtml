@@ -1,6 +1,12 @@
 <?php echo $this->partial('application/includes/flash_message.phtml'); ?>
 <?php echo $this->partial('application/includes/delete_modal.phtml'); ?>
-
+<?php echo $this->partial('application/includes/pop_up.phtml'); ?>
+<?php if ($usersCompanies != null): ?>
+    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect account showCompanies" for="switch" id="showCompanies">
+        <span class="mdl-switch__label">Company account</span>
+        <input type="checkbox" id="switch" class="mdl-switch__input">
+    </label>
+<?php endif; ?>
 <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--2-col">Choose Project</div>
 
