@@ -45,7 +45,6 @@ class Board extends EntityAbstract
 //     */
 //    protected $shares;
 
-    //TODO: Think about this field
     /** @ORM\Column(type="smallint") */
     protected $status;
 
