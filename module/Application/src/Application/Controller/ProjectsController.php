@@ -221,6 +221,75 @@ class ProjectsController extends AbstractController
 
     }
 
+    public function inviteAction()
+    {
+        $project_id = $this->params()->fromRoute('id');
+        $entityManager = $this->getEntityManager();
+        /** @var \Application\Repository\ProjectRepository $projectRepository */
+        $projectRepository = $entityManager->getRepository('\Application\Entity\Project');
+        /** @var \Application\Repository\ProjectPermissionRepository $projectPermissionRepository */
+        $projectPermissionRepository = $entityManager->getRepository('\Application\Entity\ProjectPermission');
+        /** @var \Application\Repository\UserRepository $userRepository */
+        $userRepository = $entityManager->getRepository('\Application\Entity\User');
+        /** @var \Application\Repository\RoleRepository $roleRepository */
+        $roleRepository = $entityManager->getRepository('\Application\Entity\Role');
+        $user = $this->getIdentityPlugin()->getIdentity();
+        $project = $projectRepository->findOneById((int)$project_id);
+        $inviteForm =  new \Application\Form\InviteForm();
+        if ($this->getRequest()->isPost()) {
+            $inviteForm->setData($this->getRequest()->getPost());
+            if ($inviteForm->isValid()) {
+                $values = $inviteForm->getData();
+                $invites_email = array();
+                if($values['email_1']) $invites_email[]=$values['email_1'];
+                if($values['email_2']) $invites_email[]=$values['email_2'];
+                if($values['email_3']) $invites_email[]=$values['email_3'];
+
+                foreach ($invites_email as $email){
+                    $u = $userRepository->findOneByEmail($email);
+                    if( $u){
+                        //TODO: create invite to email where user can add to project
+                    } else {
+                        $new_user = new \Application\Entity\User();
+                        $new_user->setEmail($email);
+                        $password = substr(md5(microtime()),rand(0,26),20);
+                        $new_user->setPassword($password);
+                        $company = $project->getCompany();
+                        // $new_user->setCompanies();
+
+                        $new_user->setRole($roleRepository->findOneBy(array('code'=>\Application\Entity\Role::ROLE_USER)));
+                        $entityManager->persist($new_user);
+                        $projectPermission = new  \Application\Entity\ProjectPermission();
+                        $projectPermission->setProject($project);
+                        $projectPermission->setUser($new_user);
+                        $entityManager->persist($projectPermission);
+                        $entityManager->flush();
+                        $admin_mailer = new AdminMailer();
+                        $host = $_SERVER['SERVER_NAME'];
+                        $massage = "User with email {$user->getEmail()} invited you to Project {$project->getName()}. Your  Account is complete. Go from link to reset password http://{$host}/user/reset-password/$password/?email={$email}}";
+                        $admin_mailer->setSubject("Registration in Applyke Tracker")
+                            ->setBody("$massage")->setMailTo($new_user->getEmail())
+                            ->send();
+                    }
+                }
+
+//                $entityManager->persist($projectPermission);
+//                $entityManager->flush();
+                $this->flashMessenger()->addSuccessMessage('Saved');
+                return $this->redirect()->toRoute('pages', array(
+                    'controller' => 'projects',
+                    'action' => 'users',
+                    'id' => $project_id), array(), true);
+            }
+        }
+
+
+        return new ViewModel(array(
+            'inviteForm'=> $inviteForm,
+            'project'=> $project
+        ));
+    }
+
     public function deleteAction()
     {
         $id = $this->params()->fromRoute('id');
