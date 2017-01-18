@@ -253,10 +253,22 @@ class ProjectsController extends AbstractController
                 if($values['email_2']) $invites_email[]=$values['email_2'];
                 if($values['email_3']) $invites_email[]=$values['email_3'];
 
+                $admin_mailer = new AdminMailer();
+                $host = $_SERVER['SERVER_NAME'];
                 foreach ($invites_email as $email){
                     $u = $userRepository->findOneByEmail($email);
-                    if( $u){
-                        //TODO: create invite to email where user can add to project
+                    if($u){
+                        $company = $project->getCompany();
+                        // $u->setCompanies();
+                        $entityManager->persist($u);
+                        $projectPermission = new  \Application\Entity\ProjectPermission();
+                        $projectPermission->setProject($project);
+                        $projectPermission->setUser($u);
+                        $entityManager->persist($projectPermission);
+                        $massage = "User with email {$user->getEmail()} invited you to Project {$project->getName()}.";
+                        $admin_mailer->setSubject("Invited you to Project {$project->getName()}")
+                            ->setBody("$massage")->setMailTo($u->getEmail())
+                            ->send();
                     } else {
                         $new_user = new \Application\Entity\User();
                         $new_user->setEmail($email);
@@ -264,7 +276,6 @@ class ProjectsController extends AbstractController
                         $new_user->setPassword($password);
                         $company = $project->getCompany();
                         // $new_user->setCompanies();
-
                         $new_user->setRole($roleRepository->findOneBy(array('code'=>\Application\Entity\Role::ROLE_USER)));
                         $entityManager->persist($new_user);
                         $projectPermission = new  \Application\Entity\ProjectPermission();
@@ -272,8 +283,6 @@ class ProjectsController extends AbstractController
                         $projectPermission->setUser($new_user);
                         $entityManager->persist($projectPermission);
                         $entityManager->flush();
-                        $admin_mailer = new AdminMailer();
-                        $host = $_SERVER['SERVER_NAME'];
                         $massage = "User with email {$user->getEmail()} invited you to Project {$project->getName()}. Your  Account is complete. Go from link to reset password http://{$host}/user/reset-password/$password/?email={$email}}";
                         $admin_mailer->setSubject("Registration in Applyke Tracker")
                             ->setBody("$massage")->setMailTo($new_user->getEmail())
