@@ -1,10 +1,6 @@
-<!DOCTYPE HTML>
-<html lang="ru">
-<head>
-    <meta charset="utf-8">
-    <?php echo $this->headLink()->prependStylesheet($this->basePath('css/bootstrap.min.css')) ?>
-</head>
-<body>
+Access error
+<?php echo $this->partial('layout/layout.phtml'); ?>
+
 <?php
 $msg = 'Application error.';
 /** @var \Zend\Http\PhpEnvironment\Response $response */
@@ -15,17 +11,10 @@ if ($response instanceof \Zend\Http\PhpEnvironment\Response) {
     }
 }
 ?>
-<div id="page-content-wrapper">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Error</div>
-                    <div class="panel-body"><?php echo $msg ?></div>
-                </div>
-            </div>
-        </div>
+<div class="page-content">
+    <div id="access_denied" style="text-align: center; margin: 100px 25px; 100px">
+        Access Denied to this page
+        <p><a href="/">Back</a></p>
     </div>
 </div>
-</body>
-</html>
+

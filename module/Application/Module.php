@@ -56,6 +56,7 @@ class Module
             $eventManager->attach(MvcEvent::EVENT_RENDER_ERROR, array($this, 'onRenderError'), -1);
             $eventManager->attach(\Application\Controller\Plugin\Rbac::EVENT_LOGIN, array($this, 'onLogin'), -1);
             $eventManager->attach(\Application\Controller\Plugin\Rbac::EVENT_PERMISSION_DENIED, array($this, 'onPermissionDenied'), -1);
+            $eventManager->attach(\Application\Service\DacService::EVENT_PERMISSION_DENIED, array($this, 'onPermissionForProjectDenied'), -1);
             $eventManager->attach(MvcEvent::EVENT_FINISH, array($this, 'onFinish'), -1);
         }
     }
@@ -92,6 +93,11 @@ class Module
     public function onPermissionDenied(MvcEvent $e)
     {
         return $this->handleErrors($e, 'Access denied for role "' . USER_ROLE . '" ');
+    }
+
+    public function onPermissionForProjectDenied(MvcEvent $e)
+    {
+        return $this->handleErrors($e, 'Access denied');
     }
 
     public function onRenderError(MvcEvent $e)
@@ -136,7 +142,7 @@ class Module
         $msg = '';
         $msg .= 'Error while request URI: ' . $uri . PHP_EOL;
         if ($explain) {
-            $msg .= 'Reason: ' . $explain . PHP_EOL;
+            $msg .= 'Reason:' . $explain . PHP_EOL;
         }
         if (is_object($exception)) {
             $trace = $exception->getTraceAsString();
@@ -151,18 +157,16 @@ class Module
 
         $errorHandler->err($msg);
 
-        if (strpos($e->getRequest()->getUri(), '/') === false) {
+        $e->getViewModel()->setTemplate('layout/error');
 
-            $e->getViewModel()->setTemplate('layout/error');
+        $routeMatch = $e->getRouteMatch();
 
-            $routeMatch = $e->getRouteMatch();
-            if (is_object($routeMatch)) {
-                // render 404 error page
-                return $e->getRouteMatch()
-                    ->setParam('controller', 'Error')
-                    ->setParam('action', 'error')
-                    ->setParam('__NAMESPACE__', 'Application\Controller');
-            }
+        if (is_object($routeMatch)) {
+            // render 404 error page
+            return $routeMatch
+                ->setParam('controller', 'Error')
+                ->setParam('action', 'error')
+                ->setParam('__NAMESPACE__', 'Application\Controller');
         }
     }
 

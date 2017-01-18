@@ -15,18 +15,20 @@ $basePath = '';
     <?php echo $this->headMeta()
         ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
     ?>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
         ->prependStylesheet($this->basePath('css/style.css')) ?>
 
     <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
-        ->prependStylesheet($this->basePath('css/all.min.css')) ?>
+        ->prependStylesheet($this->basePath('css/all.min.css')) ?>    
+ 
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
-
-    <script type="text/javascript" async src="<?php echo $this->serverUrl('/js/all.min.js?v2') ?>"></script>
-
+    <?php echo $this->headScript()
+        ->appendFile($basePath . '/js/jquery-3.1.1.min.js')
+        ->appendFile($basePath . '/js/all.min.js')
+    ?>
+<!--    <script type="text/javascript" async src="--><?php //echo $this->serverUrl('/js/all.min.js') ?><!--"></script>-->
+<!--    <script type="text/javascript" async src="--><?php //echo $this->serverUrl('/js/jquery-3.1.1.min.js') ?><!--"></script>-->
 </head>
 <body>
 <!-- No header, and the drawer stays open on larger screens (fixed drawer). -->

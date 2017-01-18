@@ -10,12 +10,12 @@ class ErrorController extends AbstractController
 
     public function errorAction()
     {
-        return new ViewModel(array());
+       return new ViewModel(array());
     }
 
     public function error404Action()
     {
-        return new ViewModel(array());
+       return new ViewModel(array());
     }
 
 }

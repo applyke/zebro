@@ -21,59 +21,42 @@ class ProjectPermission extends EntityAbstract
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id") */
     protected $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="Project")
-     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
-     */
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")     */
     protected $project;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="string", length=32,nullable=true)
      */
-    protected $create_task;
+    protected $create;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    protected $update_task;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    protected $create_project;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    protected $update_project;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="string", length=32, nullable=true)
      */
     protected $invite_to_project;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="string", length=32, nullable=true)
      */
-    protected $read_project;
+    protected $read;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="string", length=32, nullable=true)
+     */
+    protected $write;
+
+    /**
+     * @ORM\Column(type="string", length=32, nullable=true)
      */
     protected $add_project_to_archive;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="string", length=32, nullable=true)
      */
-    protected $delete_user_from_project;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    protected $change_permission;
-}
+    protected $disable_user_in_project;
+ }
 

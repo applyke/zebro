@@ -6,6 +6,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Application\ApplicationTraits\DoctrineEntityManagerAwareTrait;
 use Application\ApplicationTraits\PaginationAwareTrait;
 use Application\ApplicationTraits\IdentityAwareTrait;
+use \Application\ApplicationTraits\DacAwareTrait;
 
 use Zend\View\Resolver;
 
@@ -14,6 +15,7 @@ abstract class AbstractController extends AbstractActionController
     use DoctrineEntityManagerAwareTrait;
     use PaginationAwareTrait;
     use IdentityAwareTrait;
+    use DacAwareTrait;
 
     protected $paramsPlugin;
     protected $pageLimit = 10;
@@ -39,6 +41,18 @@ abstract class AbstractController extends AbstractActionController
             $this->flashMessenger()->addInfoMessage('Entry not found');
         }
         return $this->redirect()->toUrl($url);
+    }
+
+    protected function checkProjectAccess($user, $permissionCode)
+    {
+        $dacService = $this->getDacService();
+        return $dacService->checkAccess($user, $permissionCode);
+    }
+
+    protected function accessDenied()
+    {
+        $this->getResponse()->setStatusCode(401);
+         return  $this->getEvent()->getApplication()->getEventManager()->trigger(\Application\Service\DacService::EVENT_PERMISSION_DENIED, $this->getEvent());
     }
 
     protected function notFound()

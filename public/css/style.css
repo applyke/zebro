@@ -52,3 +52,6 @@ ul{
 .account{
 
 }
+.permissionForm{
+    position: inherit;
+}

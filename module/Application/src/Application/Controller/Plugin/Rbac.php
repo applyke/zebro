@@ -94,7 +94,7 @@ class Rbac extends AbstractPlugin
                 // user removed from db
                 return $role; // return default role
             }
-            $session_role = $user->getRole()->getCode();
+            $session_role = $user->getRole()->getCode ();
             // check if session role exists in config
             if (in_array($session_role, $existing_roles)) {
                 $role = $session_role;

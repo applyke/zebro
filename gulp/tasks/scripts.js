@@ -16,7 +16,6 @@ gulp.task('lint', function() {
 // Concatenate & Minify JS
 gulp.task('js', function() {
     return gulp.src([
-        'assets/js/jquery-3.1.1.js',
         'assets/js/jquery-ui.js',
         'assets/js/jquery.cookie.js',
         'node_modules/material-design-lite/material.js',

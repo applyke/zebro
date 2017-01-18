@@ -12,6 +12,7 @@ class ProjectFactory implements FactoryInterface
     {
         $instance = new Service();
         $phpRenderer = $serviceLocator->get('\Zend\View\Renderer\PhpRenderer');
+      
         $instance->setRenderer($phpRenderer);
         return $instance;
     }

@@ -22,6 +22,9 @@ class ProjectsFactory implements FactoryInterface
         $identityPlugin = $serviceManager->get('identity');
         $controller->setPaginationService($paginationService);
         $controller->setIdentityPlugin($identityPlugin);
+        /** @var \Application\Service\DacService $dacService */
+        $dacService = $serviceManager->get('dac');
+        $controller->setDacService($dacService);
         return $controller;
     }
 }

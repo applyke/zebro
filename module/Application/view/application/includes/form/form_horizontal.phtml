@@ -134,11 +134,11 @@ foreach ($form->getElements() as $element) {
 
     } else if (get_class($element) === 'Zend\Form\Element\Radio') {
         /* @var $element \Zend\Form\Element\Radio */
-        echo '<label class="' . $labelClass . '">' . $element->getLabel() . '</label>';
+        echo '<label class="">' . $element->getLabel() . '</label>';
         echo '<div class="radio col-sm-offset-4">';
         foreach ($element->getValueOptions() as $vkey => $voption) {
 //            $id = $element->getValue();
-            echo '<label><input ' . ($element->getValue() == $vkey ? 'checked="checked"' : '') . ' type="radio" name="' . $element->getName() . '" value="' . $vkey . '"> ' . $voption . '</label> <br>';
+            echo '<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect"><input ' . ($element->getValue() == $vkey ? 'checked="checked"' : '') . ' type="radio" class="mdl-radio__button" name="' . $element->getName() . '" value="' . $vkey . '"> ' . $voption . '</label> <br>';
         }
         echo '</div>';
     } else if (get_class($element) === 'Zend\Form\Element\Checkbox') {

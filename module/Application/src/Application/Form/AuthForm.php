@@ -26,9 +26,12 @@ class AuthForm extends ApplicationFormAbstract
         $this->add(new Form\Element\Password('password', array(
             'label' => "Password"
         )));
+
         $this->add(new Form\Element\Text('email', array(
             'label' => "Email"
         )));
+
+
 //       $config = $this->getServiceLocator()->get('Configuration');
 //        $public_key = $config['recaptcha']['public_key'];
 //        $private_key = $config['recaptcha']['private_key'];
@@ -73,6 +76,7 @@ class AuthForm extends ApplicationFormAbstract
 //                    new \Application\Form\Validator\RecaptchaValidator($options['recaptcha_public_key'], $options['recaptcha_private_key'])
 //                )
 //            ),
+
             'email' => array(
                 'required' => true,
                 'filters' => array(
@@ -80,6 +84,7 @@ class AuthForm extends ApplicationFormAbstract
                 ),
                 'validators' => array()
             ),
+           
         ));
     }
 }

@@ -18,7 +18,7 @@ class ProjectPermissionForm extends ApplicationFormAbstract
         $this->setHydrator(new HydratorStrategyService);
         $this->setAttribute('method', 'post');
         $this->setAttribute('action', '');
-        $this->setAttribute('class', 'mdl-cell mdl-cell--6-col');
+        $this->setAttribute('class', 'mdl-cell mdl-cell--6-col permissionForm');
         $projectPermission = null;
         $project = null;
         $user = null;
@@ -41,29 +41,7 @@ class ProjectPermissionForm extends ApplicationFormAbstract
         )));
         $this->get('user')->setValue($user->getId());
 
-        $this->add(new Form\Element\Radio('create_task', array(
-            'label' => "Create Task",
-            'value_options' => array(
-                '0' => 'False',
-                '1' => 'True',
-            ),
-        )));
-        if (is_object($projectPermission)) {
-            $this->get('create_task')->setValue($projectPermission->getCreateTask());
-        }
-
-        $this->add(new Form\Element\Radio('update_task', array(
-            'label' => "Update Task",
-            'value_options' => array(
-                '0' => 'False',
-                '1' => 'True',
-            ),
-        )));
-        if (is_object($projectPermission)) {
-            $this->get('update_task')->setValue($projectPermission->getUpdateTask());
-        }
-
-        $this->add(new Form\Element\Radio('create_project', array(
+        $this->add(new Form\Element\Radio('create', array(
             'label' => "Create Project",
             'value_options' => array(
                 '0' => 'False',
@@ -71,18 +49,7 @@ class ProjectPermissionForm extends ApplicationFormAbstract
             ),
         )));
         if (is_object($projectPermission)) {
-            $this->get('create_project')->setValue($projectPermission->getCreateProject());
-        }
-
-        $this->add(new Form\Element\Radio('update_project', array(
-            'label' => "Update Task",
-            'value_options' => array(
-                '0' => 'False',
-                '1' => 'True',
-            ),
-        )));
-        if (is_object($projectPermission)) {
-            $this->get('update_project')->setValue($projectPermission->getUpdateTask());
+            $this->get('create')->setValue($projectPermission->getCreate());
         }
 
         $this->add(new Form\Element\Radio('invite_to_project', array(
@@ -96,7 +63,7 @@ class ProjectPermissionForm extends ApplicationFormAbstract
             $this->get('invite_to_project')->setValue($projectPermission->getInviteToProject());
         }
 
-        $this->add(new Form\Element\Radio('read_project', array(
+        $this->add(new Form\Element\Radio('read', array(
             'label' => "Read Project",
             'value_options' => array(
                 '0' => 'False',
@@ -104,18 +71,29 @@ class ProjectPermissionForm extends ApplicationFormAbstract
             ),
         )));
         if (is_object($projectPermission)) {
-            $this->get('read_project')->setValue($projectPermission->getReadProject());
+            $this->get('read')->setValue($projectPermission->getRead());
         }
 
-        $this->add(new Form\Element\Radio('delete_user_from_project', array(
-            'label' => "Can Delete User From Project",
+        $this->add(new Form\Element\Radio('write', array(
+            'label' => "Write & Read",
             'value_options' => array(
                 '0' => 'False',
                 '1' => 'True',
             ),
         )));
         if (is_object($projectPermission)) {
-            $this->get('delete_user_from_project')->setValue($projectPermission->getDeleteUserFromProject());
+            $this->get('write')->setValue($projectPermission->getWrite());
+        }
+
+        $this->add(new Form\Element\Radio('disable_user_in_project', array(
+            'label' => "Can Disable User From Project",
+            'value_options' => array(
+                '0' => 'False',
+                '1' => 'True',
+            ),
+        )));
+        if (is_object($projectPermission)) {
+            $this->get('disable_user_in_project')->setValue($projectPermission->getDisableUserInProject());
         }
 
         $this->add(new Form\Element\Radio('add_project_to_archive', array(
@@ -127,17 +105,6 @@ class ProjectPermissionForm extends ApplicationFormAbstract
         )));
         if (is_object($projectPermission)) {
             $this->get('add_project_to_archive')->setValue($projectPermission->getAddProjectToArchive());
-        }
-
-        $this->add(new Form\Element\Radio('change_permission', array(
-            'label' => "Change Permission",
-            'value_options' => array(
-                '0' => 'False',
-                '1' => 'True',
-            ),
-        )));
-        if (is_object($projectPermission)) {
-            $this->get('change_permission')->setValue($projectPermission->getChangePermission());
         }
 
         $this->add(array(

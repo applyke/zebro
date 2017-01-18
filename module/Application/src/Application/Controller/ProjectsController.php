@@ -19,6 +19,10 @@ class ProjectsController extends AbstractController
     public function indexAction()
     {
         $user = $this->getIdentityPlugin()->getIdentity();
+        if (false === $this->checkProjectAccess($user, 'read')) {
+            return $this->accessDenied();
+        }
+
         $entityManager = $this->getEntityManager();
         /** @var \Application\Repository\ProjectRepository $projectRepository */
         $projectRepository = $entityManager->getRepository('\Application\Entity\Project');
@@ -39,6 +43,7 @@ class ProjectsController extends AbstractController
 
     public function createAction()
     {
+
         $id = $this->params()->fromRoute('id');
         $entityManager = $this->getEntityManager();
         /** @var \Application\Repository\ProjectRepository $projectRepository */
@@ -203,7 +208,8 @@ class ProjectsController extends AbstractController
         if ($this->getRequest()->isPost()) {
             $projectPermissionForm->setData($this->getRequest()->getPost());
             if ($projectPermissionForm->isValid()) {
-                $values = $projectPermissionForm->getData();
+                $projectPermission->setUser($user);
+                $projectPermission->setProject($project);
                 $entityManager->persist($projectPermission);
                 $entityManager->flush();
                 $this->flashMessenger()->addSuccessMessage('Saved');
@@ -216,6 +222,8 @@ class ProjectsController extends AbstractController
 
         return new ViewModel(array(
             'projectPermissionForm' => $projectPermissionForm,
+            'project' => $project,
+            'user'=> $user
         ));
 
 

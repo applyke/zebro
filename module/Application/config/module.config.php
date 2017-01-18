@@ -103,6 +103,7 @@ return array(
             'logger' => 'Application\Factory\Service\LoggerServiceFactory',
             'pagination' => 'Application\Factory\Service\PaginationServiceFactory',
             'identity' => 'Application\Factory\Plugin\IdentityFactory',
+            'dac' => 'Application\Factory\Service\DacServiceFactory',
 
         ),
         'invokables' => array(
