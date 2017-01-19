@@ -41,71 +41,67 @@ class ProjectPermissionForm extends ApplicationFormAbstract
         )));
         $this->get('user')->setValue($user->getId());
 
-        $this->add(new Form\Element\Radio('create', array(
+
+        $this->add(new Form\Element\Checkbox('create_project', array(
             'label' => "Create Project",
-            'value_options' => array(
-                '0' => 'False',
-                '1' => 'True',
-            ),
+            'checked_value' => 1,
+            'unchecked_value' => 0
         )));
+
         if (is_object($projectPermission)) {
-            $this->get('create')->setValue($projectPermission->getCreate());
+            $this->get('create_project')->setValue($projectPermission->getCreateProject());
         }
 
-        $this->add(new Form\Element\Radio('invite_to_project', array(
-            'label' => "Can Invite To Project",
-            'value_options' => array(
-                '0' => 'False',
-                '1' => 'True',
-            ),
+        $this->add(new Form\Element\Checkbox('invite_to_project', array(
+            'label' => "Invite To Project",
+            'checked_value' => 1,
+            'unchecked_value' => 0
         )));
+
         if (is_object($projectPermission)) {
             $this->get('invite_to_project')->setValue($projectPermission->getInviteToProject());
         }
 
-        $this->add(new Form\Element\Radio('read', array(
+       $this->add(new Form\Element\Checkbox('read_project', array(
             'label' => "Read Project",
-            'value_options' => array(
-                '0' => 'False',
-                '1' => 'True',
-            ),
+            'checked_value' => 1,
+            'unchecked_value' => 0
         )));
+
         if (is_object($projectPermission)) {
-            $this->get('read')->setValue($projectPermission->getRead());
+            $this->get('read_project')->setValue($projectPermission->getReadProject());
         }
 
-        $this->add(new Form\Element\Radio('write', array(
+       $this->add(new Form\Element\Checkbox('write_project', array(
             'label' => "Write & Read",
-            'value_options' => array(
-                '0' => 'False',
-                '1' => 'True',
-            ),
+            'checked_value' => 1,
+            'unchecked_value' => 0
         )));
+
         if (is_object($projectPermission)) {
-            $this->get('write')->setValue($projectPermission->getWrite());
+            $this->get('write_project')->setValue($projectPermission->getWriteProject());
         }
 
-        $this->add(new Form\Element\Radio('disable_user_in_project', array(
-            'label' => "Can Disable User From Project",
-            'value_options' => array(
-                '0' => 'False',
-                '1' => 'True',
-            ),
+       $this->add(new Form\Element\Checkbox('disable_user_in_project', array(
+            'label' => "Disable User In Project",
+            'checked_value' => 1,
+            'unchecked_value' => 0
         )));
+
         if (is_object($projectPermission)) {
             $this->get('disable_user_in_project')->setValue($projectPermission->getDisableUserInProject());
         }
 
-        $this->add(new Form\Element\Radio('add_project_to_archive', array(
-            'label' => "Can Add Project To Archive",
-            'value_options' => array(
-                '0' => 'False',
-                '1' => 'True',
-            ),
+      $this->add(new Form\Element\Checkbox('add_project_to_archive', array(
+            'label' => "Add Project To Archive",
+            'checked_value' => 1,
+            'unchecked_value' => 0
         )));
+
         if (is_object($projectPermission)) {
             $this->get('add_project_to_archive')->setValue($projectPermission->getAddProjectToArchive());
         }
+
 
         $this->add(array(
             'name' => 'send',
@@ -129,6 +125,61 @@ class ProjectPermissionForm extends ApplicationFormAbstract
             $projectPermission = $options['projectPermission'];
         }
 
-        return $factory->createInputFilter(array());
+        return $factory->createInputFilter(array(
+            'create_project' => array(
+                'required' => true,
+                'filters' => array(
+                    new \Zend\Filter\Digits(),
+                ),
+                'validators' => array(
+                    new \Zend\Validator\InArray(array('haystack' => array(0, 1))),
+                )
+            ),
+            'invite_to_project' => array(
+                'required' => true,
+                'filters' => array(
+                    new \Zend\Filter\Digits(),
+                ),
+                'validators' => array(
+                    new \Zend\Validator\InArray(array('haystack' => array(0, 1))),
+                )
+            ),
+            'read_project' => array(
+                'required' => true,
+                'filters' => array(
+                    new \Zend\Filter\Digits(),
+                ),
+                'validators' => array(
+                    new \Zend\Validator\InArray(array('haystack' => array(0, 1))),
+                )
+            ),
+            'write_project' => array(
+                'required' => true,
+                'filters' => array(
+                    new \Zend\Filter\Digits(),
+                ),
+                'validators' => array(
+                    new \Zend\Validator\InArray(array('haystack' => array(0, 1))),
+                )
+            ),
+            'add_project_to_archive' => array(
+                'required' => true,
+                'filters' => array(
+                    new \Zend\Filter\Digits(),
+                ),
+                'validators' => array(
+                    new \Zend\Validator\InArray(array('haystack' => array(0, 1))),
+                )
+            ),
+            'disable_user_in_project' => array(
+                'required' => true,
+                'filters' => array(
+                    new \Zend\Filter\Digits(),
+                ),
+                'validators' => array(
+                    new \Zend\Validator\InArray(array('haystack' => array(0, 1))),
+                )
+            ),
+        ));
     }
 }

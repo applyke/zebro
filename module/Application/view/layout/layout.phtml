@@ -19,10 +19,9 @@ $basePath = '';
         ->prependStylesheet($this->basePath('css/style.css')) ?>
 
     <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
-        ->prependStylesheet($this->basePath('css/all.min.css')) ?>    
- 
+        ->prependStylesheet($this->basePath('css/all.min.css')) ?>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"  rel="stylesheet">
     <?php echo $this->headScript()
         ->appendFile($basePath . '/js/jquery-3.1.1.min.js')
         ->appendFile($basePath . '/js/all.min.js')

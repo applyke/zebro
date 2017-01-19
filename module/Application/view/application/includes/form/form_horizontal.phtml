@@ -147,11 +147,13 @@ foreach ($form->getElements() as $element) {
         if ($element->getValue() === $element->getCheckedValue()) {
             $checked = 'checked="checked"';
         }
-        echo '<label class="' . $labelClass . '" for="' . $elementId . '">' . $element->getLabel() . '</label>';
-        echo '<div class="' . $inputGroupClass . '">';
-        echo '<input value="' . $element->getUncheckedValue() . '" type="hidden" name="' . $element->getName() . '">';
-        echo '<input id="' . $elementId . '"  ' . $checked . ' value="' . $element->getCheckedValue() . '" type="checkbox" name="' . $element->getName() . '">';
-        echo '</div>';
+        echo '<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="' . $elementId . '">' ;
+
+        echo '<input class"mdl-checkbox__input" value="' . $element->getUncheckedValue() . '" type="hidden" name="' . $element->getName() . '">';
+        echo '<input class"mdl-checkbox__input" id="' . $elementId . '"  ' . $checked . ' value="' . $element->getCheckedValue() . '" type="checkbox" name="' . $element->getName() . '">';
+        echo '<span class="mdl-checkbox__label">' . $element->getLabel() . '</span>';
+     
+        echo '</label>';
     } else if (get_class($element) === 'Zend\Form\Element\MultiCheckbox') {
         /* @var $element \Zend\Form\Element\MultiCheckbox */
         echo '<label class="' . $labelClass . '">' . $element->getLabel() . '</label>';

@@ -27,38 +27,38 @@ class ProjectPermissionRepository extends Repository
         }
         return $projects;
     }
-
-    public function getLeadPermissionToProject(User $user, Project $project )
-    {
-        $permission = $this->findOneBy(array('user'=>$user , 'project'=> $project));
-        if(!$permission){
-            $permission = new \Application\Entity\ProjectPermission();
-            $permission->setUser($user);
-            $permission->setProject($project);
-        }
-        $permission->setCreateTask(1);
-        $permission->setUpdateTask(1);
-        $permission->setCreateProject(1);
-        $permission->setUpdateProject(1);
-        $permission->setInviteToProject(1);
-        $permission->setReadProject(1);
-        $permission->setAddProjectToArchive(1);
-        $permission->setDeleteUserFromProject(1);
-        $permission->setChangePermission(1);
-       return $permission;
-    }
-
-    public function getCompaniesProjectWhenUserCanInvite(User $user, Company $company)
-    {
-        $query = $this->createQueryBuilder('perm')
-            ->innerJoin('perm.project', 'project')
-            ->where('perm.user= :user')
-            ->setParameter('user', $user)
-            ->andWhere('perm.invite_to_project = 1')
-            ->andWhere('project.company = :company')
-            ->setParameter('company', $company);
-
-
-        return $query->getQuery()->getResult();
-    }
+//
+//    public function getLeadPermissionToProject(User $user, Project $project )
+//    {
+//        $permission = $this->findOneBy(array('user'=>$user , 'project'=> $project));
+//        if(!$permission){
+//            $permission = new \Application\Entity\ProjectPermission();
+//            $permission->setUser($user);
+//            $permission->setProject($project);
+//        }
+//        $permission->setCreateTask(1);
+//        $permission->setUpdateTask(1);
+//        $permission->setCreateProject(1);
+//        $permission->setUpdateProject(1);
+//        $permission->setInviteToProject(1);
+//        $permission->setReadProject(1);
+//        $permission->setAddProjectToArchive(1);
+//        $permission->setDeleteUserFromProject(1);
+//        $permission->setChangePermission(1);
+//       return $permission;
+//    }
+//
+//    public function getCompaniesProjectWhenUserCanInvite(User $user, Company $company)
+//    {
+//        $query = $this->createQueryBuilder('perm')
+//            ->innerJoin('perm.project', 'project')
+//            ->where('perm.user= :user')
+//            ->setParameter('user', $user)
+//            ->andWhere('perm.invite_to_project = 1')
+//            ->andWhere('project.company = :company')
+//            ->setParameter('company', $company);
+//
+//
+//        return $query->getQuery()->getResult();
+//    }
 }

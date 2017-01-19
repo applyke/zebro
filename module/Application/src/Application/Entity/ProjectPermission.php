@@ -29,33 +29,32 @@ class ProjectPermission extends EntityAbstract
      * @ORM\JoinColumn(name="project_id", referencedColumnName="id")     */
     protected $project;
 
-    /**
-     * @ORM\Column(type="string", length=32,nullable=true)
-     */
-    protected $create;
+
+    /** @ORM\Column(type="smallint") */
+    protected $create_project = 0;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="smallint")
      */
     protected $invite_to_project;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="smallint")
      */
-    protected $read;
+    protected $read_project=1;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="smallint")
      */
-    protected $write;
+    protected $write_project;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="smallint")
      */
     protected $add_project_to_archive;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="smallint")
      */
     protected $disable_user_in_project;
  }
