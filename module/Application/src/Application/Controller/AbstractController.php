@@ -55,6 +55,18 @@ abstract class AbstractController extends AbstractActionController
          return  $this->getEvent()->getApplication()->getEventManager()->trigger(\Application\Service\DacService::EVENT_PERMISSION_DENIED, $this->getEvent());
     }
 
+    public function setRenderer(\Zend\View\Renderer\PhpRenderer $phpRenderer)
+    {
+        $this->renderer = $phpRenderer;
+        return $this;
+    }
+
+    public function getRenderer()
+    {
+        return $this->renderer;
+    }
+
+    
     protected function notFound()
     {
         $this->getResponse()->setStatusCode(404);

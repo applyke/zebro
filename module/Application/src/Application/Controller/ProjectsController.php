@@ -4,8 +4,10 @@ namespace Application\Controller;
 
 use Application\Controller\AbstractController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 use Application\Service\ProjectService;
 use Application\Service\AdminMailer;
+use Zend\Dom\Document;
 
 class ProjectsController extends AbstractController
 {
@@ -157,47 +159,55 @@ class ProjectsController extends AbstractController
             return $this->notFound();
         }
         $projectPermission = null;
-        $projectPermissionForms = array();
-        $userPermissions = $projectPermissionRepository->findBy(array('project' => $project->getId()));
-        if ($userPermissions) {
-            foreach ($userPermissions as $index => $permission) {
-                $projectPermission = $projectPermissionRepository->findOneBy(array('user' => $permission->getUser(), 'project' => $project));
-                $projectPermissionForms[] = new \Application\Form\ProjectPermissionForm('projectPermission', array(
-                    'projectPermission' => $projectPermission,
-                    'user' => $permission->getUser(),
-//                    'backBtnUrl' => $this->url()->fromRoute('pages/default', array(
-//                        'controller' => 'projects',
-//                        'action' => 'users',
-//                        'id' => $project->getId()), array(), true)
-                ));
-                $projectPermissionForms[$index]->setEntityManager($entityManager)
-                    ->bind($projectPermission);
-            }
-            if ($this->getRequest()->getPost()) {
-                foreach ($projectPermissionForms as $projectPermissionForm) {
-                    if ($projectPermissionForm->getObject()->getUser()->getId() ==  $this->getRequest()->getPost('user')) {
-                        $projectPermissionForm->setData($this->getRequest()->getPost());
-                        if ($projectPermissionForm->isValid()) {
-                            $values = $projectPermissionForm->getData();
-                            $projectPermission->setUser($userRepository->findOneById($values['user']));
-                            $projectPermission->setProject($project);
-                            $entityManager->persist($projectPermission);
-                            $entityManager->flush();
-                            $this->flashMessenger()->addSuccessMessage('Saved');
-                            return $this->redirect()->toRoute('pages/default', array(
-                                'controller' => 'projects',
-                                'action' => 'users',
-                                'id' => $project->getId()), array(), true);
-                        }
-                    }
-                }
+        $projectPermissionsForUser = $projectPermissionRepository->findBy(array('project' => $project->getId()));
+        if (!$projectPermissionsForUser) {
+            return $this->notFound();
+        }
+        if ($this->getRequest()->isPost()) {
+            $user = $userRepository->findOneById($this->getRequest()->getPost('user_id'));
+            $projectPermission = $projectPermissionRepository->findOneBy(array('user' => $user, 'project' => $project));
+            $projectPermissionForm = new \Application\Form\ProjectPermissionForm('projectPermission', array(
+                'projectPermission' => $projectPermission,
+                'user' => $user,
+                'backBtnUrl' => $this->url()->fromRoute('pages/default', array(
+                    'controller' => 'projects',
+                    'action' => 'users',
+                    'id' => $project->getId()), array(), true)
+            ));
+            $projectPermissionForm->setEntityManager($entityManager)
+                ->bind($projectPermission);
+            $dom = new \DOMDocument();
+            $filePath = __DIR__.'/../../../view/application/includes/form/form_horizontal.phtml';
+            $dom->loadHTMLFile($filePath);
+            $html = $dom->saveHTML();
+
+//            $partial = $this->getServiceLocator()->get('viewhelpermanager')->get('partial');
+
+//            $data = array(
+//                'html' => $partial($filePath, array("form" => $projectPermissionForm)));
+
+            return new JsonModel(array('html' => $html));
+
+
+            $projectPermissionForm->setData($this->getRequest()->getPost());
+            if ($projectPermissionForm->isValid()) {
+                $values = $projectPermissionForm->getData();
+                $user = $userRepository->findOneById($values['user']);
+                $projectPermission->setUser($user);
+                $projectPermission->setProject($project);
+                $entityManager->persist($projectPermission);
+                $entityManager->flush();
+                $this->flashMessenger()->addSuccessMessage('Saved');
+                return $this->redirect()->toRoute('pages/default', array(
+                    'controller' => 'projects',
+                    'action' => 'users',
+                    'id' => $project->getId()), array(), true);
             }
         }
 
         return new ViewModel(array(
             'project' => $project,
-            'permissions' => $userPermissions,
-            'projectPermissionForms' => $projectPermissionForms
+            'permissions' => $projectPermissionsForUser,
         ));
     }
 

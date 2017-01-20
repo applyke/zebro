@@ -1,9 +1,8 @@
 <?php echo $this->partial('application/includes/flash_message.phtml'); ?>
-
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="mdl-grid">
-            <div class="mdl-cell mdl-cell--12col">
+            <div class="mdl-cell mdl-cell--12col project" data-id="<?php echo $project->getId(); ?>">
                 <ul class="demo-list-three">
                     <?php if (!empty($permissions)): ?>
                         <li class="mdl-list__item">User list</li>
@@ -15,69 +14,17 @@
                                 <th>Email</th>
                                 <th></th>
                             </tr>
-                            <input type="hidden" name="project_id" id="project_id" value="<?php echo $project->getId() ?>">
                             <?php foreach ($permissions as $permission): ?>
                                 <tr>
                                     <td><?php echo $permission->getUser()->getFirstName(); ?></td>
                                     <td><?php echo $permission->getUser()->getLastName(); ?></td>
                                     <td><?php echo $permission->getUser()->getEmail(); ?></td>
                                     <td>
-                                        <div class="mdl-cell mdl-cell--4-col ">
-                                            <button class="mdl-button mdl-js-button mdl-button--raised showPermission"
-                                                    data-target="#myModal-<?php echo $permission->getId() ?>"
-                                                    id="<?php echo $permission->getId(); ?>">
+                                        <div class="mdl-cell mdl-cell--4-col permission ">
+                                            <button class="mdl-button mdl-js-button mdl-button--raised showPermission"  data-id="<?php echo $permission->getUser()->getId(); ?>">
                                                 Edit Permission
                                             </button>
                                         </div>
-
-                                        <dialog class="mdl-dialog  mdl-cell--3-col dialogAccount"
-                                                id="myModal-<?php echo $permission->getId(); ?>">
-                                            <h5 class="dialogTitle">Permission to Project</h5>
-                                            <form>
-                                                <input type="hidden" name="user_id" value="<?php echo $permission->getUser()->getId() ?>">
-                                                <div class="mdl-dialog__content">
-                                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-<?php echo $permission->getId() ?>">
-                                                <input type="checkbox" name="create_project" class="mdl-checkbox__inputs"<?php echo ($permission->getCreateProject() == 1) ? 'checked' : "" ?>>
-                                                <span class="mdl-checkbox__label">Create Project</span>
-                                            </label>
-                                                </div>
-                                            <div class="mdl-dialog__content">
-                                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-<?php echo $permission->getId() ?>">
-                                                <input type="checkbox"  name="read_project" class="mdl-checkbox__inputs"<?php echo ($permission->getReadProject() == 1) ? 'checked' : "" ?>>
-                                                <span class="mdl-checkbox__label">Read Project</span>
-                                            </label>
-                                            </div>
-                                            <div class="mdl-dialog__content">
-                                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-<?php echo $permission->getId() ?>">
-                                                <input type="checkbox" name="write_project" class="mdl-checkbox__inputs" <?php echo ($permission->getWriteProject() == 1) ? 'checked' : "" ?>>
-                                                <span class="mdl-checkbox__label">Write & Read</span>
-                                            </label>
-                                            </div>
-                                            <div class="mdl-dialog__content">
-                                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-<?php echo $permission->getId() ?>">
-                                                <input type="checkbox" name="invite_to_project" class="mdl-checkbox__inputs"  <?php echo ($permission->getInviteToProject() == 1) ? 'checked' : "" ?> >
-                                                <span class="mdl-checkbox__label">Invite To Project</span>
-                                            </label>
-                                            </div>
-                                            <div class="mdl-dialog__content">
-                                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-<?php echo $permission->getId() ?>">
-                                                <input type="checkbox" name="disable_user_in_project" class="mdl-checkbox__inputs" <?php echo ($permission->getDisableUserFromProject() == 1) ? 'checked' : "" ?> >
-                                                <span class="mdl-checkbox__label">Disable User From Project</span>
-                                            </label>
-                                            </div>
-                                            <div class="mdl-dialog__content">
-                                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"  for="checkbox-<?php echo $permission->getId() ?>">
-                                                <input type="checkbox" name="add_project_to_archive" class="mdl-checkbox__inputs" <?php echo ($permission->getAddProjectToArchive() == 1) ? 'checked' : "" ?>>
-                                                <span class="mdl-checkbox__label">Add Project To Archive</span>
-                                            </label>
-                                            </form>
-                                            </div>
-                                            <div class="mdl-dialog__actions">
-                                                <a href="#" type="button" class="mdl-button mdl-js-button mdl-button--raised modal-actionAccount">Agree</a>
-                                                <button type="button" class="mdl-button buttonCloseAccount">Disagree
-                                                </button>
-                                            </div>
-                                        </dialog>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -85,32 +32,57 @@
                         </table>
                     <?php endif; ?>
                 </ul>
-                <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" href="/projects/invite/<?php echo $project->getId(); ?>">Add User to Project</a>
+                <a class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"  href="/projects/invite/<?php echo $project->getId(); ?>">Add User to Project</a>
             </div>
         </div>
     </div>
 </div>
-
+<dialog class="mdl-dialog  mdl-cell--3-col" id="dialogAccount">
+    <div class="mdl-dialog__content dialogAccount" >
+        <h5 class="dialogTitle">Permission to Project</h5>
+        <div class="permissionForm" ></div>
+        <a href="#" type="button" class="mdl-button mdl-js-button mdl-button--raised modal-actionAccount">Agree</a>
+        <button type="button" class="mdl-button buttonCloseAccount">Disagree</button>
+    </div>
+</dialog>
 <script>
     $(function () {
         $('.showPermission').click(function () {
-            var id = $(this).attr('id');
-            dialogAccount = document.getElementById('myModal-' + id);
-            dialogAccount.showModal();
-        });
-        $('.modal-actionAccount').click(function () {
-            projectIdTmp = document.getElementById('project_id');
-            var projectId = $(projectIdTmp).attr('value');
-            var $container = $(this).closest('.dialogAccount');
-            var $form = $container.find('> form');
-            var data = $form.serialize();
-            console.log(projectId);
+            var id = $(this).data('id');
+            var project_id = $('.project').data('id');
             $.ajax({
                 type: "POST",
-                url: "/projects/users/"+projectId,
+                url: "/projects/users/" + project_id,
+                data: 'user_id='+id,
+                dataType: "html",
+                success: function (data) {
+                    console.log("1111");
+                    $('.permissionForm').html(data);
+                    console.log(data);
+                    dialogAccount =  document.getElementById('dialogAccount');
+                    dialogAccount.showModal();
+                }
+            });
+        });
+        $('.modal-actionAccount').click(function () {
+            var idTmp = $(this).attr('id');
+            var id = idTmp.substring(idTmp.lastIndexOf('-') + 1);
+
+            projectIdTmp =  $('#project_id').val();
+            var projectId = $(projectIdTmp).attr('value');
+//            var container = $(this).closest('#form-' + id);
+//            var container = $(this).closest('.permissionForm');
+            var $form = $(this).closest.find('form');
+//            var $form =  $(this).parent().find('> form');
+            var data = $form.serialize();
+            console.log($form);
+            console.log(data);
+            $.ajax({
+                type: "POST",
+                url: "/projects/users/" + projectId,
                 data: data,
                 dataType: "html",
-                success: function () {
+                success: function (data) {
                 }
             });
             dialogAccount.close();

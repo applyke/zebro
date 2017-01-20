@@ -103,14 +103,14 @@ class ProjectPermissionForm extends ApplicationFormAbstract
         }
 
 
-        $this->add(array(
-            'name' => 'send',
-            'type' => 'Submit',
-            'attributes' => array(
-                'value' => 'Save',
-                'class' => 'mdl-button mdl-js-button mdl-button--raised mdl-button--colored'
-            ),
-        ));
+//        $this->add(array(
+//            'name' => 'send',
+//            'type' => 'Submit',
+//            'attributes' => array(
+//                'value' => 'Save',
+//                'class' => 'mdl-button mdl-js-button mdl-button--raised mdl-button--colored'
+//            ),
+//        ));
 
         $inputFilter = $this->inputFilter($options);
         $this->setInputFilter($inputFilter);
