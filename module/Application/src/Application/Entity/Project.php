@@ -23,7 +23,7 @@ class Project extends EntityAbstract
 
     /**
      * @ORM\ManyToOne(targetEntity="Company")
-     * @ORM\JoinColumn(name="$company_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="company_id", referencedColumnName="id")
      */
     protected $company;
 

@@ -82,7 +82,17 @@ class ProjectPermissionForm extends ApplicationFormAbstract
             $this->get('write_project')->setValue($projectPermission->getWriteProject());
         }
 
-       $this->add(new Form\Element\Checkbox('disable_user_in_project', array(
+        $this->add(new Form\Element\Checkbox('delete_project', array(
+            'label' => "Delete Project",
+            'checked_value' => 1,
+            'unchecked_value' => 0
+        )));
+
+        if (is_object($projectPermission)) {
+            $this->get('delete_project')->setValue($projectPermission->getDeleteProject());
+        }
+
+        $this->add(new Form\Element\Checkbox('disable_user_in_project', array(
             'label' => "Disable User In Project",
             'checked_value' => 1,
             'unchecked_value' => 0

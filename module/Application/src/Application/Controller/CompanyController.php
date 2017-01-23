@@ -4,6 +4,7 @@ namespace Application\Controller;
 
 use Application\Controller\AbstractController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 use Application\Service\ProjectService;
 
 class CompanyController extends AbstractController
@@ -31,6 +32,7 @@ class CompanyController extends AbstractController
             $user->setCompanyAccount($companyId);
             $entityManager->persist($user);
             $entityManager->flush();
+            return new JsonModel(array('success' => true));
         }
         $usersCompanies = $companyRepository->findBy(array('creator' => $user));
         $user_work_in_company = $user->getCompanies()->toArray();

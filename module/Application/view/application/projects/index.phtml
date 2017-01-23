@@ -3,9 +3,7 @@
 
 <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--2-col">Choose Project</div>
-
     <div class="mdl-cell mdl-cell--6-col">
-
         <?php foreach ($projects as $project): ?>
             <ul class="demo-list-three mdl-list">
                 <li class="mdl-list__item mdl-list__item--three-line">
@@ -15,17 +13,15 @@
                         <span class="mdl-list__item-text-body">Project key:<?php echo $project->getProjectKey() ?>
                         </span>
                     </span>
-
-                    <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"
-                       href="/projects/create/<?php echo $project->getId() ?>"> <i class="material-icons">mode_edit</i>
+                    <?php if ($dacService->checkAccess($user, 'write_project') === true): ?>
+                    <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab" href="/projects/create/<?php echo $project->getId() ?>"> <i class="material-icons">mode_edit</i>
                     </a>
-
-                    <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab show-dialog " 
-                    data-url="/projects/delete/<?php echo $project->getId() ?>"><i
-                            class="material-icons">delete</i> </a>
+                    <?php endif; ?>
+                    <?php if ($dacService->checkAccess($user, 'delete_project') === true): ?>
+                    <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab show-dialog " data-url="/projects/delete/<?php echo $project->getId() ?>"><i class="material-icons">delete</i> </a>
+                    <?php endif; ?>
                 </li>
             </ul>
-
         <?php endforeach; ?>
         <div class="mdl-cell mdl-cell--2-col addButton">
             <a class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored " href="/projects/create/">
@@ -34,3 +30,4 @@
             <?php //echo $paginator; ?>
         </div>
     </div>
+</div>

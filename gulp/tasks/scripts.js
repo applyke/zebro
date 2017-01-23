@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-var sass  = require('gulp-sass');
+var sass = require('gulp-sass');
 var jshint = require('gulp-jshint');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
@@ -7,14 +7,14 @@ var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
 
 // Lint Task
-gulp.task('lint', function() {
+gulp.task('lint', function () {
     return gulp.src('assets/js/*.js')
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
 
 // Concatenate & Minify JS
-gulp.task('js', function() {
+gulp.task('js', function () {
     return gulp.src([
         'assets/js/jquery-ui.js',
         'assets/js/jquery.cookie.js',
@@ -26,7 +26,7 @@ gulp.task('js', function() {
         .pipe(rename('all.min.js'))
         .pipe(uglify())
         .pipe(sourcemaps.write('./', {
-            sourceMappingURL: function(file) {
+            sourceMappingURL: function (file) {
                 return '/js/' + file.relative + '.map';
             }
         }))

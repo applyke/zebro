@@ -21,7 +21,7 @@ class ProjectsController extends AbstractController
     public function indexAction()
     {
         $user = $this->getIdentityPlugin()->getIdentity();
-        if (false === $this->checkProjectAccess($user, 'read_project')) {
+        if (false === $this->checkProjectAccess($user, null, 'read_project')) {
             return $this->accessDenied();
         }
 
@@ -39,13 +39,18 @@ class ProjectsController extends AbstractController
 
         return new ViewModel(array(
             'projects' => $all_project,
+            'user' => $user,
             'paginator' => $paginationService->createPaginator($projectsTotalCount, $this->getPageNumber(), $this->getPageLimit()),
+            'dacService' => $this->getDacService(),
         ));
     }
 
     public function createAction()
     {
-
+        $user = $this->getIdentityPlugin()->getIdentity();
+        if (false === $this->checkProjectAccess($user, null, 'create_project')) {
+            return $this->accessDenied();
+        }
         $id = $this->params()->fromRoute('id');
         $entityManager = $this->getEntityManager();
         /** @var \Application\Repository\ProjectRepository $projectRepository */
@@ -146,6 +151,7 @@ class ProjectsController extends AbstractController
 
     public function usersAction()
     {
+        $userGlobal = $this->getIdentityPlugin()->getIdentity();
         $id = $this->params()->fromRoute('id');
         $entityManager = $this->getEntityManager();
         /** @var \Application\Repository\ProjectRepository $projectRepository */
@@ -163,9 +169,20 @@ class ProjectsController extends AbstractController
         if (!$projectPermissionsForUser) {
             return $this->notFound();
         }
+        $projectPermissionForm = null;
         if ($this->getRequest()->isPost()) {
-            $user = $userRepository->findOneById($this->getRequest()->getPost('user_id'));
+            $user = $userRepository->findOneById($this->getRequest()->getPost('user'));
+            if (!$user) {
+                return $this->notFound();
+            }
             $projectPermission = $projectPermissionRepository->findOneBy(array('user' => $user, 'project' => $project));
+            $disabledUser = $this->getRequest()->getPost('disabledUser');
+            if (isset($disabledUser) && $disabledUser == true) {
+                $projectPermission->setDisableUserInProject(1);
+                $entityManager->persist($projectPermission);
+                $entityManager->flush();
+                return new JsonModel(array('success' => true));
+            }
             $projectPermissionForm = new \Application\Form\ProjectPermissionForm('projectPermission', array(
                 'projectPermission' => $projectPermission,
                 'user' => $user,
@@ -176,23 +193,15 @@ class ProjectsController extends AbstractController
             ));
             $projectPermissionForm->setEntityManager($entityManager)
                 ->bind($projectPermission);
-            $dom = new \DOMDocument();
-            $filePath = __DIR__.'/../../../view/application/includes/form/form_horizontal.phtml';
-            $dom->loadHTMLFile($filePath);
-            $html = $dom->saveHTML();
-
-//            $partial = $this->getServiceLocator()->get('viewhelpermanager')->get('partial');
-
-//            $data = array(
-//                'html' => $partial($filePath, array("form" => $projectPermissionForm)));
-
-            return new JsonModel(array('html' => $html));
-
+            $projectPost = $this->getRequest()->getPost('project');
+            if (!$projectPost) {
+                $partial = $this->getPartial();
+                $data = $partial('application/includes/form/form_horizontal.phtml', array("form" => $projectPermissionForm));
+                return new JsonModel(array('html' => $data));
+            }
 
             $projectPermissionForm->setData($this->getRequest()->getPost());
             if ($projectPermissionForm->isValid()) {
-                $values = $projectPermissionForm->getData();
-                $user = $userRepository->findOneById($values['user']);
                 $projectPermission->setUser($user);
                 $projectPermission->setProject($project);
                 $entityManager->persist($projectPermission);
@@ -203,81 +212,21 @@ class ProjectsController extends AbstractController
                     'action' => 'users',
                     'id' => $project->getId()), array(), true);
             }
+
         }
 
         return new ViewModel(array(
             'project' => $project,
+            'dacService' => $this->getDacService(),
+            'user' => $userGlobal,
             'permissions' => $projectPermissionsForUser,
         ));
     }
 
-    public function permissionAction()
-    {
-        $project_id = $this->params()->fromRoute('id');
-        $user_id = $this->params()->fromRoute('id2');
-        $entityManager = $this->getEntityManager();
-        /** @var \Application\Repository\ProjectRepository $projectRepository */
-        $projectRepository = $entityManager->getRepository('\Application\Entity\Project');
-        /** @var \Application\Repository\ProjectPermissionRepository $projectPermissionRepository */
-        $projectPermissionRepository = $entityManager->getRepository('\Application\Entity\ProjectPermission');
-        /** @var \Application\Repository\UserRepository $userRepository */
-        $userRepository = $entityManager->getRepository('\Application\Entity\User');
-        $project = $projectRepository->findOneById((int)$project_id);
-        $user = null;
-        if ($user_id) {
-            $user = $userRepository->findOneById((int)$user_id);
-        }
-        $projectPermission = null;
-        if (!$project) {
-            return $this->notFound();
-        }
-        if ($user) {
-            $projectPermission = $projectPermissionRepository->findOneBy(array('user' => $user, 'project' => $project));
-        }
-        if (!$projectPermission) {
-            $projectPermission = new  \Application\Entity\ProjectPermission();
-            $projectPermission->setProject($project);
-            if ($user) {
-                $projectPermission->setUser($user);
-            }
-
-        }
-        $projectPermissionForm = new \Application\Form\ProjectPermissionForm('projectPermission', array(
-            'projectPermission' => $projectPermission,
-            'backBtnUrl' => $this->url()->fromRoute('pages/default', array(
-                'controller' => 'projects',
-                'action' => 'users',
-                'id' => $project_id), array(), true)
-        ));
-
-        $projectPermissionForm->setEntityManager($entityManager)
-            ->bind($projectPermission);
-        if ($this->getRequest()->isPost()) {
-            $projectPermissionForm->setData($this->getRequest()->getPost());
-            if ($projectPermissionForm->isValid()) {
-                $projectPermission->setUser($user);
-                $projectPermission->setProject($project);
-                $entityManager->persist($projectPermission);
-                $entityManager->flush();
-                $this->flashMessenger()->addSuccessMessage('Saved');
-                return $this->redirect()->toRoute('pages/default', array(
-                    'controller' => 'projects',
-                    'action' => 'users',
-                    'id' => $project_id), array(), true);
-            }
-        }
-
-        return new ViewModel(array(
-            'projectPermissionForm' => $projectPermissionForm,
-            'project' => $project,
-            'user' => $user
-        ));
-
-
-    }
 
     public function inviteAction()
     {
+
         $project_id = $this->params()->fromRoute('id');
         $entityManager = $this->getEntityManager();
         /** @var \Application\Repository\ProjectRepository $projectRepository */
@@ -290,6 +239,13 @@ class ProjectsController extends AbstractController
         $roleRepository = $entityManager->getRepository('\Application\Entity\Role');
         $user = $this->getIdentityPlugin()->getIdentity();
         $project = $projectRepository->findOneById((int)$project_id);
+        if (!$project) {
+            return $this->notFound();
+        }
+
+        if (false === $this->checkProjectAccess($user, $project->getId(), 'invite_to_project')) {
+            return $this->accessDenied();
+        }
         $inviteForm = new \Application\Form\InviteForm();
         if ($this->getRequest()->isPost()) {
             $inviteForm->setData($this->getRequest()->getPost());
@@ -356,6 +312,8 @@ class ProjectsController extends AbstractController
 
     public function deleteAction()
     {
+        $user = $this->getIdentityPlugin()->getIdentity();
+
         $id = $this->params()->fromRoute('id');
         $entityManager = $this->getEntityManager();
         /** @var \Application\Repository\ProjectRepository $projectRepository */
@@ -363,6 +321,9 @@ class ProjectsController extends AbstractController
         $project = $projectRepository->findOneById((int)$id);
         if (!$project) {
             return $this->notFound();
+        }
+        if (false === $this->checkProjectAccess($user, $project->getId(), 'delete_project')) {
+            return $this->accessDenied();
         }
         return $this->removeEntity($project, array(
             'controller' => 'project'

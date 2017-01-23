@@ -21,12 +21,14 @@ class ProjectPermission extends EntityAbstract
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id") */
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
     protected $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="Project")
-     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")     */
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     */
     protected $project;
 
 
@@ -41,7 +43,12 @@ class ProjectPermission extends EntityAbstract
     /**
      * @ORM\Column(type="smallint")
      */
-    protected $read_project=1;
+    protected $read_project = 1;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $delete_project;
 
     /**
      * @ORM\Column(type="smallint")
@@ -57,5 +64,5 @@ class ProjectPermission extends EntityAbstract
      * @ORM\Column(type="smallint")
      */
     protected $disable_user_in_project;
- }
+}
 

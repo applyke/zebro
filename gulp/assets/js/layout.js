@@ -10,8 +10,6 @@
 //
 //
 // });
-
-
 $(function () {
     $(".sortable").sortable({
         placeholder: "highlight",
@@ -42,5 +40,52 @@ $(function () {
             });
         }
     }).disableSelection();
+
+
+    $('.disableUser').click(function () {
+        var userId = $(this).data('id');
+        var project_id = $('.project').data('id');
+        $.ajax({
+            type: "POST",
+            url: "/projects/users/" + project_id,
+            data: 'user='+userId+ '&disabledUser='+true,
+            dataType: "html",
+            success: function () {
+                $('.disableUser[data-id="'+userId+'"]').hide();
+            }
+        });
+    });
+    $('.showPermission').click(function () {
+        var id = $(this).data('id');
+        var project_id = $('.project').data('id');
+        $.ajax({
+            type: "POST",
+            url: "/projects/users/" + project_id,
+            data: 'user='+id,
+            dataType: "html",
+            success: function (data) {
+                var form = $.parseJSON(data);
+                $('.permissionForm').html(form.html);
+                $("#dialogAccount").show();
+            }
+        });
+    });
+    $('.modal-actionAccount').click(function () {
+        var data = $( "form" ).serialize();
+        var project_id = $('.project').data('id');
+        $.ajax({
+            type: "POST",
+            url: "/projects/users/" + project_id,
+            data: data,
+            dataType: "html",
+            success: function (data) {
+               $( "form" ).remove();
+            }
+        });
+        $("#dialogAccount").hide();
+    });
+    $('.buttonCloseAccount').click(function () {
+        $("#dialogAccount").hide();
+    });
 
 });

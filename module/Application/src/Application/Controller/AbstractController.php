@@ -19,6 +19,7 @@ abstract class AbstractController extends AbstractActionController
 
     protected $paramsPlugin;
     protected $pageLimit = 10;
+    protected $partial;
 
     protected function setLayoutData()
     {
@@ -43,10 +44,10 @@ abstract class AbstractController extends AbstractActionController
         return $this->redirect()->toUrl($url);
     }
 
-    protected function checkProjectAccess($user, $permissionCode)
+    protected function checkProjectAccess($user, $projectId, $permissionCode)
     {
         $dacService = $this->getDacService();
-        return $dacService->checkAccess($user, $permissionCode);
+        return $dacService->checkAccess($user, $projectId, $permissionCode);
     }
 
     protected function accessDenied()
@@ -112,5 +113,16 @@ abstract class AbstractController extends AbstractActionController
     {
         $this->paramsPlugin = $paramsPlugin;
         return $this;
+    }
+
+    public function setPartial(\Zend\View\Helper\Partial $partial)
+    {
+        $this->partial = $partial;
+        return $this;
+    }
+
+    protected function getPartial()
+    {
+        return $this->partial;
     }
 }

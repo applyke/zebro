@@ -53,5 +53,27 @@ ul{
 
 }
 .permissionForm{
-    position: inherit;
+    min-width: 400px;
+}
+.dialogAccount{
+
+    display: none;
+    position: absolute;
+    z-index: 1001;
+    left: 0px;
+    right: 0px;
+    top: 10%;
+    width: -webkit-fit-content;
+    height: -webkit-fit-content;
+    color: black;
+    margin: auto;
+    padding: 1em;
+    background: white;
+}
+.showCompanies{
+    position: fixed;
+    left: 70%;
+}
+.showPermission{
+    font-size: 12px;
 }

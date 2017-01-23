@@ -20,6 +20,8 @@ class ProjectsFactory implements FactoryInterface
         $controller->setEntityManager($entityManager);
         $paginationService = $serviceManager->get('pagination');
         $identityPlugin = $serviceManager->get('identity');
+        $partial = $serviceManager->get('viewhelpermanager')->get('partial');
+        $controller->setPartial($partial);
         $controller->setPaginationService($paginationService);
         $controller->setIdentityPlugin($identityPlugin);
         /** @var \Application\Service\DacService $dacService */
